@@ -1,0 +1,488 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		05A926779BF40BBF06BBF14A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 580BE4179B4567E57A50E8F8 /* libPods.a */; };
+		0F6FEF3D1CF2DCD80023D04E /* JCDownloadQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6FEF3C1CF2DCD80023D04E /* JCDownloadQueue.m */; };
+		0F6FEF411CF306890023D04E /* JCDownloadUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F6FEF401CF306890023D04E /* JCDownloadUtilities.m */; };
+		0FC2D0F11D0659C600C6FAA2 /* JCNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FC2D0F01D0659C600C6FAA2 /* JCNetworkReachabilityManager.m */; };
+		0FF08B8C1CD9D67900B6C820 /* JCBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF08B8B1CD9D67900B6C820 /* JCBaseRequest.m */; };
+		0FF08B951CD9ED4200B6C820 /* JCNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FF08B941CD9ED4200B6C820 /* JCNetworkManager.m */; };
+		230C431F1C8C0315002D6D52 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 230C431E1C8C0315002D6D52 /* main.m */; };
+		230C43221C8C0315002D6D52 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 230C43211C8C0315002D6D52 /* AppDelegate.m */; };
+		230C43251C8C0315002D6D52 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 230C43241C8C0315002D6D52 /* ViewController.m */; };
+		230C43281C8C0315002D6D52 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 230C43261C8C0315002D6D52 /* Main.storyboard */; };
+		230C432A1C8C0315002D6D52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 230C43291C8C0315002D6D52 /* Assets.xcassets */; };
+		230C432D1C8C0315002D6D52 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 230C432B1C8C0315002D6D52 /* LaunchScreen.storyboard */; };
+		232DD32D1D05B9E300D820BF /* JCWeixinSSOManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 232DD32C1D05B9E300D820BF /* JCWeixinSSOManager.m */; };
+		2394E7441D025E02002A200F /* JCLargeFileDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2394E73E1D025E02002A200F /* JCLargeFileDownloadViewController.m */; };
+		2394E7451D025E02002A200F /* JCTImageDownloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2394E7401D025E02002A200F /* JCTImageDownloadCell.m */; };
+		2394E7461D025E02002A200F /* JCTImageDownloadItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2394E7421D025E02002A200F /* JCTImageDownloadItem.m */; };
+		23FC0C7E1CEFF014005C9949 /* JCDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FC0C7D1CEFF014005C9949 /* JCDownloadOperation.m */; };
+		23FC0C811CEFF11F005C9949 /* JCDownloadAgent.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FC0C801CEFF11F005C9949 /* JCDownloadAgent.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0F6FEF3B1CF2DCD80023D04E /* JCDownloadQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDownloadQueue.h; sourceTree = "<group>"; };
+		0F6FEF3C1CF2DCD80023D04E /* JCDownloadQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDownloadQueue.m; sourceTree = "<group>"; };
+		0F6FEF3E1CF2F4780023D04E /* JCDownloadOperationProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDownloadOperationProtocol.h; sourceTree = "<group>"; };
+		0F6FEF3F1CF306890023D04E /* JCDownloadUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDownloadUtilities.h; sourceTree = "<group>"; };
+		0F6FEF401CF306890023D04E /* JCDownloadUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDownloadUtilities.m; sourceTree = "<group>"; };
+		0FBFB0321C1BCC0400B5A45D /* JCNetworking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCNetworking.h; sourceTree = "<group>"; };
+		0FC2D0EF1D0659C600C6FAA2 /* JCNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCNetworkReachabilityManager.h; sourceTree = "<group>"; };
+		0FC2D0F01D0659C600C6FAA2 /* JCNetworkReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCNetworkReachabilityManager.m; sourceTree = "<group>"; };
+		0FF08B8A1CD9D67900B6C820 /* JCBaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCBaseRequest.h; sourceTree = "<group>"; };
+		0FF08B8B1CD9D67900B6C820 /* JCBaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCBaseRequest.m; sourceTree = "<group>"; };
+		0FF08B931CD9ED4200B6C820 /* JCNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCNetworkManager.h; sourceTree = "<group>"; };
+		0FF08B941CD9ED4200B6C820 /* JCNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCNetworkManager.m; sourceTree = "<group>"; };
+		230C431B1C8C0315002D6D52 /* JCNetworkingDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JCNetworkingDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		230C431E1C8C0315002D6D52 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		230C43201C8C0315002D6D52 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		230C43211C8C0315002D6D52 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		230C43231C8C0315002D6D52 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		230C43241C8C0315002D6D52 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		230C43271C8C0315002D6D52 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		230C43291C8C0315002D6D52 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		230C432C1C8C0315002D6D52 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		230C432E1C8C0315002D6D52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		232DD32B1D05B9E300D820BF /* JCWeixinSSOManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCWeixinSSOManager.h; sourceTree = "<group>"; };
+		232DD32C1D05B9E300D820BF /* JCWeixinSSOManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCWeixinSSOManager.m; sourceTree = "<group>"; };
+		2394E73D1D025E02002A200F /* JCLargeFileDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCLargeFileDownloadViewController.h; sourceTree = "<group>"; };
+		2394E73E1D025E02002A200F /* JCLargeFileDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCLargeFileDownloadViewController.m; sourceTree = "<group>"; };
+		2394E73F1D025E02002A200F /* JCTImageDownloadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCTImageDownloadCell.h; sourceTree = "<group>"; };
+		2394E7401D025E02002A200F /* JCTImageDownloadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCTImageDownloadCell.m; sourceTree = "<group>"; };
+		2394E7411D025E02002A200F /* JCTImageDownloadItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCTImageDownloadItem.h; sourceTree = "<group>"; };
+		2394E7421D025E02002A200F /* JCTImageDownloadItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCTImageDownloadItem.m; sourceTree = "<group>"; };
+		23E991CC1CF1581C009C8917 /* JCNetworkingDemo-prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JCNetworkingDemo-prefix.pch"; sourceTree = "<group>"; };
+		23FC0C7C1CEFF014005C9949 /* JCDownloadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDownloadOperation.h; sourceTree = "<group>"; };
+		23FC0C7D1CEFF014005C9949 /* JCDownloadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDownloadOperation.m; sourceTree = "<group>"; };
+		23FC0C7F1CEFF11F005C9949 /* JCDownloadAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDownloadAgent.h; sourceTree = "<group>"; };
+		23FC0C801CEFF11F005C9949 /* JCDownloadAgent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDownloadAgent.m; sourceTree = "<group>"; };
+		355581728A723726D3274AA6 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		580BE4179B4567E57A50E8F8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3A222EB81FBEBD593981CC6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		230C43181C8C0315002D6D52 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05A926779BF40BBF06BBF14A /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0FBFB0251C1BCC0400B5A45D = {
+			isa = PBXGroup;
+			children = (
+				0FBFB0311C1BCC0400B5A45D /* JCNetworking */,
+				230C431C1C8C0315002D6D52 /* JCNetworkingDemo */,
+				0FBFB0301C1BCC0400B5A45D /* Products */,
+				45D69841E9CE9EE40458AFB4 /* Pods */,
+				1216BDCA54DCC54EB02002AF /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		0FBFB0301C1BCC0400B5A45D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				230C431B1C8C0315002D6D52 /* JCNetworkingDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0FBFB0311C1BCC0400B5A45D /* JCNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				0FBFB0321C1BCC0400B5A45D /* JCNetworking.h */,
+				0FF08B8A1CD9D67900B6C820 /* JCBaseRequest.h */,
+				0FF08B8B1CD9D67900B6C820 /* JCBaseRequest.m */,
+				0FF08B931CD9ED4200B6C820 /* JCNetworkManager.h */,
+				0FF08B941CD9ED4200B6C820 /* JCNetworkManager.m */,
+				0FC2D0EF1D0659C600C6FAA2 /* JCNetworkReachabilityManager.h */,
+				0FC2D0F01D0659C600C6FAA2 /* JCNetworkReachabilityManager.m */,
+				23FC0C7C1CEFF014005C9949 /* JCDownloadOperation.h */,
+				23FC0C7D1CEFF014005C9949 /* JCDownloadOperation.m */,
+				0F6FEF3E1CF2F4780023D04E /* JCDownloadOperationProtocol.h */,
+				0F6FEF3B1CF2DCD80023D04E /* JCDownloadQueue.h */,
+				0F6FEF3C1CF2DCD80023D04E /* JCDownloadQueue.m */,
+				23FC0C7F1CEFF11F005C9949 /* JCDownloadAgent.h */,
+				23FC0C801CEFF11F005C9949 /* JCDownloadAgent.m */,
+				0F6FEF3F1CF306890023D04E /* JCDownloadUtilities.h */,
+				0F6FEF401CF306890023D04E /* JCDownloadUtilities.m */,
+			);
+			path = JCNetworking;
+			sourceTree = "<group>";
+		};
+		1216BDCA54DCC54EB02002AF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				580BE4179B4567E57A50E8F8 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		230C431C1C8C0315002D6D52 /* JCNetworkingDemo */ = {
+			isa = PBXGroup;
+			children = (
+				2394E73A1D025E02002A200F /* Classes */,
+				230C43201C8C0315002D6D52 /* AppDelegate.h */,
+				230C43211C8C0315002D6D52 /* AppDelegate.m */,
+				230C43231C8C0315002D6D52 /* ViewController.h */,
+				230C43241C8C0315002D6D52 /* ViewController.m */,
+				230C43261C8C0315002D6D52 /* Main.storyboard */,
+				230C43291C8C0315002D6D52 /* Assets.xcassets */,
+				230C432B1C8C0315002D6D52 /* LaunchScreen.storyboard */,
+				230C432E1C8C0315002D6D52 /* Info.plist */,
+				230C431D1C8C0315002D6D52 /* Supporting Files */,
+			);
+			path = JCNetworkingDemo;
+			sourceTree = "<group>";
+		};
+		230C431D1C8C0315002D6D52 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				23E991CC1CF1581C009C8917 /* JCNetworkingDemo-prefix.pch */,
+				230C431E1C8C0315002D6D52 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2394E73A1D025E02002A200F /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				232DD32B1D05B9E300D820BF /* JCWeixinSSOManager.h */,
+				232DD32C1D05B9E300D820BF /* JCWeixinSSOManager.m */,
+				2394E73D1D025E02002A200F /* JCLargeFileDownloadViewController.h */,
+				2394E73E1D025E02002A200F /* JCLargeFileDownloadViewController.m */,
+				2394E73F1D025E02002A200F /* JCTImageDownloadCell.h */,
+				2394E7401D025E02002A200F /* JCTImageDownloadCell.m */,
+				2394E7411D025E02002A200F /* JCTImageDownloadItem.h */,
+				2394E7421D025E02002A200F /* JCTImageDownloadItem.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		45D69841E9CE9EE40458AFB4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C3A222EB81FBEBD593981CC6 /* Pods.debug.xcconfig */,
+				355581728A723726D3274AA6 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		230C431A1C8C0315002D6D52 /* JCNetworkingDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 230C43311C8C0315002D6D52 /* Build configuration list for PBXNativeTarget "JCNetworkingDemo" */;
+			buildPhases = (
+				6A171668D83213351DF92368 /* Check Pods Manifest.lock */,
+				230C43171C8C0315002D6D52 /* Sources */,
+				230C43181C8C0315002D6D52 /* Frameworks */,
+				230C43191C8C0315002D6D52 /* Resources */,
+				E2A50FB1DEA7D58F5AC65769 /* Embed Pods Frameworks */,
+				F5FE7DFCC0D64C9B466D27AD /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JCNetworkingDemo;
+			productName = JCNetworkingDemo;
+			productReference = 230C431B1C8C0315002D6D52 /* JCNetworkingDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0FBFB0261C1BCC0400B5A45D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = JC;
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = JC;
+				TargetAttributes = {
+					230C431A1C8C0315002D6D52 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+				};
+			};
+			buildConfigurationList = 0FBFB0291C1BCC0400B5A45D /* Build configuration list for PBXProject "JCNetworking" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0FBFB0251C1BCC0400B5A45D;
+			productRefGroup = 0FBFB0301C1BCC0400B5A45D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				230C431A1C8C0315002D6D52 /* JCNetworkingDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		230C43191C8C0315002D6D52 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				230C432D1C8C0315002D6D52 /* LaunchScreen.storyboard in Resources */,
+				230C432A1C8C0315002D6D52 /* Assets.xcassets in Resources */,
+				230C43281C8C0315002D6D52 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6A171668D83213351DF92368 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E2A50FB1DEA7D58F5AC65769 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F5FE7DFCC0D64C9B466D27AD /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		230C43171C8C0315002D6D52 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23FC0C7E1CEFF014005C9949 /* JCDownloadOperation.m in Sources */,
+				230C43251C8C0315002D6D52 /* ViewController.m in Sources */,
+				230C43221C8C0315002D6D52 /* AppDelegate.m in Sources */,
+				2394E7451D025E02002A200F /* JCTImageDownloadCell.m in Sources */,
+				0FC2D0F11D0659C600C6FAA2 /* JCNetworkReachabilityManager.m in Sources */,
+				232DD32D1D05B9E300D820BF /* JCWeixinSSOManager.m in Sources */,
+				0FF08B951CD9ED4200B6C820 /* JCNetworkManager.m in Sources */,
+				0F6FEF3D1CF2DCD80023D04E /* JCDownloadQueue.m in Sources */,
+				2394E7461D025E02002A200F /* JCTImageDownloadItem.m in Sources */,
+				2394E7441D025E02002A200F /* JCLargeFileDownloadViewController.m in Sources */,
+				230C431F1C8C0315002D6D52 /* main.m in Sources */,
+				23FC0C811CEFF11F005C9949 /* JCDownloadAgent.m in Sources */,
+				0F6FEF411CF306890023D04E /* JCDownloadUtilities.m in Sources */,
+				0FF08B8C1CD9D67900B6C820 /* JCBaseRequest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		230C43261C8C0315002D6D52 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				230C43271C8C0315002D6D52 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		230C432B1C8C0315002D6D52 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				230C432C1C8C0315002D6D52 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0FBFB0351C1BCC0400B5A45D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		0FBFB0361C1BCC0400B5A45D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		230C432F1C8C0315002D6D52 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C3A222EB81FBEBD593981CC6 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PREFIX_HEADER = "${SRCROOT}/JCNetworkingDemo/JCNetworkingDemo-prefix.pch";
+				INFOPLIST_FILE = JCNetworkingDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.JC.JCNetworkingDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		230C43301C8C0315002D6D52 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 355581728A723726D3274AA6 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PREFIX_HEADER = "${SRCROOT}/JCNetworkingDemo/JCNetworkingDemo-prefix.pch";
+				INFOPLIST_FILE = JCNetworkingDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.JC.JCNetworkingDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0FBFB0291C1BCC0400B5A45D /* Build configuration list for PBXProject "JCNetworking" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0FBFB0351C1BCC0400B5A45D /* Debug */,
+				0FBFB0361C1BCC0400B5A45D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		230C43311C8C0315002D6D52 /* Build configuration list for PBXNativeTarget "JCNetworkingDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				230C432F1C8C0315002D6D52 /* Debug */,
+				230C43301C8C0315002D6D52 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0FBFB0261C1BCC0400B5A45D /* Project object */;
+}
