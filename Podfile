@@ -1,4 +1,4 @@
-platform :ios, '8.0'
+platform :ios, '7.0'
 pod 'JSONModel', '~> 1.2.0'
 pod 'AFNetworking', '~> 3.1.0'
 pod 'Masonry'
