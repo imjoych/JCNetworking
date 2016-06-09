@@ -20,10 +20,10 @@ typedef NS_ENUM(NSInteger, JCDownloadStatus) {
 /** 下载相关数据 */
 @interface JCDownloadItem : NSObject
 
-@property (nonatomic, strong) NSString *downloadUrl;      //下载链接地址
-@property (nonatomic, strong) NSString *downloadFilePath; //下载文件本地路径
+@property (nonatomic, strong) NSString *downloadUrl;      //下载链接地址，不能为空
+@property (nonatomic, strong) NSString *downloadFilePath; //下载文件本地路径，不能为空
 @property (nonatomic, strong) NSString *downloadId;       //下载唯一标识，为空时自动生成
-@property (nonatomic, strong) NSString *groupId;          //下载分组标识，可选
+@property (nonatomic, strong) NSString *groupId;          //下载分组标识
 @property (nonatomic, assign) JCDownloadStatus status;    //下载状态
 @property (nonatomic, assign) int64_t totalUnitCount;     //下载文件总大小
 @property (nonatomic, assign) int64_t completedUnitCount; //已下载文件大小
@@ -45,10 +45,12 @@ typedef void(^JCDownloadCompletionBlock)(NSURL *filePath, NSError *error);
 /** 文件下载类 */
 @interface JCDownloadOperation : NSObject
 
-@property (nonatomic, strong) JCDownloadItem *item;
-
+@property (nonatomic, strong, readonly) JCDownloadItem *item;
 @property (nonatomic, copy, readonly) JCDownloadProgressBlock progressBlock;
 @property (nonatomic, copy, readonly) JCDownloadCompletionBlock completionBlock;
+
+/** 实例化对象 */
++ (instancetype)operationWithItem:(JCDownloadItem *)item;
 
 /** 开始下载 */
 - (void)startDownload;

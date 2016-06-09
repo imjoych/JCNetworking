@@ -145,8 +145,7 @@
             item.groupId = JCTImageDownloadGroupId;
             item.downloadUrl = [self urlList][index];
             item.downloadFilePath = [JCDownloadUtilities filePathWithFileName:[item.downloadUrl lastPathComponent] folderName:@"downloadImages"];
-            JCDownloadOperation *operation = [[JCDownloadOperation alloc] init];
-            operation.item = item;
+            JCDownloadOperation *operation = [JCDownloadOperation operationWithItem:item];
             [downloadList addObject:operation];
         }
         [[JCDownloadQueue sharedQueue] startDownloadList:downloadList];

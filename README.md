@@ -98,12 +98,7 @@ This framework supports the development of iOS 7.0+ in ARC.
 	JCDownloadItem *downloadItem = [[JCDownloadItem alloc] init];
     downloadItem.downloadUrl = @"download url";
     downloadItem.downloadFilePath = @"download file path";
-    JCDownloadOperation *operation = [[JCDownloadQueue sharedQueue] downloadOperation:downloadItem.downloadId
-                                                                              groupId:downloadItem.groupId];
-    if (!operation) {
-    	operation = [[JCDownloadOperation alloc] init];
-        operation.item = downloadItem;
-    }
+    JCDownloadOperation *operation = [JCDownloadOperation operationWithItem:downloadItem];
     [operation startWithProgressBlock:^(NSProgress *progress) {
         //update progress
     } completionBlock:^(NSURL *filePath, NSError *error) {

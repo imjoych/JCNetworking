@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+#ifndef JCNetworking_h
+#define JCNetworking_h
+
 #import "JCBaseRequest.h"
 #import "JCNetworkManager.h"
 #import "JCNetworkReachabilityManager.h"
 
-#import "JCDownloadOperation.h"
-#import "JCDownloadOperationProtocol.h"
-#import "JCDownloadQueue.h"
-#import "JCDownloadAgent.h"
-#import "JCDownloadUtilities.h"
+#import "JCDownloader.h"
+
+#endif /* JCNetworking_h */

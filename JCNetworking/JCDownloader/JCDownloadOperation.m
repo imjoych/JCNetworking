@@ -31,6 +31,7 @@ NSString *const JCDownloadCompletionErrorKey = @"kJCDownloadCompletionErrorKey";
 
 @interface JCDownloadOperation ()
 
+@property (nonatomic, strong) JCDownloadItem *item;
 @property (nonatomic, copy) JCDownloadProgressBlock progressBlock;
 @property (nonatomic, copy) JCDownloadCompletionBlock completionBlock;
 
@@ -43,6 +44,24 @@ NSString *const JCDownloadCompletionErrorKey = @"kJCDownloadCompletionErrorKey";
     [self clearBlocks];
 }
 
+- (instancetype)initWithItem:(JCDownloadItem *)item
+{
+    if (self = [super init]) {
+        _item = item;
+    }
+    return self;
+}
+
++ (instancetype)operationWithItem:(JCDownloadItem *)item
+{
+    JCDownloadOperation *operation = [[JCDownloadQueue sharedQueue] downloadOperation:item.downloadId
+                                                                              groupId:item.groupId];
+    if (operation) {
+        return operation;
+    }
+    return [[self alloc] initWithItem:item];
+}
+
 - (void)startDownload
 {
     [[JCDownloadQueue sharedQueue] startDownload:self];
@@ -51,7 +70,8 @@ NSString *const JCDownloadCompletionErrorKey = @"kJCDownloadCompletionErrorKey";
 - (void)startWithProgressBlock:(JCDownloadProgressBlock)progressBlock
                completionBlock:(JCDownloadCompletionBlock)completionBlock
 {
-    [self resetProgressBlock:progressBlock completionBlock:completionBlock];
+    [self resetProgressBlock:progressBlock
+             completionBlock:completionBlock];
     [self startDownload];
 }
 

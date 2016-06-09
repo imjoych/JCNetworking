@@ -107,23 +107,17 @@
     downloadItem.groupId = @"largeFileDownloadGroupId";
     downloadItem.downloadUrl = @"http://dldir1.qq.com/qqfile/QQforMac/QQ_V4.0.6.dmg";
     downloadItem.downloadFilePath = [JCDownloadUtilities filePathWithFileName:[downloadItem.downloadUrl lastPathComponent] folderName:@"downloadFiles"];
-    JCDownloadOperation *operation = [[JCDownloadQueue sharedQueue] downloadOperation:downloadItem.downloadId groupId:downloadItem.groupId];
-    if (operation) {
-        self.downloadOperation = operation;
-        @weakify(self);
-        [self.downloadOperation resetProgressBlock:^(NSProgress *progress) {
-            @strongify(self);
-            [self resetProgressWithCompletedUnitCount:progress.completedUnitCount
-                                       totalUnitCount:progress.totalUnitCount];
-        } completionBlock:^(NSURL *filePath, NSError *error) {
-            @strongify(self);
-            [self resetProgressWithCompletedUnitCount:self.downloadOperation.item.completedUnitCount
-                                       totalUnitCount:self.downloadOperation.item.totalUnitCount];
-        }];
-    } else {
-        self.downloadOperation = [[JCDownloadOperation alloc] init];
-        self.downloadOperation.item = downloadItem;
-    }
+    self.downloadOperation = [JCDownloadOperation operationWithItem:downloadItem];
+    @weakify(self);
+    [self.downloadOperation resetProgressBlock:^(NSProgress *progress) {
+        @strongify(self);
+        [self resetProgressWithCompletedUnitCount:progress.completedUnitCount
+                                   totalUnitCount:progress.totalUnitCount];
+    } completionBlock:^(NSURL *filePath, NSError *error) {
+        @strongify(self);
+        [self resetProgressWithCompletedUnitCount:self.downloadOperation.item.completedUnitCount
+                                   totalUnitCount:self.downloadOperation.item.totalUnitCount];
+    }];
     [self downloadStatusChanged:self.downloadOperation.item.status];
     [self resetProgressWithCompletedUnitCount:self.downloadOperation.item.completedUnitCount
                                totalUnitCount:self.downloadOperation.item.totalUnitCount];
