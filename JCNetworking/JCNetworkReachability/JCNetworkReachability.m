@@ -1,17 +1,17 @@
 //
-//  JCNetworkReachabilityManager.m
+//  JCNetworkReachability.m
 //  JCNetworking
 //
 //  Created by ChenJianjun on 16/6/7.
 //  Copyright © 2016 Boych<https://github.com/Boych>. All rights reserved.
 //
 
-#import "JCNetworkReachabilityManager.h"
+#import "JCNetworkReachability.h"
 #import <AFNetworking/AFNetworking.h>
 
 NSString * const JCNetworkingReachabilityDidChangeNotification = @"com.alamofire.networking.reachability.change";
 
-@implementation JCNetworkReachabilityManager
+@implementation JCNetworkReachability
 
 + (BOOL)isReachable
 {

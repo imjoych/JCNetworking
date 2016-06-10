@@ -1,5 +1,5 @@
 //
-//  JCNetworkReachabilityManager.h
+//  JCNetworkReachability.h
 //  JCNetworking
 //
 //  Created by ChenJianjun on 16/6/7.
@@ -12,7 +12,7 @@
 FOUNDATION_EXPORT NSString * const JCNetworkingReachabilityDidChangeNotification;
 
 /** 网络状态管理类 */
-@interface JCNetworkReachabilityManager : NSObject
+@interface JCNetworkReachability : NSObject
 
 /** 是否连接网络 */
 + (BOOL)isReachable;

@@ -30,12 +30,12 @@ typedef NS_ENUM(NSInteger, JCDownloadStatus) {
 
 @end
 
-extern NSString *const JCDownloadProgressNotification;   //下载进度通知
-extern NSString *const JCDownloadCompletionNotification; //下载完成通知
-extern NSString *const JCDownloadIdKey;                  //下载Id Key，值为NSString对象
-extern NSString *const JCDownloadProgressKey;            //下载进度Key，值为NSProgress对象
-extern NSString *const JCDownloadCompletionFilePathKey;  //文件路径Key，值为NSURL对象
-extern NSString *const JCDownloadCompletionErrorKey;     //下载出错Key，值为NSError对象
+FOUNDATION_EXPORT NSString *const JCDownloadProgressNotification;   //下载进度通知
+FOUNDATION_EXPORT NSString *const JCDownloadCompletionNotification; //下载完成通知
+FOUNDATION_EXPORT NSString *const JCDownloadIdKey;                  //下载Id Key，值为NSString对象
+FOUNDATION_EXPORT NSString *const JCDownloadProgressKey;            //下载进度Key，值为NSProgress对象
+FOUNDATION_EXPORT NSString *const JCDownloadCompletionFilePathKey;  //文件路径Key，值为NSURL对象
+FOUNDATION_EXPORT NSString *const JCDownloadCompletionErrorKey;     //下载出错Key，值为NSError对象
 
 /** 文件下载进度Block回调 */
 typedef void(^JCDownloadProgressBlock)(NSProgress *progress);

@@ -11,10 +11,9 @@
 #ifndef JCNetworking_h
 #define JCNetworking_h
 
-#import "JCBaseRequest.h"
-#import "JCNetworkManager.h"
-#import "JCNetworkReachabilityManager.h"
-
+#import "JCRequester.h"
 #import "JCDownloader.h"
+
+#import "JCNetworkReachability.h"
 
 #endif /* JCNetworking_h */
