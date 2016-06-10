@@ -9,6 +9,7 @@
 #import "JCDownloadUtilities.h"
 #import <CommonCrypto/CommonHMAC.h>
 #import <CoreGraphics/CoreGraphics.h>
+#include <sys/mount.h>
 
 static inline NSString *JCStringCCHashFunction(unsigned char *(function)(const void *data, CC_LONG len, unsigned char *md), CC_LONG digestLength, NSString *string)
 {
@@ -32,6 +33,31 @@ static inline NSString *JCStringCCHashFunction(unsigned char *(function)(const v
     }
     return JCStringCCHashFunction(CC_MD5, CC_MD5_DIGEST_LENGTH, string);
 }
+
++ (NSString *)filePathWithFileName:(NSString *)fileName
+                        folderName:(NSString *)folderName
+{
+    if (fileName.length < 1) {
+        return nil;
+    }
+    NSString *cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
+    NSString *folderDirectory = cachesDirectory;
+    if (folderName.length > 0) {
+        folderDirectory = [NSString stringWithFormat:@"%@/%@", cachesDirectory, folderName];
+    }
+    BOOL isDirectory = NO;
+    BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:folderDirectory isDirectory:&isDirectory];
+    if (!(isExist && isDirectory)) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:folderDirectory
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:&error];
+    }
+    return [NSString stringWithFormat:@"%@/%@", folderDirectory, fileName];
+}
+
+#pragma mark - Size
 
 + (int64_t)fileSizeWithFilePath:(NSString *)filePath
 {
@@ -57,27 +83,24 @@ static inline NSString *JCStringCCHashFunction(unsigned char *(function)(const v
     }
 }
 
-+ (NSString *)filePathWithFileName:(NSString *)fileName
-                        folderName:(NSString *)folderName
++ (int64_t)deviceFreeSpace
 {
-    if (fileName.length < 1) {
-        return nil;
+    struct statfs buf;
+    int64_t freeSpace = -1;
+    if (statfs("/private/var", &buf) >= 0) {
+        freeSpace = (int64_t)buf.f_bsize * buf.f_bfree;
     }
-    NSString *cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *folderDirectory = cachesDirectory;
-    if (folderName.length > 0) {
-        folderDirectory = [NSString stringWithFormat:@"%@/%@", cachesDirectory, folderName];
+    return freeSpace;
+}
+
++ (int64_t)deviceTotalSpace
+{
+    struct statfs buf;
+    int64_t totalSpace = -1;
+    if (statfs("/private/var", &buf) >= 0) {
+        totalSpace = (int64_t)buf.f_bsize * buf.f_blocks;
     }
-    BOOL isDirectory = NO;
-    BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:folderDirectory isDirectory:&isDirectory];
-    if (!(isExist && isDirectory)) {
-        NSError *error = nil;
-        [[NSFileManager defaultManager] createDirectoryAtPath:folderDirectory
-                                  withIntermediateDirectories:YES
-                                                   attributes:nil
-                                                        error:&error];
-    }
-    return [NSString stringWithFormat:@"%@/%@", folderDirectory, fileName];
+    return totalSpace;
 }
 
 @end
