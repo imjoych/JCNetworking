@@ -22,7 +22,9 @@
 /** 判断文件是否下载 */
 - (BOOL)isFileDownloaded:(JCDownloadItem *)downloadItem;
 
-/** 删除下载文件 */
+/** 删除下载文件
+ * @param downloadItem 下载项，对应下载任务未停止时禁止调用该方法，防止删除临时文件时与系统写入/删除操作冲突
+ */
 - (void)removeDownloadFile:(JCDownloadItem *)downloadItem;
 
 @end
