@@ -1,12 +1,11 @@
 # JCNetworking
-A useful iOS networking framework based on [AFNetworking](https://github.com/AFNetworking/AFNetworking) and [JSONModel](https://github.com/icanzilb/JSONModel).
+A lightweight iOS networking framework based on [AFNetworking](https://github.com/AFNetworking/AFNetworking) and [JSONModel](https://github.com/icanzilb/JSONModel).
 
 ## Features
 This framework supports the development of iOS 7.0+ in ARC.
 
 * Common request for GET/POST.
 * File or data upload.
-* File download (breakpoint downloading supported).
 
 ### Common Request
 ```objective-c
@@ -84,22 +83,6 @@ This framework supports the development of iOS 7.0+ in ARC.
                                uploadName:@"file"];
     [self.uploadRequest startRequestWithDecodeClass:[JCBaseResp class] completion:^(id responseObject, NSError *error) {
     	//do something
-    }];
-}
-```
-
-### Download
-```objective-c
-- (void)startDownloadOperation
-{
-	JCDownloadItem *downloadItem = [[JCDownloadItem alloc] init];
-    downloadItem.downloadUrl = @"download url";
-    downloadItem.downloadFilePath = @"download file path";
-    self.operation = [JCDownloadOperation operationWithItem:downloadItem];
-    [self.operation startWithProgressBlock:^(NSProgress *progress) {
-        //update progress
-    } completionBlock:^(NSURL *filePath, NSError *error) {
-        //download operation completion, do something
     }];
 }
 ```
