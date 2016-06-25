@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 /** 网络状态发生变化通知 */
-FOUNDATION_EXPORT NSString * const JCNetworkingReachabilityDidChangeNotification;
+FOUNDATION_EXPORT NSString *const JCNetworkingReachabilityDidChangeNotification;
 
 /** 网络状态管理类 */
 @interface JCNetworkReachability : NSObject

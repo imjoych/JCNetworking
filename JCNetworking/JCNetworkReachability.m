@@ -9,7 +9,7 @@
 #import "JCNetworkReachability.h"
 #import <AFNetworking/AFNetworking.h>
 
-NSString * const JCNetworkingReachabilityDidChangeNotification = @"com.alamofire.networking.reachability.change";
+NSString *const JCNetworkingReachabilityDidChangeNotification = @"com.alamofire.networking.reachability.change";
 
 @implementation JCNetworkReachability
 
