@@ -8,6 +8,10 @@
 
 #import "JCUploadTestRequest.h"
 
+@implementation JCUploadTestResp
+
+@end
+
 @implementation JCUploadTestRequest
 
 - (JCRequestMethod)requestMethod
@@ -15,14 +19,19 @@
     return JCRequestMethodPOST;
 }
 
+- (NSTimeInterval)requestTimeoutInterval
+{
+    return 10;
+}
+
 - (NSString *)baseUrl
 {
-    return @"base url";
+    return @"https://test.baseurl.com";
 }
 
 - (NSString *)requestUrl
 {
-    return @"request url";
+    return @"requesturl/testapi";
 }
 
 @end
