@@ -81,8 +81,10 @@ This framework supports the development of iOS 7.0+ in ARC.
     self.uploadRequest = [[JCUploadTestRequest alloc] init];
     [self.uploadRequest setUploadFilePath:@"file path"
                                uploadName:@"file"];
-    [self.uploadRequest startRequestWithDecodeClass:[JCBaseResp class] completion:^(id responseObject, NSError *error) {
-    	//do something
+    [self.uploadRequest startRequestWithDecodeClass:[JCUploadTestResp class] progress:^(NSProgress *progress) {
+        //update progress
+    } completion:^(id responseObject, NSError *error) {
+        //do something
     }];
 }
 ```
