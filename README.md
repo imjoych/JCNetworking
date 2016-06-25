@@ -62,14 +62,19 @@ This framework supports the development of iOS 7.0+ in ARC.
     return JCRequestMethodPOST;
 }
 
+- (NSTimeInterval)requestTimeoutInterval
+{
+    return 10;
+}
+
 - (NSString *)baseUrl
 {
-    return @"base url";
+    return @"https://test.baseurl.com";
 }
 
 - (NSString *)requestUrl
 {
-    return @"request url";
+    return @"requesturl/testapi";
 }
 
 @end
