@@ -7,10 +7,13 @@
 //
 
 #import "ViewController.h"
-#import "JCNetworking.h"
 #import "JCWeixinSSOManager.h"
+#import "JCUploadTestRequest.h"
 
 @interface ViewController ()
+
+@property (nonatomic, strong) JCWeixinSSOManager *ssoManager;
+@property (nonatomic, strong) JCUploadTestRequest *uploadRequest;
 
 @end
 
@@ -20,7 +23,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    [self testHTTPRequest];
+    [self startOpenIdRequest];
+    [self startUploadRequest];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -30,16 +34,42 @@
 
 #pragma mark -
 
-- (void)testHTTPRequest
+- (JCWeixinSSOManager *)ssoManager
 {
-    [[JCWeixinSSOManager sharedManager] requestOpenIdWithCode:@"your code" completion:^(NSString *openId, NSError *error) {
+    if (!_ssoManager) {
+        _ssoManager = [[JCWeixinSSOManager alloc] init];
+    }
+    return _ssoManager;
+}
+
+- (void)startOpenIdRequest
+{
+    @weakify(self);
+    [self.ssoManager requestOpenIdWithCode:@"your code" completion:^(NSString *openId, NSError *error) {
+        @strongify(self);
         NSLog(@"openId = %@，error = %@", openId, error);
         if (openId && !error) {
-            [[JCWeixinSSOManager sharedManager] requestUserInfoCompletion:^(JCWeixinUserInfoResp *userInfoResp, NSError *error) {
-                NSLog(@"userInfo = %@, error = %@", userInfoResp, error);
-            }];
+            [self startUserInfoRequest];
         }
     }];
 }
 
+- (void)startUserInfoRequest
+{
+    [self.ssoManager requestUserInfoCompletion:^(JCWeixinUserInfoResp *userInfoResp, NSError *error) {
+        NSLog(@"userInfo = %@, error = %@", userInfoResp, error);
+    }];
+}
+
+- (void)startUploadRequest
+{
+    self.uploadRequest = [[JCUploadTestRequest alloc] init];
+    [self.uploadRequest setUploadFilePath:@"file path"
+                               uploadName:@"file"];
+    [self.uploadRequest startRequestWithDecodeClass:[JCUploadTestResp class] progress:^(NSProgress *progress) {
+        //update progress
+    } completion:^(id responseObject, NSError *error) {
+        //do something
+    }];
+}
 @end

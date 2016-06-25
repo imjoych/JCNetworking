@@ -12,8 +12,6 @@
 @class JCWeixinUserInfoResp;
 @interface JCWeixinSSOManager : NSObject
 
-+ (instancetype)sharedManager;
-
 - (void)requestOpenIdWithCode:(NSString *)code
                    completion:(void(^)(NSString *openId, NSError *error))completion;
 

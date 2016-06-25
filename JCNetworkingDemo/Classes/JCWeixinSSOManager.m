@@ -20,16 +20,6 @@
 
 @implementation JCWeixinSSOManager
 
-+ (instancetype)sharedManager
-{
-    static JCWeixinSSOManager *sharedManager;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedManager = [[JCWeixinSSOManager alloc] init];
-    });
-    return sharedManager;
-}
-
 - (void)requestOpenIdWithCode:(NSString *)code
                    completion:(void (^)(NSString *, NSError *))completion
 {

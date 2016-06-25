@@ -18,6 +18,7 @@
 		236457091D1BC7EC004B8E41 /* JCBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 236457031D1BC7EC004B8E41 /* JCBaseRequest.m */; };
 		2364570A1D1BC7EC004B8E41 /* JCNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 236457061D1BC7EC004B8E41 /* JCNetworkManager.m */; };
 		2364570B1D1BC7EC004B8E41 /* JCNetworkReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 236457081D1BC7EC004B8E41 /* JCNetworkReachability.m */; };
+		238E91EA1D1E1A96004834EF /* JCUploadTestRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 238E91E91D1E1A96004834EF /* JCUploadTestRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,8 @@
 		236457071D1BC7EC004B8E41 /* JCNetworkReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCNetworkReachability.h; sourceTree = "<group>"; };
 		236457081D1BC7EC004B8E41 /* JCNetworkReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCNetworkReachability.m; sourceTree = "<group>"; };
 		236457171D1BCC96004B8E41 /* JCNetworkingDemo-prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JCNetworkingDemo-prefix.pch"; sourceTree = "<group>"; };
+		238E91E81D1E1A96004834EF /* JCUploadTestRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCUploadTestRequest.h; sourceTree = "<group>"; };
+		238E91E91D1E1A96004834EF /* JCUploadTestRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCUploadTestRequest.m; sourceTree = "<group>"; };
 		355581728A723726D3274AA6 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		580BE4179B4567E57A50E8F8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3A222EB81FBEBD593981CC6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -130,6 +133,8 @@
 			children = (
 				232DD32B1D05B9E300D820BF /* JCWeixinSSOManager.h */,
 				232DD32C1D05B9E300D820BF /* JCWeixinSSOManager.m */,
+				238E91E81D1E1A96004834EF /* JCUploadTestRequest.h */,
+				238E91E91D1E1A96004834EF /* JCUploadTestRequest.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -268,6 +273,7 @@
 				230C43251C8C0315002D6D52 /* ViewController.m in Sources */,
 				2364570A1D1BC7EC004B8E41 /* JCNetworkManager.m in Sources */,
 				230C43221C8C0315002D6D52 /* AppDelegate.m in Sources */,
+				238E91EA1D1E1A96004834EF /* JCUploadTestRequest.m in Sources */,
 				236457091D1BC7EC004B8E41 /* JCBaseRequest.m in Sources */,
 				232DD32D1D05B9E300D820BF /* JCWeixinSSOManager.m in Sources */,
 				2364570B1D1BC7EC004B8E41 /* JCNetworkReachability.m in Sources */,
