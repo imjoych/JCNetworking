@@ -8,7 +8,7 @@
 
 #import <JSONModel/JSONModel.h>
 
-/** 请求响应数据 */
+/** Response data for JCBaseRequest. */
 @interface JCBaseResp : JSONModel
 
 @property (nonatomic, copy) NSString<Optional> *code;
@@ -16,85 +16,87 @@
 
 @end
 
-/** 请求方法 */
+/** Request method for JCBaseRequest. */
 typedef NS_ENUM(NSInteger, JCRequestMethod) {
     JCRequestMethodGET,
     JCRequestMethodPOST
 };
 
-/** 返回结果Block回调 */
+/** Block of request completion. */
 typedef void(^JCRequestCompletionBlock)(id responseObject, NSError *error);
-/** 上传进度Block回调 */
+/** Block of file upload progress. */
 typedef void(^JCRequestProgressBlock)(NSProgress *progress);
 
-/** HTTP请求基类 */
+/** HTTP base request class. */
 @interface JCBaseRequest : JSONModel
 
-/** 请求并返回数据 */
+/** Start request with decode class and completion block. */
 - (void)startRequestWithDecodeClass:(Class)decodeClass
                          completion:(JCRequestCompletionBlock)completion;
 
-/** 请求并返回实时进度数据 */
+/** Start request with decode class, progress block and completion block. */
 - (void)startRequestWithDecodeClass:(Class)decodeClass
                            progress:(JCRequestProgressBlock)progress
                          completion:(JCRequestCompletionBlock)completion;
 
-/** 停止请求 */
+/** Stop request. */
 - (void)stopRequest;
 
-/** 解析对象类 */
+/** Decode class for the parse of response object. */
 - (Class)decodeClass;
 
-/** 返回结果Block */
+/** Returns completion block. */
 - (JCRequestCompletionBlock)completionBlock;
 
-/** 进度Block */
+/** Returns progress block. */
 - (JCRequestProgressBlock)progressBlock;
 
 @end
 
-#pragma mark -
+#pragma mark - Subclass implementation methods
 
-/** 扩展方法，子类实现 */
+/** Request extension methods, implementation by subclass. */
 @interface JCBaseRequest (JCBaseRequestExtensionMethods)
 
-/** 请求方法，默认为GET */
+/** Request method, default GET. */
 - (JCRequestMethod)requestMethod;
 
-/** 请求连接超时时间，默认为60秒 */
+/** Timeout interval of request, default 60s. */
 - (NSTimeInterval)requestTimeoutInterval;
 
-/** 请求url */
+/** Request url. */
 - (NSString *)requestUrl;
 
-/** 请求的baseUrl */
+/** Request baseUrl. */
 - (NSString *)baseUrl;
 
-/** 解析数据 */
+/** Parse response object. */
 - (void)parseResponseObject:(id)responseObject
                       error:(NSError *)error;
 
 @end
 
-/** 文件数据上传，POST方法 */
+#pragma mark - File or data upload methods
+
+/** File or data upload，POST request method. */
 @interface JCBaseRequest (JCBaseRequestUploadMethods)
 
-/** 设置上传文件路径、上传操作名称 */
+/** Set upload file path, upload operation name. */
 - (void)setUploadFilePath:(NSString *)uploadFilePath
                uploadName:(NSString *)uploadName;
 
-/** 设置上传文件数据、上传操作名称、上传文件名称（可为空）*/
+/** Set upload file data, upload operation name, upload file name(nil is allowable). */
 - (void)setUploadFileData:(NSData *)uploadFileData
                uploadName:(NSString *)uploadName
            uploadFileName:(NSString *)uploadFileName;
 
-/** 上传文件路径 */
+/** Returns upload file path. */
 - (NSString *)uploadFilePath;
-/** 上传文件数据 */
+/** Returns upload file data. */
 - (NSData *)uploadFileData;
-/** 上传操作名称 */
+/** Returns upload operation name. */
 - (NSString *)uploadName;
-/** 上传文件名称 */
+/** Returns upload file name. */
 - (NSString *)uploadFileName;
 
 @end

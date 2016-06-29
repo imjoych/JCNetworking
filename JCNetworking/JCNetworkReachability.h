@@ -8,25 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
-/** 网络状态发生变化通知 */
+/** Notification of networking reachability did change. */
 FOUNDATION_EXPORT NSString *const JCNetworkingReachabilityDidChangeNotification;
 
-/** 网络状态管理类 */
+/** Network reachability class. */
 @interface JCNetworkReachability : NSObject
 
-/** 是否连接网络 */
+/** Is network connected. */
 + (BOOL)isReachable;
 
-/** 是否连接WWAN（无线广域网）*/
+/** Is network connect to WWAN（Wireless Wide Area Network）*/
 + (BOOL)isReachableViaWWAN;
 
-/** 是否连接Wi-Fi */
+/** Is network connect to Wi-Fi */
 + (BOOL)isReachableViaWiFi;
 
-/** 开始监听网络变化 */
+/** start monitoring the reachability of network. If network reachability did change, JCNetworkingReachabilityDidChangeNotification will be posted. */
 + (void)startMonitoring;
 
-/** 结束监听网络变化 */
+/** stop monitoring the reachability of network. */
 + (void)stopMonitoring;
 
 @end

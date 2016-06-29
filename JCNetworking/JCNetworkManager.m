@@ -191,7 +191,7 @@
 
 #pragma mark - upload request
 
-/** 是否有文件数据上传 */
+/** Check there has file to upload or not. */
 - (BOOL)hasUploadFileForRequest:(JCBaseRequest *)request
 {
     if ([request uploadName].length < 1) {

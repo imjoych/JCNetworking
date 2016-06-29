@@ -10,18 +10,18 @@
 
 @class JCBaseRequest;
 
-/** 网络请求管理类 */
+/** Network manager class. */
 @interface JCNetworkManager : NSObject
 
 + (instancetype)sharedManager;
 
-/** 开始发送网络请求 */
+/** Start request which is kind of class JCBaseRequest. */
 - (void)startRequest:(JCBaseRequest *)request;
 
-/** 停止某个网络请求 */
+/** Stop request. */
 - (void)stopRequest:(JCBaseRequest *)request;
 
-/** 停止所有网络请求 */
+/** Stop all requests. */
 - (void)stopAllRequests;
 
 @end

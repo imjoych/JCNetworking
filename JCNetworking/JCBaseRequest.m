@@ -115,7 +115,7 @@ static const char *kDecodeClassKey;
 - (void)parseResponseObject:(id)responseObject
                       error:(NSError *)error
 {
-    // 网络请求超时或服务器错误
+    // request is timeout or server error occured.
     if (error) {
         if (self.completionBlock) {
             self.completionBlock(nil, error);
@@ -123,7 +123,7 @@ static const char *kDecodeClassKey;
         return;
     }
     
-    // 解析类不存在，直接返回数据
+    // decodeClass is not exists, return json data directly.
     Class decodeClass = [self decodeClass];
     if (!decodeClass || ![decodeClass isSubclassOfClass:[JSONModel class]]) {
         if (self.completionBlock) {
@@ -141,7 +141,7 @@ static const char *kDecodeClassKey;
     } else if ([responseObject isKindOfClass:[NSString class]]) {
         resp = [[decodeClass alloc] initWithString:responseObject error:&respError];
     }
-    // 解析数据格式错误
+    // parse format error.
     if (respError || !resp) {
         if (self.completionBlock) {
             self.completionBlock(nil, respError);
@@ -149,7 +149,7 @@ static const char *kDecodeClassKey;
         return;
     }
     
-    // 业务逻辑错误
+    // business logic error.
     if (resp.code.integerValue != 0 && resp.code.integerValue != 200) {
         respError = [NSError errorWithDomain:@"network" code:resp.code.integerValue userInfo:@{NSLocalizedDescriptionKey: (resp.desc ?:@"")}];
         if (self.completionBlock) {
@@ -158,7 +158,7 @@ static const char *kDecodeClassKey;
         return;
     }
     
-    // 正常数据
+    // normal data.
     if (self.completionBlock) {
         self.completionBlock(resp, nil);
     }
