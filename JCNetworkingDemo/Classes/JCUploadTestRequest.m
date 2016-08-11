@@ -21,7 +21,7 @@
 
 - (NSTimeInterval)requestTimeoutInterval
 {
-    return 10;
+    return 1;
 }
 
 - (NSString *)baseUrl
@@ -32,6 +32,11 @@
 - (NSString *)requestUrl
 {
     return @"requesturl/testapi";
+}
+
+- (NSUInteger)timeoutRetryTimes
+{
+    return 3;
 }
 
 @end
