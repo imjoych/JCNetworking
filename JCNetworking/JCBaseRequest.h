@@ -51,6 +51,9 @@ typedef void(^JCRequestProgressBlock)(NSProgress *progress);
 /** Returns progress block. */
 - (JCRequestProgressBlock)progressBlock;
 
+/** Retry request if timeoutRetryTimes greater than 0. */
+- (void)retryRequestIfNeeded:(NSError *)error;
+
 @end
 
 #pragma mark - Subclass implementation methods
@@ -73,6 +76,9 @@ typedef void(^JCRequestProgressBlock)(NSProgress *progress);
 /** Parse response object. */
 - (void)parseResponseObject:(id)responseObject
                       error:(NSError *)error;
+
+/** Timeout retry times, the suggest retry times is not more than 3, default 0. */
+- (NSUInteger)timeoutRetryTimes;
 
 @end
 

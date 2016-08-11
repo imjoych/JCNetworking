@@ -50,7 +50,7 @@
     //移除重复请求
     if ([self.requestsDict.allKeys containsObject:key]) {
         JCBaseRequest *duplicateRequest = self.requestsDict[key];
-        [duplicateRequest stopRequest];
+        [self stopRequest:duplicateRequest];
     }
     
     NSURLSessionTask *task = [self resumeTaskWithRequest:request];
@@ -116,7 +116,7 @@
                            [request stopRequest];
                        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                            [request parseResponseObject:nil error:error];
-                           [request stopRequest];
+                           [request retryRequestIfNeeded:error];
                        }];
         }
             break;
@@ -138,7 +138,7 @@
                                 [request stopRequest];
                             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                                 [request parseResponseObject:nil error:error];
-                                [request stopRequest];
+                                [request retryRequestIfNeeded:error];
                             }];
             }
         }
@@ -233,7 +233,7 @@
         [request stopRequest];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [request parseResponseObject:nil error:error];
-        [request stopRequest];
+        [request retryRequestIfNeeded:error];
     }];
 }
 

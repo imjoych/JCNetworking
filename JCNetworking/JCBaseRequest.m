@@ -21,6 +21,7 @@ static const char *kDecodeClassKey;
     NSData *_uploadFileData;
     NSString *_uploadName;
     NSString *_uploadFileName;
+    NSUInteger _retryTimes;
 }
 
 @property (nonatomic, copy) JCRequestCompletionBlock completionBlock;
@@ -33,6 +34,14 @@ static const char *kDecodeClassKey;
 - (void)dealloc
 {
     [self stopRequest];
+}
+
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _retryTimes = [self timeoutRetryTimes];
+    }
+    return self;
 }
 
 - (void)startRequestWithDecodeClass:(Class)decodeClass
@@ -73,6 +82,18 @@ static const char *kDecodeClassKey;
 - (JCRequestProgressBlock)progressBlock
 {
     return _progressBlock;
+}
+
+- (void)retryRequestIfNeeded:(NSError *)error
+{
+    if (_retryTimes < 1
+        || error.code != NSURLErrorTimedOut) {
+        [self stopRequest];
+        return;
+    }
+    
+    _retryTimes--;
+    [[JCNetworkManager sharedManager] startRequest:self];
 }
 
 #pragma mark -
@@ -162,6 +183,11 @@ static const char *kDecodeClassKey;
     if (self.completionBlock) {
         self.completionBlock(resp, nil);
     }
+}
+
+- (NSUInteger)timeoutRetryTimes
+{
+    return 0;
 }
 
 @end
