@@ -80,6 +80,9 @@ typedef void(^JCRequestProgressBlock)(NSProgress *progress);
 /** Timeout retry times, the suggest retry times is not more than 3, default 0. */
 - (NSUInteger)timeoutRetryTimes;
 
+/** HTTP header fields for request. */
+- (NSDictionary *)HTTPHeaderFields;
+
 @end
 
 #pragma mark - File or data upload methods

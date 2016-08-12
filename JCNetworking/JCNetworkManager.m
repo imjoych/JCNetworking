@@ -98,7 +98,8 @@
     if (!manager) {
         return nil;
     }
-    manager.requestSerializer.timeoutInterval = [request requestTimeoutInterval];
+    [self setRequestSerializerWithManager:manager
+                                  request:request];
     NSURLSessionTask *task = nil;
     switch ([request requestMethod]) {
         case JCRequestMethodGET:
@@ -187,6 +188,16 @@
         requestUrl = [NSString stringWithFormat:@"%@?%@", requestUrl, parametersString];
     }
     return requestUrl;
+}
+
+- (void)setRequestSerializerWithManager:(AFHTTPSessionManager *)manager
+                                request:(JCBaseRequest *)request
+{
+    manager.requestSerializer.timeoutInterval = [request requestTimeoutInterval];
+    NSDictionary *headerFields = [request HTTPHeaderFields];
+    for (NSString *field in headerFields) {
+        [manager.requestSerializer setValue:headerFields[field] forHTTPHeaderField:field];
+    }
 }
 
 #pragma mark - upload request

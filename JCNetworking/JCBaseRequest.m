@@ -190,6 +190,11 @@ static const char *kDecodeClassKey;
     return 0;
 }
 
+- (NSDictionary *)HTTPHeaderFields
+{
+    return nil;
+}
+
 @end
 
 @implementation JCBaseRequest (JCBaseRequestUploadMethods)
