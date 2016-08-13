@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'JCNetworking'
-  s.version      = '0.1.7'
+  s.version      = '0.1.8'
   s.license      = 'MIT'
   s.summary      = 'A lightweight iOS networking framework based on AFNetworking and JSONModel.'
   s.homepage     = 'https://github.com/Boych/JCNetworking'
