@@ -8,11 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-/** Notification of networking reachability did change. */
+/// Notification of networking reachability did change.
 FOUNDATION_EXPORT NSString *const JCNetworkingReachabilityDidChangeNotification;
+/// Status key of networking reachability.
+FOUNDATION_EXPORT NSString *const JCNetworkingReachabilityNotificationStatusKey;
 
 /** Network reachability class. */
 @interface JCNetworkReachability : NSObject
+
+/** Network reachability status. */
++ (NSInteger)status;
 
 /** Is network connected. */
 + (BOOL)isReachable;

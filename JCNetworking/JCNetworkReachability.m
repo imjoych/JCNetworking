@@ -10,8 +10,14 @@
 #import <AFNetworking/AFNetworking.h>
 
 NSString *const JCNetworkingReachabilityDidChangeNotification = @"com.alamofire.networking.reachability.change";
+NSString *const JCNetworkingReachabilityNotificationStatusKey = @"AFNetworkingReachabilityNotificationStatusItem";
 
 @implementation JCNetworkReachability
+
++ (NSInteger)status
+{
+    return [AFNetworkReachabilityManager sharedManager].networkReachabilityStatus;
+}
 
 + (BOOL)isReachable
 {
