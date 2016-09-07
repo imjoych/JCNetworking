@@ -22,32 +22,32 @@
 /** 响应数据 */
 @interface JCWeixinBaseResp : JSONModel
 
-@property (nonatomic, copy) NSString<Optional> *errcode;
-@property (nonatomic, copy) NSString<Optional> *errmsg;
+@property (nonatomic, copy) NSString *errcode;
+@property (nonatomic, copy) NSString *errmsg;
 
 @end
 
 @interface JCWeixinAccessTokenResp : JCWeixinBaseResp
 
-@property (nonatomic, copy) NSString<Optional> *access_token;
-@property (nonatomic, copy) NSString<Optional> *expires_in;
-@property (nonatomic, copy) NSString<Optional> *refresh_token;
-@property (nonatomic, copy) NSString<Optional> *openid;
-@property (nonatomic, copy) NSString<Optional> *scope;
+@property (nonatomic, copy) NSString *access_token;
+@property (nonatomic, copy) NSString *expires_in;
+@property (nonatomic, copy) NSString *refresh_token;
+@property (nonatomic, copy) NSString *openid;
+@property (nonatomic, copy) NSString *scope;
 
 @end
 
 @interface JCWeixinUserInfoResp : JCWeixinBaseResp
 
-@property (nonatomic, copy) NSString<Optional> *openid;
-@property (nonatomic, copy) NSString<Optional> *nickname;
-@property (nonatomic, copy) NSString<Optional> *sex;
-@property (nonatomic, copy) NSString<Optional> *province;
-@property (nonatomic, copy) NSString<Optional> *city;
-@property (nonatomic, copy) NSString<Optional> *country;
-@property (nonatomic, copy) NSString<Optional> *headimgurl;
-@property (nonatomic, copy) NSArray<Optional> *privilege;
-@property (nonatomic, copy) NSString<Optional> *unionid;
+@property (nonatomic, copy) NSString *openid;
+@property (nonatomic, copy) NSString *nickname;
+@property (nonatomic, copy) NSString *sex;
+@property (nonatomic, copy) NSString *province;
+@property (nonatomic, copy) NSString *city;
+@property (nonatomic, copy) NSString *country;
+@property (nonatomic, copy) NSString *headimgurl;
+@property (nonatomic, copy) NSArray *privilege;
+@property (nonatomic, copy) NSString *unionid;
 
 @end
 

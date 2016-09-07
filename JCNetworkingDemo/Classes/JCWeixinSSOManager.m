@@ -8,6 +8,9 @@
 
 #import "JCWeixinSSOManager.h"
 
+static NSString *const kWeixinSSOAppid = @"your appid";
+static NSString *const kWeixinSSOSecret = @"your secret";
+
 @interface JCWeixinSSOManager ()
 
 @property (nonatomic, strong) JCWeixinAccessTokenResp *accessTokenResp;
@@ -24,8 +27,8 @@
                    completion:(void (^)(NSString *, NSError *))completion
 {
     self.accessTokenRequest = [[JCWeixinAccessTokenRequest alloc] init];
-    self.accessTokenRequest.appid = @"your appid";
-    self.accessTokenRequest.secret = @"your secret";
+    self.accessTokenRequest.appid = kWeixinSSOAppid;
+    self.accessTokenRequest.secret = kWeixinSSOSecret;
     self.accessTokenRequest.code = code;
     @weakify(self);
     [self.accessTokenRequest startRequestWithDecodeClass:[JCWeixinAccessTokenResp class] completion:^(id responseObject, NSError *error) {
@@ -77,7 +80,7 @@
 - (void)refreshTokenRequest:(void (^)(JCWeixinUserInfoResp *, NSError *))completion
 {
     self.refreshTokenRequest = [[JCWeixinRefreshTokenRequest alloc] init];
-    self.refreshTokenRequest.appid = @"your appid";
+    self.refreshTokenRequest.appid = kWeixinSSOAppid;
     self.refreshTokenRequest.refresh_token = self.accessTokenResp.refresh_token;
     @weakify(self);
     [self.refreshTokenRequest startRequestWithDecodeClass:[JCWeixinAccessTokenResp class] completion:^(id responseObject, NSError *error) {
@@ -96,6 +99,11 @@
 @end
 
 @implementation JCWeixinBaseResp
+
++ (BOOL)propertyIsOptional:(NSString *)propertyName
+{
+    return YES;
+}
 
 @end
 
