@@ -10,18 +10,23 @@
 
 @class JCBaseRequest;
 
-/** Network manager class. */
+/** 
+ * Network manager class. 
+ */
 @interface JCNetworkManager : NSObject
 
+/// Singleton of JCNetworkManager class.
 + (instancetype)sharedManager;
 
-/** Start request which is kind of class JCBaseRequest. */
+/// Start request which is kind of class JCBaseRequest.
 - (void)startRequest:(JCBaseRequest *)request;
 
-/** Stop request. */
+/// Stop request.
 - (void)stopRequest:(JCBaseRequest *)request;
 
-/** Stop all requests. */
+/** 
+ * Stop all requests. 
+ */
 - (void)stopAllRequests;
 
 @end
