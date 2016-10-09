@@ -64,8 +64,9 @@ static const char *kDecodeClassKey;
 
 - (void)stopRequest
 {
-    [self clearBlocks];
-    [self removeDecodeClass];
+    objc_removeAssociatedObjects(self);
+    self.completionBlock = nil;
+    self.progressBlock = nil;
     [[JCNetworkManager sharedManager] stopRequest:self];
 }
 
@@ -96,20 +97,9 @@ static const char *kDecodeClassKey;
     [[JCNetworkManager sharedManager] startRequest:self];
 }
 
-#pragma mark -
-
-- (void)clearBlocks
-{
-    self.completionBlock = nil;
-    self.progressBlock = nil;
-}
-
-- (void)removeDecodeClass
-{
-    objc_removeAssociatedObjects(self);
-}
-
 @end
+
+#pragma mark - Subclass implementation methods
 
 @implementation JCBaseRequest (JCBaseRequestExtensionMethods)
 
@@ -196,6 +186,8 @@ static const char *kDecodeClassKey;
 }
 
 @end
+
+#pragma mark - File or data upload methods
 
 @implementation JCBaseRequest (JCBaseRequestUploadMethods)
 
