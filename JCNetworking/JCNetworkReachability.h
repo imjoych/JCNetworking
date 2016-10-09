@@ -13,7 +13,7 @@
  */
 FOUNDATION_EXPORT NSString *const JCNetworkingReachabilityDidChangeNotification;
 /**
- * Status key of networking reachability.
+ * Status key of networking reachability. The `userInfo` dictionary contains an `NSNumber` object under the `JCNetworkingReachabilityNotificationStatusKey` key.
  */
 FOUNDATION_EXPORT NSString *const JCNetworkingReachabilityNotificationStatusKey;
 
@@ -24,6 +24,14 @@ FOUNDATION_EXPORT NSString *const JCNetworkingReachabilityNotificationStatusKey;
 
 /** 
  * Network reachability status. 
+ 
+ StatusUnknown          = -1,
+ 
+ StatusNotReachable     = 0,
+ 
+ StatusReachableViaWWAN = 1,
+ 
+ StatusReachableViaWiFi = 2,
  */
 + (NSInteger)status;
 

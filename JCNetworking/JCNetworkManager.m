@@ -47,10 +47,10 @@
     }
     
     NSString *key = [self requestKey:request];
-    //移除重复请求
+    // Remove duplicated request.
     if ([self.requestsDict.allKeys containsObject:key]) {
-        JCBaseRequest *duplicateRequest = self.requestsDict[key];
-        [self stopRequest:duplicateRequest];
+        JCBaseRequest *duplicatedRequest = self.requestsDict[key];
+        [self stopRequest:duplicatedRequest];
     }
     
     NSURLSessionTask *task = [self resumeTaskWithRequest:request];
