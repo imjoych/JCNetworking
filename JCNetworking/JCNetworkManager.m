@@ -47,7 +47,7 @@
     }
     
     NSString *key = [self requestKey:request];
-    // Remove duplicated request.
+    // Remove duplicated request if needed.
     if ([self.requestsDict.allKeys containsObject:key]) {
         JCBaseRequest *duplicatedRequest = self.requestsDict[key];
         [self stopRequest:duplicatedRequest];
@@ -88,6 +88,23 @@
     }
     [requestsDict removeAllObjects];
     [self.sessionManagers removeAllObjects];
+}
+
+- (void)startRequest:(JCBaseRequest *)request
+         decodeClass:(Class)decodeClass
+          completion:(JCRequestCompletionBlock)completion
+{
+    [request startRequestWithDecodeClass:decodeClass completion:completion];
+}
+
+- (void)startRequest:(JCBaseRequest *)request
+         decodeClass:(Class)decodeClass
+            progress:(JCRequestProgressBlock)progress
+          completion:(JCRequestCompletionBlock)completion
+{
+    [request startRequestWithDecodeClass:decodeClass
+                                progress:progress
+                              completion:completion];
 }
 
 #pragma mark -
@@ -170,6 +187,10 @@
 
 - (NSString *)requestKey:(JCBaseRequest *)request
 {
+    if ([request needRemoveDuplicatedRequest]) {
+        NSString *requestString = [NSString stringWithFormat:@"%@%@", [request baseUrl], [request requestUrl]];
+        return [NSString stringWithFormat:@"%@", @([requestString hash])];
+    }
     return [NSString stringWithFormat:@"%@", @([request hash])];
 }
 

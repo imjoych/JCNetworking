@@ -185,6 +185,11 @@ static const char *kDecodeClassKey;
     return nil;
 }
 
+- (BOOL)needRemoveDuplicatedRequest
+{
+    return YES;
+}
+
 @end
 
 #pragma mark - File or data upload methods

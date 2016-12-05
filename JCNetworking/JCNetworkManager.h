@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "JCNetworkDefines.h"
 
 @class JCBaseRequest;
 
@@ -18,15 +19,24 @@
 /// Singleton of JCNetworkManager class.
 + (instancetype)sharedManager;
 
-/// Start request which is kind of class JCBaseRequest.
+/// Start request.
 - (void)startRequest:(JCBaseRequest *)request;
 
 /// Stop request.
 - (void)stopRequest:(JCBaseRequest *)request;
 
-/** 
- * Stop all requests. 
- */
+/// Stop all requests.
 - (void)stopAllRequests;
+
+/// Start request with decodeClass and completion block.
+- (void)startRequest:(JCBaseRequest *)request
+         decodeClass:(Class)decodeClass
+          completion:(JCRequestCompletionBlock)completion;
+
+/// Start request with decodeClass, progress block and completion block.
+- (void)startRequest:(JCBaseRequest *)request
+         decodeClass:(Class)decodeClass
+            progress:(JCRequestProgressBlock)progress
+          completion:(JCRequestCompletionBlock)completion;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <JSONModel/JSONModel.h>
+#import "JCNetworkDefines.h"
 
 /** 
  * Response data for JCBaseRequest. 
@@ -17,20 +18,6 @@
 @property (nonatomic, copy) NSString<Optional> *desc;
 
 @end
-
-/** 
- * Request method for JCBaseRequest. 
- */
-typedef NS_ENUM(NSInteger, JCRequestMethod) {
-    JCRequestMethodGET,
-    JCRequestMethodPOST
-};
-
-/// Block of request completion.
-typedef void(^JCRequestCompletionBlock)(id responseObject, NSError *error);
-
-/// Block of file upload progress.
-typedef void(^JCRequestProgressBlock)(NSProgress *progress);
 
 /** 
  * HTTP base request class. 
@@ -111,6 +98,11 @@ typedef void(^JCRequestProgressBlock)(NSProgress *progress);
  * HTTP header fields for request.
  */
 - (NSDictionary *)HTTPHeaderFields;
+
+/**
+ * Need remove duplicated request, default YES.
+ */
+- (BOOL)needRemoveDuplicatedRequest;
 
 @end
 
