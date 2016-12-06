@@ -185,9 +185,9 @@ static const char *kDecodeClassKey;
     return nil;
 }
 
-- (BOOL)needRemoveDuplicatedRequest
+- (NSString *)requestIdentifier
 {
-    return YES;
+    return [NSString stringWithFormat:@"%@", @([self hash])];
 }
 
 @end

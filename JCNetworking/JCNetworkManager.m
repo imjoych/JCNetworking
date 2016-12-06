@@ -187,9 +187,9 @@
 
 - (NSString *)requestKey:(JCBaseRequest *)request
 {
-    if ([request needRemoveDuplicatedRequest]) {
-        NSString *requestString = [NSString stringWithFormat:@"%@%@", [request baseUrl], [request requestUrl]];
-        return [NSString stringWithFormat:@"%@", @([requestString hash])];
+    NSString *identifier = [request requestIdentifier];
+    if (identifier.length > 0) {
+        return identifier;
     }
     return [NSString stringWithFormat:@"%@", @([request hash])];
 }

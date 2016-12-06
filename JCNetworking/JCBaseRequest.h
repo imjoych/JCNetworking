@@ -100,9 +100,11 @@
 - (NSDictionary *)HTTPHeaderFields;
 
 /**
- * Need remove duplicated request, default YES.
+ * Identifier of the request.
+ *
+ * Duplicated requests will be removed if theirs identifiers are the same, default is hash string of the request.
  */
-- (BOOL)needRemoveDuplicatedRequest;
+- (NSString *)requestIdentifier;
 
 @end
 
