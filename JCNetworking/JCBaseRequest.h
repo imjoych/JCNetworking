@@ -54,6 +54,9 @@
 /// Retry request if timeoutRetryTimes greater than 0.
 - (void)retryRequestIfNeeded:(NSError *)error;
 
+/// The values for properties are filtered which types are kind of NSNull class.
+- (NSDictionary *)filteredDictionary;
+
 @end
 
 #pragma mark - Subclass implementation methods

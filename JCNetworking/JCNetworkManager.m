@@ -121,7 +121,7 @@
     switch ([request requestMethod]) {
         case JCRequestMethodGET:
         {
-            task = [manager GET:[self requestUrl:[request requestUrl] parameters:[request toDictionary]]
+            task = [manager GET:[self requestUrl:[request requestUrl] parameters:[request filteredDictionary]]
                      parameters:nil
                        progress:^(NSProgress * _Nonnull downloadProgress) {
                            dispatch_async(dispatch_get_main_queue(), ^{
@@ -144,7 +144,7 @@
                 task = [self uploadWithManager:manager request:request];
             } else {
                 task = [manager POST:[request requestUrl]
-                          parameters:[request toDictionary]
+                          parameters:[request filteredDictionary]
                             progress:^(NSProgress * _Nonnull uploadProgress) {
                                 dispatch_async(dispatch_get_main_queue(), ^{
                                     if (request.progressBlock) {
@@ -196,16 +196,8 @@
 
 - (NSString *)requestUrl:(NSString *)requestUrl parameters:(NSDictionary *)parameters
 {
-    NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
-    for (NSString *key in parameters.allKeys) {
-        id value = parameters[key];
-        if (value && [value isKindOfClass:[NSNull class]]) {
-            continue;
-        }
-        [paramDict setValue:value forKey:key];
-    }
-    if (paramDict.count > 0) {
-        NSString *parametersString = AFQueryStringFromParameters(paramDict);
+    if (parameters.count > 0) {
+        NSString *parametersString = AFQueryStringFromParameters(parameters);
         requestUrl = [NSString stringWithFormat:@"%@?%@", requestUrl, parametersString];
     }
     return requestUrl;
@@ -241,7 +233,7 @@
 - (NSURLSessionDataTask *)uploadWithManager:(AFHTTPSessionManager *)manager
                                     request:(JCBaseRequest *)request
 {
-    return [manager POST:[self requestUrl:[request requestUrl] parameters:[request toDictionary]] parameters:[request toDictionary] constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    return [manager POST:[self requestUrl:[request requestUrl] parameters:[request filteredDictionary]] parameters:[request filteredDictionary] constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         if (formData) {
             if ([request uploadFileData]) {
                 [formData appendPartWithFileData:[request uploadFileData]

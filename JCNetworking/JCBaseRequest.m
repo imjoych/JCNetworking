@@ -97,6 +97,23 @@ static const char *kDecodeClassKey;
     [[JCNetworkManager sharedManager] startRequest:self];
 }
 
+- (NSDictionary *)filteredDictionary
+{
+    NSDictionary *params = [self toDictionary];
+    if (params.count < 1) {
+        return params;
+    }
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    for (NSString *key in params.allKeys) {
+        id value = params[key];
+        if (value && [value isKindOfClass:[NSNull class]]) {
+            continue;
+        }
+        [parameters setValue:value forKey:key];
+    }
+    return parameters;
+}
+
 @end
 
 #pragma mark - Subclass implementation methods
