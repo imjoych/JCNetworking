@@ -11,7 +11,7 @@
 /**
  *  Notification of networking reachability did change.
  */
-FOUNDATION_EXPORT NSString *const JCNetworkingReachabilityDidChangeNotification;
+FOUNDATION_EXPORT NSNotificationName const JCNetworkingReachabilityDidChangeNotification;
 /**
  * Status key of networking reachability. The `userInfo` dictionary contains an `NSNumber` object under the `JCNetworkingReachabilityNotificationStatusKey` key.
  */
