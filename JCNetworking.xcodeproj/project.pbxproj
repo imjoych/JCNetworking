@@ -185,6 +185,7 @@
 				TargetAttributes = {
 					230C431A1C8C0315002D6D52 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = 3JQJRCULP7;
 					};
 				};
 			};
@@ -404,6 +405,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 3JQJRCULP7;
 				GCC_PREFIX_HEADER = "${SRCROOT}/JCNetworkingDemo/JCNetworkingDemo-prefix.pch";
 				INFOPLIST_FILE = JCNetworkingDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -420,6 +422,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 3JQJRCULP7;
 				GCC_PREFIX_HEADER = "${SRCROOT}/JCNetworkingDemo/JCNetworkingDemo-prefix.pch";
 				INFOPLIST_FILE = JCNetworkingDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
