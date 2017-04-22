@@ -114,11 +114,7 @@ static const char *kDecodeClassKey;
     return parameters;
 }
 
-@end
-
 #pragma mark - Subclass implementation methods
-
-@implementation JCBaseRequest (JCBaseRequestExtensionMethods)
 
 - (JCRequestMethod)requestMethod
 {

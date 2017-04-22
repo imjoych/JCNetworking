@@ -19,27 +19,21 @@
 
 @end
 
-/** 
- * HTTP base request class. 
+/**
+ * HTTP base request protocol.
  */
-@interface JCBaseRequest : JSONModel
+@protocol JCBaseRequest <NSObject>
 
-/** 
- * Start request with decode class and completion block. 
- */
+/// Start request with decode class and completion block.
 - (void)startRequestWithDecodeClass:(Class)decodeClass
                          completion:(JCRequestCompletionBlock)completion;
 
-/**
- * Start request with decode class, progress block and completion block. 
- */
+/// Start request with decode class, progress block and completion block.
 - (void)startRequestWithDecodeClass:(Class)decodeClass
                            progress:(JCRequestProgressBlock)progress
                          completion:(JCRequestCompletionBlock)completion;
 
-/** 
- * Stop request.
- */
+/// Stop request.
 - (void)stopRequest;
 
 /// Decode class for the parse of response object.
@@ -59,54 +53,41 @@
 
 @end
 
-#pragma mark - Subclass implementation methods
-
 /** 
- * Request extension methods, implementation by subclass. 
+ * HTTP base request class. 
  */
-@interface JCBaseRequest (JCBaseRequestExtensionMethods)
+@interface JCBaseRequest : JSONModel<JCBaseRequest>
 
-/** 
- * Request method, default GET. 
+/**
+ * ----------------------------------------------------
+ * Method list which should be implemented by Subclass.
+ * ----------------------------------------------------
  */
+
+/// Request method, default GET.
 - (JCRequestMethod)requestMethod;
 
-/** 
- * Timeout interval of request, default 60s. 
- */
+/// Timeout interval of request, default 60s.
 - (NSTimeInterval)requestTimeoutInterval;
 
-/** 
- * Request url. 
- */
+/// Request url.
 - (NSString *)requestUrl;
 
-/** 
- * Request baseUrl. 
- */
+/// Request baseUrl.
 - (NSString *)baseUrl;
 
-/** 
- * Parse response object. 
- */
+/// Parse response object.
 - (void)parseResponseObject:(id)responseObject
                       error:(NSError *)error;
 
-/** 
- * Timeout retry times, the suggest retry times is not more than 3, default 0.
- */
+/// Timeout retry times, the suggest retry times is not more than 3, default 0.
 - (NSUInteger)timeoutRetryTimes;
 
-/** 
- * HTTP header fields for request.
- */
+/// HTTP header fields for request.
 - (NSDictionary *)HTTPHeaderFields;
 
-/**
- * Identifier of the request.
- *
- * Duplicated requests will be removed if theirs identifiers are the same, default is hash string of the request.
- */
+/// Identifier of the request.
+/// Duplicated requests will be removed if theirs identifiers are the same, default is hash string of the request.
 - (NSString *)requestIdentifier;
 
 @end
