@@ -87,7 +87,7 @@
 - (NSDictionary *)HTTPHeaderFields;
 
 /// Identifier of the request.
-/// Duplicated requests will be removed if theirs identifiers are the same, default is hash string of the request.
+/// Duplicated requests will be removed if theirs identifiers are the same, default is hash string of the request object.
 - (NSString *)requestIdentifier;
 
 @end
@@ -99,15 +99,11 @@
  */
 @interface JCBaseRequest (JCBaseRequestUploadMethods)
 
-/** 
- * Set upload file path, upload operation name. 
- */
+/// Set upload file path, upload operation name.
 - (void)setUploadFilePath:(NSString *)uploadFilePath
                uploadName:(NSString *)uploadName;
 
-/** 
- * Set upload file data, upload operation name, upload file name(nil is allowable). 
- */
+/// Set upload file data, upload operation name, upload file name(nil is allowable).
 - (void)setUploadFileData:(NSData *)uploadFileData
                uploadName:(NSString *)uploadName
            uploadFileName:(NSString *)uploadFileName;

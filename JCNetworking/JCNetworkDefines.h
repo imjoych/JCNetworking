@@ -3,7 +3,7 @@
 //  JCNetworking
 //
 //  Created by ChenJianjun on 2016/12/5.
-//  Copyright © 2016年 Joych<https://github.com/imjoych>. All rights reserved.
+//  Copyright © 2016 Joych<https://github.com/imjoych>. All rights reserved.
 //
 
 #ifndef JCNetworkDefines_h

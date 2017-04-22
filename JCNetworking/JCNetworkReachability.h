@@ -8,13 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-/**
- *  Notification of networking reachability did change.
- */
+/// Notification of networking reachability did change.
 FOUNDATION_EXPORT NSNotificationName const JCNetworkingReachabilityDidChangeNotification;
-/**
- * Status key of networking reachability. The `userInfo` dictionary contains an `NSNumber` object under the `JCNetworkingReachabilityNotificationStatusKey` key.
- */
+
+/// Status key of networking reachability. The `userInfo` dictionary contains an `NSNumber` object under the `JCNetworkingReachabilityNotificationStatusKey` key.
 FOUNDATION_EXPORT NSString *const JCNetworkingReachabilityNotificationStatusKey;
 
 /** 
@@ -35,29 +32,19 @@ FOUNDATION_EXPORT NSString *const JCNetworkingReachabilityNotificationStatusKey;
  */
 + (NSInteger)status;
 
-/** 
- * Is network connected. 
- */
+/// Is network connected.
 + (BOOL)isReachable;
 
-/** 
- * Is network connect to WWAN(Wireless Wide Area Network).
- */
+/// Is network connect to WWAN(Wireless Wide Area Network).
 + (BOOL)isReachableViaWWAN;
 
-/** 
- * Is network connect to Wi-Fi.
- */
+/// Is network connect to Wi-Fi.
 + (BOOL)isReachableViaWiFi;
 
-/** 
- * Start monitoring the reachability of network. If network reachability did change, JCNetworkingReachabilityDidChangeNotification will be posted.
- */
+/// Start monitoring the reachability of network. If network reachability did change, JCNetworkingReachabilityDidChangeNotification will be posted.
 + (void)startMonitoring;
 
-/** 
- * Stop monitoring the reachability of network.
- */
+/// Stop monitoring the reachability of network.
 + (void)stopMonitoring;
 
 @end
