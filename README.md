@@ -102,8 +102,8 @@ To integrate JCNetworking into your iOS project, specify it in your Podfile:
 ##Contacts
 If you have any questions or suggestions about the framework, please E-mail to contact me.
 
-Author: [Boych](https://github.com/Boych)	
-E-mail: ioschen@foxmail.com
+Author: [Joych](https://github.com/imjoych)	
+E-mail: imjoych@gmail.com
 
 ## License
-JCNetworking is released under the [MIT License](https://github.com/Boych/JCNetworking/blob/master/LICENSE).
+JCNetworking is released under the [MIT License](https://github.com/imjoych/JCNetworking/blob/master/LICENSE).
