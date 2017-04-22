@@ -3,7 +3,7 @@
 //  JCNetworkingDemo
 //
 //  Created by ChenJianjun on 16/3/6.
-//  Copyright © 2016 Boych<https://github.com/Boych>. All rights reserved.
+//  Copyright © 2016 Joych<https://github.com/imjoych>. All rights reserved.
 //
 
 #import "AppDelegate.h"
