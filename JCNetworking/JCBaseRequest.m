@@ -14,18 +14,16 @@
 
 @end
 
-static const char *kDecodeClassKey;
-
 @interface JCBaseRequest () {
+    Class _decodeClass;
+    JCRequestCompletionBlock _completionBlock;
+    JCRequestProgressBlock _progressBlock;
     NSString *_uploadFilePath;
     NSData *_uploadFileData;
     NSString *_uploadName;
     NSString *_uploadFileName;
     NSUInteger _retryTimes;
 }
-
-@property (nonatomic, copy) JCRequestCompletionBlock completionBlock;
-@property (nonatomic, copy) JCRequestProgressBlock progressBlock;
 
 @end
 
@@ -44,6 +42,8 @@ static const char *kDecodeClassKey;
     return self;
 }
 
+#pragma mark - Protocol
+
 - (void)startRequestWithDecodeClass:(Class)decodeClass
                          completion:(JCRequestCompletionBlock)completion
 {
@@ -56,23 +56,23 @@ static const char *kDecodeClassKey;
                            progress:(JCRequestProgressBlock)progress
                          completion:(JCRequestCompletionBlock)completion
 {
-    objc_setAssociatedObject(self, &kDecodeClassKey, decodeClass, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    self.progressBlock = progress;
-    self.completionBlock = completion;
+    _decodeClass = decodeClass;
+    _progressBlock = progress;
+    _completionBlock = completion;
     [[JCNetworkManager sharedManager] startRequest:self];
 }
 
 - (void)stopRequest
 {
-    objc_removeAssociatedObjects(self);
-    self.completionBlock = nil;
-    self.progressBlock = nil;
+    _decodeClass = nil;
+    _completionBlock = nil;
+    _progressBlock = nil;
     [[JCNetworkManager sharedManager] stopRequest:self];
 }
 
 - (Class)decodeClass
 {
-    return objc_getAssociatedObject(self, &kDecodeClassKey);
+    return _decodeClass;
 }
 
 - (JCRequestCompletionBlock)completionBlock
