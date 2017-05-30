@@ -8,7 +8,7 @@
 
 #import "JCNetworkManager.h"
 #import "JCBaseRequest.h"
-#import <AFNetworking/AFNetworking.h>
+#import <AFNetworking/AFHTTPSessionManager.h>
 
 @interface JCNetworkManager ()
 

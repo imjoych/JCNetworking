@@ -7,7 +7,10 @@
 //
 
 #import "JCNetworkReachability.h"
-#import <AFNetworking/AFNetworking.h>
+
+#if !TARGET_OS_WATCH
+
+#import <AFNetworking/AFNetworkReachabilityManager.h>
 
 NSNotificationName const JCNetworkingReachabilityDidChangeNotification = @"com.alamofire.networking.reachability.change";
 NSString *const JCNetworkingReachabilityNotificationStatusKey = @"AFNetworkingReachabilityNotificationStatusItem";
@@ -45,3 +48,5 @@ NSString *const JCNetworkingReachabilityNotificationStatusKey = @"AFNetworkingRe
 }
 
 @end
+
+#endif

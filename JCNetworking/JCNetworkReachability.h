@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#if !TARGET_OS_WATCH
+
 /// Notification of networking reachability did change.
 FOUNDATION_EXPORT NSNotificationName const JCNetworkingReachabilityDidChangeNotification;
 
@@ -48,3 +50,5 @@ FOUNDATION_EXPORT NSString *const JCNetworkingReachabilityNotificationStatusKey;
 + (void)stopMonitoring;
 
 @end
+
+#endif

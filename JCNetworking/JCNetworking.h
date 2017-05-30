@@ -13,6 +13,9 @@
 
 #import "JCBaseRequest.h"
 #import "JCNetworkManager.h"
+
+#if !TARGET_OS_WATCH
 #import "JCNetworkReachability.h"
+#endif
 
 #endif /* JCNetworking_h */
