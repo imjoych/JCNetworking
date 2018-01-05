@@ -198,7 +198,8 @@
 {
     if (parameters.count > 0) {
         NSString *parametersString = AFQueryStringFromParameters(parameters);
-        requestUrl = [NSString stringWithFormat:@"%@?%@", requestUrl, parametersString];
+        NSString *symbol = [requestUrl containsString:@"?"] ? @"&":@"?";
+        requestUrl = [NSString stringWithFormat:@"%@%@%@", requestUrl, symbol, parametersString];
     }
     return requestUrl;
 }
