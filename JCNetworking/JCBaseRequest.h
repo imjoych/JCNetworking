@@ -10,12 +10,17 @@
 #import "JCNetworkDefines.h"
 
 /** 
- * Response data for JCBaseRequest. 
+ * Class of json data which can be translated into.
  */
-@interface JCBaseResp : JSONModel
+@interface JCModel : JSONModel
 
-@property (nonatomic, copy) NSString<Optional> *code;
-@property (nonatomic, copy) NSString<Optional> *desc;
+/**
+ * Json data translate into JCModel object.
+ * @params json Serialization data which can be parsed.
+ * @params error Errors occured when the data is not a normal json.
+ * @return Json data will be parsed when it's NSDictionary / NSData / NSString and returns object of JCModel or it's subclass, other returns nil.
+ */
++ (instancetype)objWithJson:(id)json error:(NSError **)error;
 
 @end
 

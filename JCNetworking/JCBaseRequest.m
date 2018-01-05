@@ -10,7 +10,31 @@
 #import <objc/runtime.h>
 #import "JCNetworkManager.h"
 
-@implementation JCBaseResp
+@implementation JCModel
+
++ (instancetype)objWithJson:(id)json error:(NSError **)error
+{
+    if (!json) {
+        return nil;
+    }
+    JCModel *model = nil;
+    if ([json isKindOfClass:[NSDictionary class]]) {
+        model = [[self alloc] initWithDictionary:json error:error];
+    } else if ([json isKindOfClass:[NSData class]]) {
+        model = [[self alloc] initWithData:json error:error];
+    } else if ([json isKindOfClass:[NSString class]]) {
+        model = [[self alloc] initWithString:json error:(JSONModelError **)error];
+    }
+    if (model && !error) {
+        return model;
+    }
+    return nil;
+}
+
++ (BOOL)propertyIsOptional:(NSString *)propertyName
+{
+    return YES;
+}
 
 @end
 
@@ -139,53 +163,7 @@
 - (void)parseResponseObject:(id)responseObject
                       error:(NSError *)error
 {
-    // request is timeout or server error occured.
-    if (error) {
-        if (self.completionBlock) {
-            self.completionBlock(nil, error);
-        }
-        return;
-    }
-    
-    // decodeClass is not exists, return json data directly.
-    Class decodeClass = [self decodeClass];
-    if (!decodeClass || ![decodeClass isSubclassOfClass:[JSONModel class]]) {
-        if (self.completionBlock) {
-            self.completionBlock(responseObject, nil);
-        }
-        return;
-    }
-    
-    NSError *respError = nil;
-    JCBaseResp *resp = nil;
-    if ([responseObject isKindOfClass:[NSDictionary class]]) {
-        resp = [[decodeClass alloc] initWithDictionary:responseObject error:&respError];
-    } else if ([responseObject isKindOfClass:[NSData class]]) {
-        resp = [[decodeClass alloc] initWithData:responseObject error:&respError];
-    } else if ([responseObject isKindOfClass:[NSString class]]) {
-        resp = [[decodeClass alloc] initWithString:responseObject error:&respError];
-    }
-    // parse format error.
-    if (respError || !resp) {
-        if (self.completionBlock) {
-            self.completionBlock(nil, respError);
-        }
-        return;
-    }
-    
-    // business logic error.
-    if (resp.code.integerValue != 0 && resp.code.integerValue != 200) {
-        respError = [NSError errorWithDomain:@"network" code:resp.code.integerValue userInfo:@{NSLocalizedDescriptionKey: (resp.desc ?:@"")}];
-        if (self.completionBlock) {
-            self.completionBlock(resp, respError);
-        }
-        return;
-    }
-    
-    // normal data.
-    if (self.completionBlock) {
-        self.completionBlock(resp, nil);
-    }
+    // parses response object and call back with self.completionBlock
 }
 
 - (NSUInteger)timeoutRetryTimes
