@@ -18,17 +18,18 @@
         return nil;
     }
     JCModel *model = nil;
+    NSError *parseError = nil;
     if ([json isKindOfClass:[NSDictionary class]]) {
-        model = [[self alloc] initWithDictionary:json error:error];
+        model = [[self alloc] initWithDictionary:json error:&parseError];
     } else if ([json isKindOfClass:[NSData class]]) {
-        model = [[self alloc] initWithData:json error:error];
+        model = [[self alloc] initWithData:json error:&parseError];
     } else if ([json isKindOfClass:[NSString class]]) {
-        model = [[self alloc] initWithString:json error:(JSONModelError **)error];
+        model = [[self alloc] initWithString:json error:&parseError];
     }
-    if (model && !error) {
-        return model;
+    if (error && parseError) {
+        *error = parseError;
     }
-    return nil;
+    return model;
 }
 
 + (BOOL)propertyIsOptional:(NSString *)propertyName
