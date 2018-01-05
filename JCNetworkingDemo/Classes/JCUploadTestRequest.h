@@ -8,9 +8,9 @@
 
 #import "JCBaseRequest.h"
 
-@interface JCUploadTestResp : JCBaseResp
+@interface JCUploadTestResp : JCModel
 
-@property (nonatomic, copy) NSString<Optional> *status;
+@property (nonatomic, copy) NSString *status;
 
 @end
 

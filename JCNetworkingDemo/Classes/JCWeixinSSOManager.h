@@ -20,7 +20,7 @@
 @end
 
 /** 响应数据 */
-@interface JCWeixinBaseResp : JSONModel
+@interface JCWeixinBaseResp : JCModel
 
 @property (nonatomic, copy) NSString *errcode;
 @property (nonatomic, copy) NSString *errmsg;

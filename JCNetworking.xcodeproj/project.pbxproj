@@ -18,6 +18,7 @@
 		2364570A1D1BC7EC004B8E41 /* JCNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 236457061D1BC7EC004B8E41 /* JCNetworkManager.m */; };
 		2364570B1D1BC7EC004B8E41 /* JCNetworkReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 236457081D1BC7EC004B8E41 /* JCNetworkReachability.m */; };
 		238E91EA1D1E1A96004834EF /* JCUploadTestRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 238E91E91D1E1A96004834EF /* JCUploadTestRequest.m */; };
+		B6656B781FFF2CA700D8C1B9 /* JCDemoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B6656B771FFF2CA700D8C1B9 /* JCDemoRequest.m */; };
 		D9597476E39925B7254F5F9C /* libPods-JCNetworkingDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C7522E55174E14118161909 /* libPods-JCNetworkingDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,8 @@
 		27FAB2D0FF5E2137E71ED8E2 /* Pods-JCNetworkingDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JCNetworkingDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JCNetworkingDemo/Pods-JCNetworkingDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		5C7522E55174E14118161909 /* libPods-JCNetworkingDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JCNetworkingDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F0B79DBFDF782096C88533D /* Pods-JCNetworkingDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JCNetworkingDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-JCNetworkingDemo/Pods-JCNetworkingDemo.release.xcconfig"; sourceTree = "<group>"; };
+		B6656B761FFF2CA700D8C1B9 /* JCDemoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JCDemoRequest.h; sourceTree = "<group>"; };
+		B6656B771FFF2CA700D8C1B9 /* JCDemoRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JCDemoRequest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +132,8 @@
 				232DD32C1D05B9E300D820BF /* JCWeixinSSOManager.m */,
 				238E91E81D1E1A96004834EF /* JCUploadTestRequest.h */,
 				238E91E91D1E1A96004834EF /* JCUploadTestRequest.m */,
+				B6656B761FFF2CA700D8C1B9 /* JCDemoRequest.h */,
+				B6656B771FFF2CA700D8C1B9 /* JCDemoRequest.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -278,6 +283,7 @@
 				230C43221C8C0315002D6D52 /* AppDelegate.m in Sources */,
 				238E91EA1D1E1A96004834EF /* JCUploadTestRequest.m in Sources */,
 				236457091D1BC7EC004B8E41 /* JCBaseRequest.m in Sources */,
+				B6656B781FFF2CA700D8C1B9 /* JCDemoRequest.m in Sources */,
 				232DD32D1D05B9E300D820BF /* JCWeixinSSOManager.m in Sources */,
 				2364570B1D1BC7EC004B8E41 /* JCNetworkReachability.m in Sources */,
 				230C431F1C8C0315002D6D52 /* main.m in Sources */,

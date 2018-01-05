@@ -100,11 +100,6 @@ static NSString *const kWeixinSSOSecret = @"your secret";
 
 @implementation JCWeixinBaseResp
 
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-    return YES;
-}
-
 @end
 
 @implementation JCWeixinAccessTokenResp
@@ -135,7 +130,7 @@ static NSString *const kWeixinSSOSecret = @"your secret";
     
     // 解析类不存在，直接返回数据
     Class decodeClass = [self decodeClass];
-    if (!decodeClass || ![decodeClass isSubclassOfClass:[JSONModel class]]) {
+    if (!decodeClass || ![decodeClass isSubclassOfClass:[JCModel class]]) {
         if (self.completionBlock) {
             self.completionBlock(responseObject, nil);
         }
@@ -143,14 +138,7 @@ static NSString *const kWeixinSSOSecret = @"your secret";
     }
     
     NSError *respError = nil;
-    JCWeixinBaseResp *resp = nil;
-    if ([responseObject isKindOfClass:[NSDictionary class]]) {
-        resp = [[decodeClass alloc] initWithDictionary:responseObject error:&respError];
-    } else if ([responseObject isKindOfClass:[NSData class]]) {
-        resp = [[decodeClass alloc] initWithData:responseObject error:&respError];
-    } else if ([responseObject isKindOfClass:[NSString class]]) {
-        resp = [[decodeClass alloc] initWithString:responseObject error:&respError];
-    }
+    JCWeixinBaseResp *resp = [decodeClass objWithJson:responseObject error:&respError];
     // 解析数据格式错误
     if (respError || !resp) {
         if (self.completionBlock) {
