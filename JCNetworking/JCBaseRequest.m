@@ -28,6 +28,7 @@
     }
     if (error && parseError) {
         *error = parseError;
+        return nil;
     }
     return model;
 }
