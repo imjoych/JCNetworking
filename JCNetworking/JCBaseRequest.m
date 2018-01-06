@@ -7,7 +7,6 @@
 //
 
 #import "JCBaseRequest.h"
-#import <objc/runtime.h>
 #import "JCNetworkManager.h"
 
 @implementation JCModel
