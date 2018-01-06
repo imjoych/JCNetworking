@@ -26,13 +26,13 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
   - JSONModel (~> 1.2.0)
-  - ReactiveCocoa (~> 2.0)
+  - ReactiveCocoa (~> 2.5)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
 
-PODFILE CHECKSUM: b611c7c2030f5fdd6812dc131bb5decd26055109
+PODFILE CHECKSUM: 578d73fb3396df766da5a01d7d3aa6213edefb1d
 
 COCOAPODS: 1.2.1
