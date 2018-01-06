@@ -186,7 +186,7 @@
 			attributes = {
 				CLASSPREFIX = JC;
 				LastUpgradeCheck = 0920;
-				ORGANIZATIONNAME = "Boych<https://github.com/Boych>";
+				ORGANIZATIONNAME = "Joych<https://github.com/imjoych>";
 				TargetAttributes = {
 					230C431A1C8C0315002D6D52 = {
 						CreatedOnToolsVersion = 7.2.1;
