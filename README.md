@@ -2,7 +2,7 @@
 A lightweight iOS networking framework based on [AFNetworking](https://github.com/AFNetworking/AFNetworking) and [JSONModel](https://github.com/icanzilb/JSONModel).
 
 ## Features
-This framework supports the development of iOS 7.0+ in ARC.
+This framework supports the development of iOS 8.0+ in ARC.
 
 * Common request for GET/POST.
 * File or data upload.
