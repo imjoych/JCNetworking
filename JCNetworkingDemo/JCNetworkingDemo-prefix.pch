@@ -2,7 +2,7 @@
 #import <UIKit/UIKit.h>
 
 #import <AFNetworking/UIKit+AFNetworking.h>
-#import <ReactiveCocoa/ReactiveCocoa.h>
+#import <ReactiveObjC/ReactiveObjC.h>
 
 #endif
 
