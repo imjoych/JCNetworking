@@ -182,6 +182,28 @@
     return [NSString stringWithFormat:@"%@", @([self hash])];
 }
 
+#pragma mark Security policy for HTTPS
+
+- (JCSSLPinningMode)SSLPinningMode
+{
+    return JCSSLPinningModeNone;
+}
+
+- (NSSet<NSData *> *)pinnedCertificates
+{
+    return nil;
+}
+
+- (BOOL)allowInvalidCertificates
+{
+    return NO;
+}
+
+- (BOOL)validatesDomainName
+{
+    return YES;
+}
+
 @end
 
 #pragma mark - File or data upload methods
@@ -223,32 +245,6 @@
 - (NSString *)uploadFileName
 {
     return _uploadFileName ?:@"unknown";
-}
-
-@end
-
-#pragma mark - Security policy for HTTPS
-
-@implementation JCBaseRequest (JCBaseRequestSecurityPolicy)
-
-- (JCSSLPinningMode)SSLPinningMode
-{
-    return JCSSLPinningModeNone;
-}
-
-- (NSSet<NSData *> *)pinnedCertificates
-{
-    return nil;
-}
-
-- (BOOL)allowInvalidCertificates
-{
-    return NO;
-}
-
-- (BOOL)validatesDomainName
-{
-    return YES;
 }
 
 @end
