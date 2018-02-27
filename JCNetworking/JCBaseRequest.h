@@ -126,3 +126,21 @@
 - (NSString *)uploadFileName;
 
 @end
+
+#pragma mark - Security policy for HTTPS
+
+@interface JCBaseRequest (JCBaseRequestSecurityPolicy)
+
+/// The criteria by which server trust should be evaluated against the pinned SSL certificates. Defaults JCSSLPinningModeNone.
+- (JCSSLPinningMode)SSLPinningMode;
+
+///  The certificates used to evaluate server trust according to the SSL pinning mode.
+- (NSSet<NSData *> *)pinnedCertificates;
+
+///  Whether or not to trust servers with an invalid or expired SSL certificates. Defaults NO.
+- (BOOL)allowInvalidCertificates;
+
+///  Whether or not to validate the domain name in the certificate's CN field. Defaults YES.
+- (BOOL)validatesDomainName;
+
+@end

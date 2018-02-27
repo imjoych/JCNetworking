@@ -111,7 +111,7 @@
 
 - (NSURLSessionTask *)resumeTaskWithRequest:(JCBaseRequest *)request
 {
-    AFHTTPSessionManager *manager = [self sessionManagerForBaseUrl:[request baseUrl]];
+    AFHTTPSessionManager *manager = [self sessionManagerForRequest:request];
     if (!manager) {
         return nil;
     }
@@ -165,8 +165,9 @@
     return task;
 }
 
-- (AFHTTPSessionManager *)sessionManagerForBaseUrl:(NSString *)baseUrl
+- (AFHTTPSessionManager *)sessionManagerForRequest:(JCBaseRequest *)request
 {
+    NSString *baseUrl = [request baseUrl];
     if (!baseUrl || baseUrl.length < 1) {
         return nil;
     }
@@ -180,6 +181,15 @@
     if (!manager) {
         manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:baseUrl]];
         manager.responseSerializer = [AFHTTPResponseSerializer serializer]; //重新初始化，不限制Content-Type
+        NSSet<NSData *> *pinnedCertificates = [request pinnedCertificates];
+        AFSSLPinningMode pinningMode = (AFSSLPinningMode)[request SSLPinningMode];
+        if (pinnedCertificates && pinningMode != AFSSLPinningModeNone) {
+            AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:pinningMode];
+            securityPolicy.pinnedCertificates = pinnedCertificates;
+            securityPolicy.allowInvalidCertificates = [request allowInvalidCertificates];
+            securityPolicy.validatesDomainName = [request validatesDomainName];
+            manager.securityPolicy = securityPolicy;
+        }
         [self.sessionManagers addObject:manager];
     }
     return manager;

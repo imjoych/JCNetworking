@@ -17,6 +17,15 @@ typedef NS_ENUM(NSInteger, JCRequestMethod) {
     JCRequestMethodPOST
 };
 
+/**
+ * The criteria by which server trust should be evaluated against the pinned SSL certificates.
+ */
+typedef NS_ENUM(NSUInteger, JCSSLPinningMode) {
+    JCSSLPinningModeNone,
+    JCSSLPinningModePublicKey,
+    JCSSLPinningModeCertificate,
+};
+
 /// Block of request completion.
 typedef void(^JCRequestCompletionBlock)(id responseObject, NSError *error);
 

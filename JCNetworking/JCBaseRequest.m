@@ -226,3 +226,29 @@
 }
 
 @end
+
+#pragma mark - Security policy for HTTPS
+
+@implementation JCBaseRequest (JCBaseRequestSecurityPolicy)
+
+- (JCSSLPinningMode)SSLPinningMode
+{
+    return JCSSLPinningModeNone;
+}
+
+- (NSSet<NSData *> *)pinnedCertificates
+{
+    return nil;
+}
+
+- (BOOL)allowInvalidCertificates
+{
+    return NO;
+}
+
+- (BOOL)validatesDomainName
+{
+    return YES;
+}
+
+@end
