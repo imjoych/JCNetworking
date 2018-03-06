@@ -140,7 +140,7 @@
             break;
         case JCRequestMethodPOST:
         {
-            if ([self hasUploadFileForRequest:request]) {
+            if ([request uploadFileNeeded]) {
                 task = [self uploadWithManager:manager request:request];
             } else {
                 task = [manager POST:[request requestUrl]
@@ -226,36 +226,31 @@
 
 #pragma mark - upload request
 
-/** Check there has file to upload or not. */
-- (BOOL)hasUploadFileForRequest:(JCBaseRequest *)request
-{
-    if ([request uploadName].length < 1) {
-        return NO;
-    }
-    if ([request uploadFileData].length > 0) {
-        return YES;
-    }
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[request uploadFilePath]]) {
-        return YES;
-    }
-    return NO;
-}
-
 - (NSURLSessionDataTask *)uploadWithManager:(AFHTTPSessionManager *)manager
                                     request:(JCBaseRequest *)request
 {
     return [manager POST:[self requestUrl:[request requestUrl] parameters:[request filteredDictionary]] parameters:[request filteredDictionary] constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         if (formData) {
-            if ([request uploadFileData]) {
-                [formData appendPartWithFileData:[request uploadFileData]
-                                            name:[request uploadName]
-                                        fileName:[request uploadFileName]
-                                        mimeType:@"application/octet-stream"];
-            } else {
-                [formData appendPartWithFileURL:[NSURL fileURLWithPath:[request uploadFilePath]]
-                                           name:[request uploadName]
+            [request appendUploadFilePathBlock:^(NSString *filePath, NSString *operationName) {
+                if (![filePath isKindOfClass:[NSString class]]
+                    || ![operationName isKindOfClass:[NSString class]]) {
+                    return;
+                }
+                [formData appendPartWithFileURL:[NSURL fileURLWithPath:filePath]
+                                           name:operationName
                                           error:nil];
-            }
+            }];
+            [request appendUploadFileDataBlock:^(NSData *fileData, NSString *operationName, NSString *fileName) {
+                if (![fileData isKindOfClass:[NSData class]]
+                    || ![operationName isKindOfClass:[NSString class]]
+                    || ![fileName isKindOfClass:[NSString class]]) {
+                    return;
+                }
+                [formData appendPartWithFileData:fileData
+                                            name:operationName
+                                        fileName:fileName
+                                        mimeType:@"application/octet-stream"];
+            }];
         }
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         dispatch_async(dispatch_get_main_queue(), ^{

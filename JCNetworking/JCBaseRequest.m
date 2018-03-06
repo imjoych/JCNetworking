@@ -43,11 +43,9 @@
     Class _decodeClass;
     JCRequestCompletionBlock _completionBlock;
     JCRequestProgressBlock _progressBlock;
-    NSString *_uploadFilePath;
-    NSData *_uploadFileData;
-    NSString *_uploadName;
-    NSString *_uploadFileName;
     NSUInteger _retryTimes;
+    NSMutableArray<NSArray *> *_uploadFilePathList;
+    NSMutableArray<NSArray *> *_uploadFileDataList;
 }
 
 @end
@@ -204,47 +202,64 @@
     return YES;
 }
 
-@end
-
 #pragma mark - File or data upload methods
+
+- (BOOL)uploadFileNeeded
+{
+    return NO;
+}
+
+@end
 
 @implementation JCBaseRequest (JCBaseRequestUploadMethods)
 
 - (void)setUploadFilePath:(NSString *)uploadFilePath
                uploadName:(NSString *)uploadName
 {
-    _uploadFilePath = uploadFilePath;
-    _uploadName = uploadName;
-    _uploadFileName = [_uploadFilePath lastPathComponent];
+    if (!uploadFilePath || !uploadName) {
+        return;
+    }
+    if (!_uploadFilePathList) {
+        _uploadFilePathList = [NSMutableArray array];
+    }
+    [_uploadFilePathList addObject:@[uploadFilePath, uploadName]];
 }
 
 - (void)setUploadFileData:(NSData *)uploadFileData
                uploadName:(NSString *)uploadName
            uploadFileName:(NSString *)uploadFileName
 {
-    _uploadFileData = uploadFileData;
-    _uploadName = uploadName;
-    _uploadFileName = uploadFileName;
+    if (!uploadFileData || !uploadName) {
+        return;
+    }
+    if (!_uploadFileDataList) {
+        _uploadFileDataList = [NSMutableArray array];
+    }
+    [_uploadFileDataList addObject:@[uploadFileData, uploadName, uploadFileName ?:@"unknown"]];
 }
 
-- (NSString *)uploadFilePath
+- (void)appendUploadFilePathBlock:(void (^)(NSString *, NSString *))uploadBlock
 {
-    return _uploadFilePath;
+    if (![self uploadFileNeeded]) {
+        return;
+    }
+    [_uploadFilePathList enumerateObjectsUsingBlock:^(NSArray * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (uploadBlock) {
+            uploadBlock(obj.firstObject, obj.lastObject);
+        }
+    }];
 }
 
-- (NSData *)uploadFileData
+- (void)appendUploadFileDataBlock:(void (^)(NSData *, NSString *, NSString *))uploadBlock
 {
-    return _uploadFileData;
-}
-
-- (NSString *)uploadName
-{
-    return _uploadName;
-}
-
-- (NSString *)uploadFileName
-{
-    return _uploadFileName ?:@"unknown";
+    if (![self uploadFileNeeded]) {
+        return;
+    }
+    [_uploadFileDataList enumerateObjectsUsingBlock:^(NSArray * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (uploadBlock) {
+            uploadBlock(obj.firstObject, obj[1], obj.lastObject);
+        }
+    }];
 }
 
 @end

@@ -109,9 +109,12 @@
 /// Whether or not to validate the domain name in the certificate's CN field. Defaults YES.
 - (BOOL)validatesDomainName;
 
-@end
-
 #pragma mark - File or data upload methods
+
+/// Upload file needed or not. Default NO.
+- (BOOL)uploadFileNeeded;
+
+@end
 
 /** 
  * File or data upload，POST request method. 
@@ -119,24 +122,20 @@
 @interface JCBaseRequest (JCBaseRequestUploadMethods)
 
 /// Set upload file path, upload operation name.
+/// You can call this method repeatedly for each file path upload.
 - (void)setUploadFilePath:(NSString *)uploadFilePath
                uploadName:(NSString *)uploadName;
 
 /// Set upload file data, upload operation name, upload file name(nil is allowable).
+/// You can call this method repeatedly for each file data upload.
 - (void)setUploadFileData:(NSData *)uploadFileData
                uploadName:(NSString *)uploadName
            uploadFileName:(NSString *)uploadFileName;
 
-/// Returns upload file path.
-- (NSString *)uploadFilePath;
+/// block for appending upload file path list.
+- (void)appendUploadFilePathBlock:(void(^)(NSString *filePath, NSString *operationName))uploadBlock;
 
-/// Returns upload file data.
-- (NSData *)uploadFileData;
-
-/// Returns upload operation name.
-- (NSString *)uploadName;
-
-/// Returns upload file name.
-- (NSString *)uploadFileName;
+/// block for appending upload file data list.
+- (void)appendUploadFileDataBlock:(void(^)(NSData *fileData, NSString *operationName, NSString *fileName))uploadBlock;
 
 @end
