@@ -216,6 +216,7 @@
 - (void)setUploadFilePath:(NSString *)uploadFilePath
                uploadName:(NSString *)uploadName
 {
+    NSAssert([self uploadFileNeeded], @"uploadFileNeeded method should be implemented and returned YES !");
     if (!uploadFilePath || !uploadName) {
         return;
     }
@@ -229,6 +230,7 @@
                uploadName:(NSString *)uploadName
            uploadFileName:(NSString *)uploadFileName
 {
+    NSAssert([self uploadFileNeeded], @"uploadFileNeeded method should be implemented and returned YES !");
     if (!uploadFileData || !uploadName) {
         return;
     }
@@ -240,9 +242,6 @@
 
 - (void)appendUploadFilePathBlock:(void (^)(NSString *, NSString *))uploadBlock
 {
-    if (![self uploadFileNeeded]) {
-        return;
-    }
     [_uploadFilePathList enumerateObjectsUsingBlock:^(NSArray * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (uploadBlock) {
             uploadBlock(obj.firstObject, obj.lastObject);
@@ -252,9 +251,6 @@
 
 - (void)appendUploadFileDataBlock:(void (^)(NSData *, NSString *, NSString *))uploadBlock
 {
-    if (![self uploadFileNeeded]) {
-        return;
-    }
     [_uploadFileDataList enumerateObjectsUsingBlock:^(NSArray * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (uploadBlock) {
             uploadBlock(obj.firstObject, obj[1], obj.lastObject);
