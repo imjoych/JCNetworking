@@ -5,6 +5,7 @@ A lightweight iOS networking framework based on [AFNetworking](https://github.co
 This framework supports the development of iOS 8.0+ in ARC.
 
 * Common request for GET/POST.
+* HTTPS request supported.
 * File or data upload.
 
 ### Common Request
@@ -75,6 +76,11 @@ This framework supports the development of iOS 8.0+ in ARC.
 - (NSString *)requestUrl
 {
     return @"requesturl/testapi";
+}
+
+- (BOOL)uploadFileNeeded
+{
+    return YES;
 }
 
 @end
