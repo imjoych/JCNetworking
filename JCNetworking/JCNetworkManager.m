@@ -229,7 +229,7 @@
 - (NSURLSessionDataTask *)uploadWithManager:(AFHTTPSessionManager *)manager
                                     request:(JCBaseRequest *)request
 {
-    return [manager POST:[self requestUrl:[request requestUrl] parameters:[request filteredDictionary]] parameters:[request filteredDictionary] constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    return [manager POST:[request requestUrl] parameters:[request filteredDictionary] constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         if (formData) {
             [request appendUploadFilePathBlock:^(NSString *filePath, NSString *operationName) {
                 if (![filePath isKindOfClass:[NSString class]]
