@@ -87,7 +87,6 @@
         [request stopRequest];
     }
     [requestsDict removeAllObjects];
-    [self.sessionManagers removeAllObjects];
 }
 
 - (void)startRequest:(JCBaseRequest *)request
