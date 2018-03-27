@@ -40,6 +40,9 @@ FOUNDATION_EXPORT NSString *const JCNetworkingReachabilityNotificationStatusKey;
 /// Is network connect to WWAN(Wireless Wide Area Network).
 + (BOOL)isReachableViaWWAN;
 
+/// Is cellular data not restricted.
++ (BOOL)isCellularDataNotRestricted;
+
 /// Is network connect to Wi-Fi.
 + (BOOL)isReachableViaWiFi;
 
