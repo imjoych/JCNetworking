@@ -90,6 +90,8 @@
     _decodeClass = nil;
     _completionBlock = nil;
     _progressBlock = nil;
+    _uploadFilePathList = nil;
+    _uploadFileDataList = nil;
     [[JCNetworkManager sharedManager] stopRequest:self];
 }
 
