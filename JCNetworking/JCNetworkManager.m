@@ -10,7 +10,9 @@
 #import "JCBaseRequest.h"
 #import <AFNetworking/AFHTTPSessionManager.h>
 
-@interface JCNetworkManager ()
+@interface JCNetworkManager () {
+    dispatch_queue_t _dataQueue;
+}
 
 @property (nonatomic, strong) NSMutableDictionary *requestsDict;
 @property (nonatomic, strong) NSMutableDictionary *tasksDict;
@@ -26,6 +28,7 @@
         _requestsDict = [NSMutableDictionary dictionary];
         _tasksDict = [NSMutableDictionary dictionary];
         _sessionManagers = [NSMutableArray array];
+        _dataQueue = dispatch_queue_create("com.imjoych.jcnetworking.dataqueue", DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }
@@ -45,21 +48,12 @@
     if (!request) {
         return;
     }
-    
-    NSString *key = [self requestKey:request];
-    // Remove duplicated request if needed.
-    if ([self.requestsDict.allKeys containsObject:key]) {
-        JCBaseRequest *duplicatedRequest = self.requestsDict[key];
-        [self stopRequest:duplicatedRequest];
-    }
-    
+    NSString *key = [self keyForRequest:request];
+    // Remove duplicated request if already exists.
+    [self stopRequest:[self requestForKey:key]];
+    // Resume url session task for request
     NSURLSessionTask *task = [self resumeTaskWithRequest:request];
-    if (task) {
-        @synchronized(self.requestsDict) {
-            self.tasksDict[key] = task;
-            self.requestsDict[key] = request;
-        }
-    }
+    [self setRequest:request task:task forKey:key];
 }
 
 - (void)stopRequest:(JCBaseRequest *)request
@@ -67,21 +61,17 @@
     if (!request) {
         return;
     }
-    
-    NSString *key = [self requestKey:request];
-    NSURLSessionTask *requestTask = self.tasksDict[key];
+    NSString *key = [self keyForRequest:request];
+    NSURLSessionTask *requestTask = [self taskForKey:key];
     if ([requestTask respondsToSelector:@selector(cancel)]) {
         [requestTask cancel];
     }
-    @synchronized(self.requestsDict) {
-        [self.tasksDict removeObjectForKey:key];
-        [self.requestsDict removeObjectForKey:key];
-    }
+    [self removeDataForKey:key];
 }
 
 - (void)stopAllRequests
 {
-    NSMutableDictionary *requestsDict = [NSMutableDictionary dictionaryWithDictionary:self.requestsDict];
+    NSMutableDictionary *requestsDict = [self.requestsDict mutableCopy];
     for (NSString *key in requestsDict.allKeys) {
         JCBaseRequest *request = requestsDict[key];
         [request stopRequest];
@@ -106,7 +96,64 @@
                               completion:completion];
 }
 
-#pragma mark -
+#pragma mark - Data operation
+
+- (void)setRequest:(JCBaseRequest *)request task:(NSURLSessionTask *)task forKey:(NSString *)key
+{
+    if (key.length < 1 || !request || !task) {
+        return;
+    }
+    dispatch_barrier_async(_dataQueue, ^{
+        self.tasksDict[key] = task;
+        self.requestsDict[key] = request;
+    });
+}
+
+- (void)removeDataForKey:(NSString *)key
+{
+    if (key.length < 1) {
+        return;
+    }
+    dispatch_barrier_async(_dataQueue, ^{
+        [self.tasksDict removeObjectForKey:key];
+        [self.requestsDict removeObjectForKey:key];
+    });
+}
+
+- (JCBaseRequest *)requestForKey:(NSString *)key
+{
+    if (key.length < 1) {
+        return nil;
+    }
+    __block JCBaseRequest *request = nil;
+    dispatch_sync(_dataQueue, ^{
+        request = self.requestsDict[key];
+    });
+    return request;
+}
+
+- (NSURLSessionTask *)taskForKey:(NSString *)key
+{
+    if (key.length < 1) {
+        return nil;
+    }
+    __block NSURLSessionTask *task = nil;
+    dispatch_sync(_dataQueue, ^{
+        task = self.tasksDict[key];
+    });
+    return task;
+}
+
+- (NSString *)keyForRequest:(JCBaseRequest *)request
+{
+    NSString *identifier = [request requestIdentifier];
+    if (identifier.length > 0) {
+        return identifier;
+    }
+    return [NSString stringWithFormat:@"%@", @([request hash])];
+}
+
+#pragma mark - Request operation
 
 - (NSURLSessionTask *)resumeTaskWithRequest:(JCBaseRequest *)request
 {
@@ -194,15 +241,6 @@
     return manager;
 }
 
-- (NSString *)requestKey:(JCBaseRequest *)request
-{
-    NSString *identifier = [request requestIdentifier];
-    if (identifier.length > 0) {
-        return identifier;
-    }
-    return [NSString stringWithFormat:@"%@", @([request hash])];
-}
-
 - (NSString *)requestUrl:(NSString *)requestUrl parameters:(NSDictionary *)parameters
 {
     if (parameters.count > 0) {
@@ -223,7 +261,7 @@
     }
 }
 
-#pragma mark - upload request
+#pragma mark - Upload request
 
 - (NSURLSessionDataTask *)uploadWithManager:(AFHTTPSessionManager *)manager
                                     request:(JCBaseRequest *)request
