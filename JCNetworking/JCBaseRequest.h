@@ -109,12 +109,9 @@
 /// Whether or not to validate the domain name in the certificate's CN field. Defaults YES.
 - (BOOL)validatesDomainName;
 
-#pragma mark - File or data upload methods
-
-/// Upload file needed or not. Default NO.
-- (BOOL)uploadFileNeeded;
-
 @end
+
+#pragma mark - File or data upload methods
 
 /** 
  * File or data upload，POST request method. 
@@ -137,5 +134,8 @@
 
 /// block for appending upload file data list.
 - (void)appendUploadFileDataBlock:(void(^)(NSData *fileData, NSString *operationName, NSString *fileName))uploadBlock;
+
+/// Upload file needed or not. Default NO.
+- (BOOL)uploadFileNeeded;
 
 @end

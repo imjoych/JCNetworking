@@ -204,21 +204,15 @@
     return YES;
 }
 
-#pragma mark - File or data upload methods
-
-- (BOOL)uploadFileNeeded
-{
-    return NO;
-}
-
 @end
+
+#pragma mark - File or data upload methods
 
 @implementation JCBaseRequest (JCBaseRequestUploadMethods)
 
 - (void)setUploadFilePath:(NSString *)uploadFilePath
                uploadName:(NSString *)uploadName
 {
-    NSAssert([self uploadFileNeeded], @"uploadFileNeeded method should be implemented and returned YES !");
     if (!uploadFilePath || !uploadName) {
         return;
     }
@@ -232,7 +226,6 @@
                uploadName:(NSString *)uploadName
            uploadFileName:(NSString *)uploadFileName
 {
-    NSAssert([self uploadFileNeeded], @"uploadFileNeeded method should be implemented and returned YES !");
     if (!uploadFileData || !uploadName) {
         return;
     }
@@ -258,6 +251,11 @@
             uploadBlock(obj.firstObject, obj[1], obj.lastObject);
         }
     }];
+}
+
+- (BOOL)uploadFileNeeded
+{
+    return (_uploadFilePathList.count > 0 || _uploadFileDataList.count > 0);
 }
 
 @end

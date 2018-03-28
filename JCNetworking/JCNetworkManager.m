@@ -261,7 +261,7 @@
     }
 }
 
-#pragma mark - Upload request
+#pragma mark Upload request
 
 - (NSURLSessionDataTask *)uploadWithManager:(AFHTTPSessionManager *)manager
                                     request:(JCBaseRequest *)request
