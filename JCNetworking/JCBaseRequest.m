@@ -206,7 +206,7 @@
 
 @end
 
-#pragma mark - File or data upload methods
+#pragma mark - File upload methods
 
 @implementation JCBaseRequest (JCBaseRequestUploadMethods)
 

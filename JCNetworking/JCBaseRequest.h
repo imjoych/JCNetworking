@@ -111,10 +111,10 @@
 
 @end
 
-#pragma mark - File or data upload methods
+#pragma mark - Files upload methods
 
 /** 
- * File or data upload，POST request method. 
+ * Files upload methods of JCBaseRequest, request with POST method.
  */
 @interface JCBaseRequest (JCBaseRequestUploadMethods)
 
@@ -129,10 +129,10 @@
                uploadName:(NSString *)uploadName
            uploadFileName:(NSString *)uploadFileName;
 
-/// block for appending upload file path list.
+/// Block for appending upload file path list.
 - (void)appendUploadFilePathBlock:(void(^)(NSString *filePath, NSString *operationName))uploadBlock;
 
-/// block for appending upload file data list.
+/// Block for appending upload file data list.
 - (void)appendUploadFileDataBlock:(void(^)(NSData *fileData, NSString *operationName, NSString *fileName))uploadBlock;
 
 /// Upload file needed or not. Default NO.
