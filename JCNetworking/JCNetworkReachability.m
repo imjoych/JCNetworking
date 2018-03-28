@@ -15,6 +15,7 @@
 
 NSNotificationName const JCNetworkingReachabilityDidChangeNotification = @"com.alamofire.networking.reachability.change";
 NSString *const JCNetworkingReachabilityNotificationStatusKey = @"AFNetworkingReachabilityNotificationStatusItem";
+static BOOL _isCellularDataNotRestricted = NO;
 
 @implementation JCNetworkReachability
 
@@ -59,32 +60,26 @@ NSString *const JCNetworkingReachabilityNotificationStatusKey = @"AFNetworkingRe
 + (void)initCellularData
 {
     if (@available(iOS 9.0, *)) {
-        [self cellularData];
+        static CTCellularData *_cellularData;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            _cellularData = [[CTCellularData alloc] init];
+            _cellularData.cellularDataRestrictionDidUpdateNotifier = ^(CTCellularDataRestrictedState state) {
+                switch (state) {
+                    case kCTCellularDataNotRestricted:
+                        _isCellularDataNotRestricted = YES;
+                        break;
+                    case kCTCellularDataRestrictedStateUnknown:
+                    case kCTCellularDataRestricted:
+                    default:
+                        _isCellularDataNotRestricted = NO;
+                        break;
+                }
+            };
+        });
     } else {
         _isCellularDataNotRestricted = YES;
     }
-}
-
-static BOOL _isCellularDataNotRestricted = NO;
-static CTCellularData *_cellularData;
-+ (CTCellularData *)cellularData
-{
-    if (!_cellularData) {
-        _cellularData = [[CTCellularData alloc] init];
-        _cellularData.cellularDataRestrictionDidUpdateNotifier = ^(CTCellularDataRestrictedState state) {
-            switch (state) {
-                case kCTCellularDataNotRestricted:
-                    _isCellularDataNotRestricted = YES;
-                    break;
-                case kCTCellularDataRestrictedStateUnknown:
-                case kCTCellularDataRestricted:
-                default:
-                    _isCellularDataNotRestricted = NO;
-                    break;
-            }
-        };
-    }
-    return _cellularData;
 }
 
 @end
