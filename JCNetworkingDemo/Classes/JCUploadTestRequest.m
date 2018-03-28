@@ -39,9 +39,4 @@
     return 3;
 }
 
-- (BOOL)uploadFileNeeded
-{
-    return YES;
-}
-
 @end
