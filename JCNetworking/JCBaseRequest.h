@@ -135,7 +135,7 @@
 /// Block for appending upload file data list.
 - (void)appendUploadFileDataBlock:(void(^)(NSData *fileData, NSString *operationName, NSString *fileName))uploadBlock;
 
-/// Upload file needed or not. Default NO.
+/// Upload file needed or not.
 - (BOOL)uploadFileNeeded;
 
 @end
