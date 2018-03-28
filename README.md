@@ -78,11 +78,6 @@ This framework supports the development of iOS 8.0+ in ARC.
     return @"requesturl/testapi";
 }
 
-- (BOOL)uploadFileNeeded
-{
-    return YES;
-}
-
 @end
 ```
 
