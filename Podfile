@@ -4,7 +4,7 @@ platform :ios, '8.0'
 # use_frameworks!
 
 target 'JCNetworkingDemo' do
-pod 'JSONModel', '~> 1.2.0'
+pod 'JSONModel', '~> 1.7.0'
 pod 'AFNetworking', '~> 3.2.0'
 pod 'ReactiveObjC'
 end
