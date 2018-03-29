@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'JCNetworking'
-  s.version      = '1.1.7'
+  s.version      = '1.1.8'
   s.summary      = 'A lightweight iOS networking framework based on AFNetworking and JSONModel.'
   s.homepage     = 'https://github.com/imjoych/JCNetworking'
   s.author       = { 'ChenJianjun' => 'imjoych@gmail.com' }
@@ -13,6 +13,6 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = '2.0'
 
   s.dependency 'AFNetworking', '~> 3.2.0'
-  s.dependency 'JSONModel', '~> 1.2.0'
+  s.dependency 'JSONModel', '~> 1.7.0'
 
 end
