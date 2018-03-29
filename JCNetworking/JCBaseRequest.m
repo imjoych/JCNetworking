@@ -52,11 +52,6 @@
 
 @implementation JCBaseRequest
 
-- (void)dealloc
-{
-    [self stopRequest];
-}
-
 - (instancetype)init
 {
     if (self = [super init]) {
