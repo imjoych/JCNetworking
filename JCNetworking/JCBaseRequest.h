@@ -50,8 +50,8 @@
 /// Returns progress block.
 - (JCRequestProgressBlock)progressBlock;
 
-/// Retry request if timeoutRetryTimes greater than 0.
-- (void)retryRequestIfNeeded:(NSError *)error;
+/// Retry request if needed when error occurs.
+- (BOOL)retryRequestIfNeeded:(NSError *)error;
 
 /// The values for properties are filtered which types are kind of NSNull class.
 - (NSDictionary *)filteredDictionary;

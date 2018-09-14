@@ -105,16 +105,14 @@
     return _progressBlock;
 }
 
-- (void)retryRequestIfNeeded:(NSError *)error
+- (BOOL)retryRequestIfNeeded:(NSError *)error
 {
     if (_retryTimes < 1
         || error.code != NSURLErrorTimedOut) {
-        [self stopRequest];
-        return;
+        return NO;
     }
-    
     _retryTimes--;
-    [[JCNetworkManager sharedManager] startRequest:self];
+    return YES;
 }
 
 - (NSDictionary *)filteredDictionary

@@ -170,17 +170,11 @@
             task = [manager GET:[self requestUrl:[request requestUrl] parameters:[request filteredDictionary]]
                      parameters:nil
                        progress:^(NSProgress * _Nonnull downloadProgress) {
-                           dispatch_async(dispatch_get_main_queue(), ^{
-                               if (request.progressBlock) {
-                                   request.progressBlock(downloadProgress);
-                               }
-                           });
+                           [self progressWithRequest:request progress:downloadProgress];
                        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                           [request parseResponseObject:responseObject error:nil];
-                           [request stopRequest];
+                           [self successWithRequest:request responseObject:responseObject];
                        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                           [request parseResponseObject:nil error:error];
-                           [request retryRequestIfNeeded:error];
+                           [self failureWithRequest:request error:error];
                        }];
         }
             break;
@@ -192,17 +186,11 @@
                 task = [manager POST:[request requestUrl]
                           parameters:[request filteredDictionary]
                             progress:^(NSProgress * _Nonnull uploadProgress) {
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    if (request.progressBlock) {
-                                        request.progressBlock(uploadProgress);
-                                    }
-                                });
+                                [self progressWithRequest:request progress:uploadProgress];
                             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                [request parseResponseObject:responseObject error:nil];
-                                [request stopRequest];
+                                [self successWithRequest:request responseObject:responseObject];
                             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                [request parseResponseObject:nil error:error];
-                                [request retryRequestIfNeeded:error];
+                                [self failureWithRequest:request error:error];
                             }];
             }
         }
@@ -261,6 +249,33 @@
     }
 }
 
+#pragma mark - Response operation
+
+- (void)progressWithRequest:(JCBaseRequest *)request progress:(NSProgress *)progress
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (request.progressBlock) {
+            request.progressBlock(progress);
+        }
+    });
+}
+
+- (void)successWithRequest:(JCBaseRequest *)request responseObject:(id)responseObject
+{
+    [request parseResponseObject:responseObject error:nil];
+    [request stopRequest];
+}
+
+- (void)failureWithRequest:(JCBaseRequest *)request error:(NSError *)error
+{
+    if (![request retryRequestIfNeeded:error]) {
+        [request parseResponseObject:nil error:error];
+        [request stopRequest];
+    } else {
+        [self startRequest:request];
+    }
+}
+
 #pragma mark Upload request
 
 - (NSURLSessionDataTask *)uploadWithManager:(AFHTTPSessionManager *)manager
@@ -290,17 +305,11 @@
             }];
         }
     } progress:^(NSProgress * _Nonnull uploadProgress) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (request.progressBlock) {
-                request.progressBlock(uploadProgress);
-            }
-        });
+        [self progressWithRequest:request progress:uploadProgress];
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [request parseResponseObject:responseObject error:nil];
-        [request stopRequest];
+        [self successWithRequest:request responseObject:responseObject];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [request parseResponseObject:nil error:error];
-        [request retryRequestIfNeeded:error];
+        [self failureWithRequest:request error:error];
     }];
 }
 
