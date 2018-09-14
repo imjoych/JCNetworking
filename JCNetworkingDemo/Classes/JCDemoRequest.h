@@ -2,7 +2,7 @@
 //  JCDemoRequest.h
 //  JCNetworkingDemo
 //
-//  Created by jianjun16 on 2018/1/5.
+//  Created by ChenJianjun on 2018/1/5.
 //  Copyright © 2018 Joych<https://github.com/imjoych>. All rights reserved.
 //
 
