@@ -39,4 +39,9 @@
     return 3;
 }
 
+- (Class)decodeClass
+{
+    return [JCUploadTestResp class];
+}
+
 @end

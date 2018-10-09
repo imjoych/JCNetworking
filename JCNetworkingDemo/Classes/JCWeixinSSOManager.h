@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "JCBaseRequest.h"
+#import "JCModel.h"
 
 @class JCWeixinUserInfoResp;
 @interface JCWeixinSSOManager : NSObject
@@ -53,39 +54,26 @@
 
 @interface JCWeixinBaseRequest : JCBaseRequest
 
+- (Class)decodeClass;
+
 @end
 
 /** 通过code获取access_token */
 @interface JCWeixinAccessTokenRequest : JCWeixinBaseRequest
-
-@property (nonatomic, strong) NSString *appid;
-@property (nonatomic, strong) NSString *secret;
-@property (nonatomic, strong) NSString *code;
-@property (nonatomic, strong) NSString *grant_type;
 
 @end
 
 /** 使用refresh_token刷新access_token */
 @interface JCWeixinRefreshTokenRequest : JCWeixinBaseRequest
 
-@property (nonatomic, strong) NSString *appid;
-@property (nonatomic, strong) NSString *grant_type;
-@property (nonatomic, strong) NSString *refresh_token;
-
 @end
 
 /** 检验授权凭证（access_token）是否有效 */
 @interface JCWeixinCheckTokenRequest : JCWeixinBaseRequest
 
-@property (nonatomic, strong) NSString *access_token;
-@property (nonatomic, strong) NSString *openid;
-
 @end
 
 /** 获取用户个人信息 */
 @interface JCWeixinUserInfoRequest : JCWeixinBaseRequest
-
-@property (nonatomic, strong) NSString *access_token;
-@property (nonatomic, strong) NSString *openid;
 
 @end

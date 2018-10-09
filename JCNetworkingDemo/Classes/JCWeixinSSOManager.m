@@ -27,11 +27,9 @@ static NSString *const kWeixinSSOSecret = @"your secret";
                    completion:(void (^)(NSString *, NSError *))completion
 {
     self.accessTokenRequest = [[JCWeixinAccessTokenRequest alloc] init];
-    self.accessTokenRequest.appid = kWeixinSSOAppid;
-    self.accessTokenRequest.secret = kWeixinSSOSecret;
-    self.accessTokenRequest.code = code;
+    [self.checkTokenRequest setParamsDictionary:@{@"appid": kWeixinSSOAppid, @"secret": kWeixinSSOSecret, @"grant_type": @"authorization_code", @"code": (code ?:@"")}];
     @weakify(self);
-    [self.accessTokenRequest startRequestWithDecodeClass:[JCWeixinAccessTokenResp class] completion:^(id responseObject, NSError *error) {
+    [self.accessTokenRequest startRequestWithCompletion:^(id responseObject, NSError *error) {
         @strongify(self);
         if (responseObject && !error) {
             self.accessTokenResp = responseObject;
@@ -52,10 +50,9 @@ static NSString *const kWeixinSSOSecret = @"your secret";
 - (void)checkAccessTokenRequest:(void (^)(JCWeixinUserInfoResp *, NSError *))completion
 {
     self.checkTokenRequest = [[JCWeixinCheckTokenRequest alloc] init];
-    self.checkTokenRequest.access_token = self.accessTokenResp.access_token;
-    self.checkTokenRequest.openid = self.accessTokenResp.openid;
+    [self.checkTokenRequest setParamsDictionary:@{@"access_token": (self.accessTokenResp.access_token ?:@""), @"openid": (self.accessTokenResp.openid ?:@"")}];
     @weakify(self);
-    [self.checkTokenRequest startRequestWithDecodeClass:[JCWeixinBaseResp class] completion:^(id responseObject, NSError *error) {
+    [self.checkTokenRequest startRequestWithCompletion:^(id responseObject, NSError *error) {
         @strongify(self);
         if (responseObject && !error) {
             [self userInfoRequest:completion];
@@ -68,9 +65,8 @@ static NSString *const kWeixinSSOSecret = @"your secret";
 - (void)userInfoRequest:(void (^)(JCWeixinUserInfoResp *, NSError *))completion
 {
     self.userInfoRequest = [[JCWeixinUserInfoRequest alloc] init];
-    self.userInfoRequest.access_token = self.accessTokenResp.access_token;
-    self.userInfoRequest.openid = self.accessTokenResp.openid;
-    [self.userInfoRequest startRequestWithDecodeClass:[JCWeixinUserInfoResp class] completion:^(id responseObject, NSError *error) {
+    [self.userInfoRequest setParamsDictionary:@{@"access_token": (self.accessTokenResp.access_token ?:@""), @"openid": (self.accessTokenResp.openid ?:@"")}];
+    [self.userInfoRequest startRequestWithCompletion:^(id responseObject, NSError *error) {
         if (completion) {
             completion(responseObject, error);
         }
@@ -80,10 +76,9 @@ static NSString *const kWeixinSSOSecret = @"your secret";
 - (void)refreshTokenRequest:(void (^)(JCWeixinUserInfoResp *, NSError *))completion
 {
     self.refreshTokenRequest = [[JCWeixinRefreshTokenRequest alloc] init];
-    self.refreshTokenRequest.appid = kWeixinSSOAppid;
-    self.refreshTokenRequest.refresh_token = self.accessTokenResp.refresh_token;
+    [self.refreshTokenRequest setParamsDictionary:@{@"appid": kWeixinSSOAppid, @"grant_type":  @"refresh_token", @"refresh_token": (self.accessTokenResp.refresh_token ?:@"")}];
     @weakify(self);
-    [self.refreshTokenRequest startRequestWithDecodeClass:[JCWeixinAccessTokenResp class] completion:^(id responseObject, NSError *error) {
+    [self.refreshTokenRequest startRequestWithCompletion:^(id responseObject, NSError *error) {
         @strongify(self);
         if (responseObject && !error) {
             self.accessTokenResp = responseObject;
@@ -115,6 +110,11 @@ static NSString *const kWeixinSSOSecret = @"your secret";
 - (NSString *)baseUrl
 {
     return @"https://api.weixin.qq.com/";
+}
+
+- (Class)decodeClass
+{
+    return nil;
 }
 
 - (void)parseResponseObject:(id)responseObject
@@ -166,34 +166,28 @@ static NSString *const kWeixinSSOSecret = @"your secret";
 
 @implementation JCWeixinAccessTokenRequest
 
-- (instancetype)init
-{
-    if (self = [super init]) {
-        self.grant_type = @"authorization_code";
-    }
-    return self;
-}
-
 - (NSString *)requestUrl
 {
     return @"sns/oauth2/access_token";
+}
+
+- (Class)decodeClass
+{
+    return [JCWeixinAccessTokenResp class];
 }
 
 @end
 
 @implementation JCWeixinRefreshTokenRequest
 
-- (instancetype)init
-{
-    if (self = [super init]) {
-        self.grant_type = @"refresh_token";
-    }
-    return self;
-}
-
 - (NSString *)requestUrl
 {
     return @"sns/oauth2/refresh_token";
+}
+
+- (Class)decodeClass
+{
+    return [JCWeixinAccessTokenResp class];
 }
 
 @end
@@ -205,6 +199,11 @@ static NSString *const kWeixinSSOSecret = @"your secret";
     return @"sns/auth";
 }
 
+- (Class)decodeClass
+{
+    return [JCWeixinBaseResp class];
+}
+
 @end
 
 @implementation JCWeixinUserInfoRequest
@@ -212,6 +211,11 @@ static NSString *const kWeixinSSOSecret = @"your secret";
 - (NSString *)requestUrl
 {
     return @"sns/userinfo";
+}
+
+- (Class)decodeClass
+{
+    return [JCWeixinUserInfoResp class];
 }
 
 @end

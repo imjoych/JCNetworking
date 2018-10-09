@@ -66,7 +66,7 @@
     self.uploadRequest = [[JCUploadTestRequest alloc] init];
     [self.uploadRequest setUploadFilePath:@"file path"
                                uploadName:@"file"];
-    [self.uploadRequest startRequestWithDecodeClass:[JCUploadTestResp class] progress:^(NSProgress *progress) {
+    [self.uploadRequest startRequestWithProgress:^(NSProgress *progress) {
         //update progress
     } completion:^(id responseObject, NSError *error) {
         //do something

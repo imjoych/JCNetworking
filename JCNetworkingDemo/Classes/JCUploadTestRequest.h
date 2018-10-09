@@ -7,6 +7,7 @@
 //
 
 #import "JCBaseRequest.h"
+#import "JCModel.h"
 
 @interface JCUploadTestResp : JCModel
 
