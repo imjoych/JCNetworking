@@ -28,14 +28,12 @@
 /// Stop all requests.
 - (void)stopAllRequests;
 
-/// Start request with decodeClass and completion block.
+/// Start request with completion block.
 - (void)startRequest:(JCBaseRequest *)request
-         decodeClass:(Class)decodeClass
           completion:(JCRequestCompletionBlock)completion;
 
-/// Start request with decodeClass, progress block and completion block.
+/// Start request with progress block and completion block.
 - (void)startRequest:(JCBaseRequest *)request
-         decodeClass:(Class)decodeClass
             progress:(JCRequestProgressBlock)progress
           completion:(JCRequestCompletionBlock)completion;
 

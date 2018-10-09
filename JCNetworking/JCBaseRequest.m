@@ -9,43 +9,13 @@
 #import "JCBaseRequest.h"
 #import "JCNetworkManager.h"
 
-@implementation JCModel
-
-+ (instancetype)objWithJson:(id)json error:(NSError **)error
-{
-    if (!json) {
-        return nil;
-    }
-    JCModel *model = nil;
-    NSError *parseError = nil;
-    if ([json isKindOfClass:[NSDictionary class]]) {
-        model = [[self alloc] initWithDictionary:json error:&parseError];
-    } else if ([json isKindOfClass:[NSData class]]) {
-        model = [[self alloc] initWithData:json error:&parseError];
-    } else if ([json isKindOfClass:[NSString class]]) {
-        model = [[self alloc] initWithString:json error:&parseError];
-    }
-    if (error && parseError) {
-        *error = parseError;
-        return nil;
-    }
-    return model;
-}
-
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-    return YES;
-}
-
-@end
-
 @interface JCBaseRequest () {
-    Class _decodeClass;
     JCRequestCompletionBlock _completionBlock;
     JCRequestProgressBlock _progressBlock;
     NSUInteger _retryTimes;
     NSMutableArray<NSArray *> *_uploadFilePathList;
     NSMutableArray<NSArray *> *_uploadFileDataList;
+    NSDictionary *_params;
 }
 
 @end
@@ -62,19 +32,15 @@
 
 #pragma mark - Protocol
 
-- (void)startRequestWithDecodeClass:(Class)decodeClass
-                         completion:(JCRequestCompletionBlock)completion
+- (void)startRequestWithCompletion:(JCRequestCompletionBlock)completion
 {
-    [self startRequestWithDecodeClass:decodeClass
-                             progress:nil
-                           completion:completion];
+    [self startRequestWithProgress:nil
+                        completion:completion];
 }
 
-- (void)startRequestWithDecodeClass:(Class)decodeClass
-                           progress:(JCRequestProgressBlock)progress
-                         completion:(JCRequestCompletionBlock)completion
+- (void)startRequestWithProgress:(JCRequestProgressBlock)progress
+                      completion:(JCRequestCompletionBlock)completion
 {
-    _decodeClass = decodeClass;
     _progressBlock = progress;
     _completionBlock = completion;
     [[JCNetworkManager sharedManager] startRequest:self];
@@ -82,17 +48,11 @@
 
 - (void)stopRequest
 {
-    _decodeClass = nil;
     _completionBlock = nil;
     _progressBlock = nil;
     _uploadFilePathList = nil;
     _uploadFileDataList = nil;
     [[JCNetworkManager sharedManager] stopRequest:self];
-}
-
-- (Class)decodeClass
-{
-    return _decodeClass;
 }
 
 - (JCRequestCompletionBlock)completionBlock
@@ -117,7 +77,7 @@
 
 - (NSDictionary *)filteredDictionary
 {
-    NSDictionary *params = [self toDictionary];
+    NSDictionary *params = _params;
     if (params.count < 1) {
         return params;
     }
@@ -130,6 +90,11 @@
         [parameters setValue:value forKey:key];
     }
     return parameters;
+}
+
+- (void)setParamsDictionary:(NSDictionary *)params
+{
+    _params = params;
 }
 
 #pragma mark - Subclass implementation methods

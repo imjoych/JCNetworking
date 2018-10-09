@@ -9,40 +9,20 @@
 #import <JSONModel/JSONModel.h>
 #import "JCNetworkDefines.h"
 
-/** 
- * Class of json data which can be translated into.
- */
-@interface JCModel : JSONModel
-
-/**
- * Json data translate into JCModel object.
- * @param json Serialization data which can be parsed.
- * @param error Errors occured when the data is not a normal json.
- * @return Json data will be parsed when it's NSDictionary / NSData / NSString and returns object of JCModel or it's subclass, other returns nil.
- */
-+ (instancetype)objWithJson:(id)json error:(NSError **)error;
-
-@end
-
 /**
  * HTTP base request protocol.
  */
 @protocol JCBaseRequest <NSObject>
 
-/// Start request with decode class and completion block.
-- (void)startRequestWithDecodeClass:(Class)decodeClass
-                         completion:(JCRequestCompletionBlock)completion;
+/// Start request with completion block.
+- (void)startRequestWithCompletion:(JCRequestCompletionBlock)completion;
 
-/// Start request with decode class, progress block and completion block.
-- (void)startRequestWithDecodeClass:(Class)decodeClass
-                           progress:(JCRequestProgressBlock)progress
-                         completion:(JCRequestCompletionBlock)completion;
+/// Start request with progress block and completion block.
+- (void)startRequestWithProgress:(JCRequestProgressBlock)progress
+                      completion:(JCRequestCompletionBlock)completion;
 
 /// Stop request.
 - (void)stopRequest;
-
-/// Decode class for the parse of response object.
-- (Class)decodeClass;
 
 /// Returns completion block.
 - (JCRequestCompletionBlock)completionBlock;
@@ -53,15 +33,18 @@
 /// Retry request if needed when error occurs.
 - (BOOL)retryRequestIfNeeded:(NSError *)error;
 
-/// The values for properties are filtered which types are kind of NSNull class.
+/// The values for parameters are filtered which types are kind of NSNull class.
 - (NSDictionary *)filteredDictionary;
+
+/// Set request parameters.
+- (void)setParamsDictionary:(NSDictionary *)params;
 
 @end
 
 /** 
  * HTTP base request class. 
  */
-@interface JCBaseRequest : JSONModel<JCBaseRequest>
+@interface JCBaseRequest : NSObject<JCBaseRequest>
 
 /**
  * ----------------------------------------------------

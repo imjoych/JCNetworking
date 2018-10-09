@@ -80,20 +80,17 @@
 }
 
 - (void)startRequest:(JCBaseRequest *)request
-         decodeClass:(Class)decodeClass
           completion:(JCRequestCompletionBlock)completion
 {
-    [request startRequestWithDecodeClass:decodeClass completion:completion];
+    [request startRequestWithCompletion:completion];
 }
 
 - (void)startRequest:(JCBaseRequest *)request
-         decodeClass:(Class)decodeClass
             progress:(JCRequestProgressBlock)progress
           completion:(JCRequestCompletionBlock)completion
 {
-    [request startRequestWithDecodeClass:decodeClass
-                                progress:progress
-                              completion:completion];
+    [request startRequestWithProgress:progress
+                           completion:completion];
 }
 
 #pragma mark - Data operation
