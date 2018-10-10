@@ -13,6 +13,5 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = '2.0'
 
   s.dependency 'AFNetworking', '~> 3.2.0'
-  s.dependency 'JSONModel', '~> 1.7.0'
 
 end
