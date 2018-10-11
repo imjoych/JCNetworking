@@ -24,20 +24,11 @@
 /// Stop request.
 - (void)stopRequest;
 
-/// Returns completion block.
-- (JCRequestCompletionBlock)completionBlock;
-
-/// Returns progress block.
-- (JCRequestProgressBlock)progressBlock;
-
 /// Retry request if needed when error occurs.
 - (BOOL)retryRequestIfNeeded:(NSError *)error;
 
-/// The values for parameters are filtered which types are kind of NSNull class.
+/// The values of parameters are filtered which types are kind of NSNull class.
 - (NSDictionary *)filteredDictionary;
-
-/// Set request parameters.
-- (void)setParamsDictionary:(NSDictionary *)params;
 
 @end
 
@@ -46,51 +37,54 @@
  */
 @interface JCBaseRequest : NSObject<JCBaseRequest>
 
-/**
- * ----------------------------------------------------
- * Method list which should be implemented by Subclass.
- * ----------------------------------------------------
- */
+/// Request completion block with response object or NSError.
+@property (nonatomic, copy, readonly) JCRequestCompletionBlock completionBlock;
+
+/// Request progress block with NSProgress object.
+@property (nonatomic, copy, readonly) JCRequestProgressBlock progressBlock;
 
 /// Request method, default GET.
-- (JCRequestMethod)requestMethod;
+@property (nonatomic) JCRequestMethod requestMethod;
 
 /// Timeout interval of request, default 60s.
-- (NSTimeInterval)requestTimeoutInterval;
+@property (nonatomic) NSTimeInterval requestTimeoutInterval;
 
 /// Request url.
-- (NSString *)requestUrl;
+@property (nonatomic, strong) NSString *requestUrl;
 
 /// Request baseUrl.
-- (NSString *)baseUrl;
+@property (nonatomic, strong) NSString *baseUrl;
+
+/// Request parameters.
+@property (nonatomic, strong) NSDictionary *parameters;
+
+/// Timeout retry times, the suggest retry times is not more than 3, default 0.
+@property (nonatomic) NSUInteger timeoutRetryTimes;
+
+/// HTTP header fields for request.
+@property (nonatomic, strong) NSDictionary *HTTPHeaderFields;
+
+/// Identifier of the request.
+/// Duplicated requests will be removed if theirs identifiers are the same, default is hash string of the request object.
+@property (nonatomic, strong) NSString *requestIdentifier;
 
 /// Parse response object.
 - (void)parseResponseObject:(id)responseObject
                       error:(NSError *)error;
 
-/// Timeout retry times, the suggest retry times is not more than 3, default 0.
-- (NSUInteger)timeoutRetryTimes;
-
-/// HTTP header fields for request.
-- (NSDictionary *)HTTPHeaderFields;
-
-/// Identifier of the request.
-/// Duplicated requests will be removed if theirs identifiers are the same, default is hash string of the request object.
-- (NSString *)requestIdentifier;
-
 #pragma mark Security policy for HTTPS
 
 /// The criteria by which server trust should be evaluated against the pinned SSL certificates. Defaults JCSSLPinningModeNone.
-- (JCSSLPinningMode)SSLPinningMode;
+@property (nonatomic) JCSSLPinningMode SSLPinningMode;
 
 /// The certificates used to evaluate server trust according to the SSL pinning mode.
-- (NSSet<NSData *> *)pinnedCertificates;
+@property (nonatomic, strong) NSSet<NSData *> *pinnedCertificates;
 
 /// Whether or not to trust servers with an invalid or expired SSL certificates. Defaults NO.
-- (BOOL)allowInvalidCertificates;
+@property (nonatomic) BOOL allowInvalidCertificates;
 
 /// Whether or not to validate the domain name in the certificate's CN field. Defaults YES.
-- (BOOL)validatesDomainName;
+@property (nonatomic) BOOL validatesDomainName;
 
 @end
 

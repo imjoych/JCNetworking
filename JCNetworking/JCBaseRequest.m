@@ -10,25 +10,13 @@
 #import "JCNetworkManager.h"
 
 @interface JCBaseRequest () {
-    JCRequestCompletionBlock _completionBlock;
-    JCRequestProgressBlock _progressBlock;
-    NSUInteger _retryTimes;
     NSMutableArray<NSArray *> *_uploadFilePathList;
     NSMutableArray<NSArray *> *_uploadFileDataList;
-    NSDictionary *_params;
 }
 
 @end
 
 @implementation JCBaseRequest
-
-- (instancetype)init
-{
-    if (self = [super init]) {
-        _retryTimes = [self timeoutRetryTimes];
-    }
-    return self;
-}
 
 #pragma mark - Protocol
 
@@ -55,30 +43,20 @@
     [[JCNetworkManager sharedManager] stopRequest:self];
 }
 
-- (JCRequestCompletionBlock)completionBlock
-{
-    return _completionBlock;
-}
-
-- (JCRequestProgressBlock)progressBlock
-{
-    return _progressBlock;
-}
-
 - (BOOL)retryRequestIfNeeded:(NSError *)error
 {
-    if (_retryTimes < 1
+    if (_timeoutRetryTimes < 1
         || error.code != NSURLErrorTimedOut) {
         return NO;
     }
-    _retryTimes--;
+    _timeoutRetryTimes--;
     return YES;
 }
 
 - (NSDictionary *)filteredDictionary
 {
-    NSDictionary *params = _params;
-    if (params.count < 1) {
+    NSDictionary *params = _parameters;
+    if (!params || params.count < 1) {
         return params;
     }
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
@@ -92,31 +70,11 @@
     return parameters;
 }
 
-- (void)setParamsDictionary:(NSDictionary *)params
-{
-    _params = params;
-}
-
-#pragma mark - Subclass implementation methods
-
-- (JCRequestMethod)requestMethod
-{
-    return JCRequestMethodGET;
-}
+#pragma mark -
 
 - (NSTimeInterval)requestTimeoutInterval
 {
     return 60;
-}
-
-- (NSString *)requestUrl
-{
-    return @"";
-}
-
-- (NSString *)baseUrl
-{
-    return @"";
 }
 
 - (void)parseResponseObject:(id)responseObject
@@ -125,36 +83,9 @@
     // parses response object and call back with self.completionBlock
 }
 
-- (NSUInteger)timeoutRetryTimes
-{
-    return 0;
-}
-
-- (NSDictionary *)HTTPHeaderFields
-{
-    return nil;
-}
-
 - (NSString *)requestIdentifier
 {
     return [NSString stringWithFormat:@"%@", @([self hash])];
-}
-
-#pragma mark Security policy for HTTPS
-
-- (JCSSLPinningMode)SSLPinningMode
-{
-    return JCSSLPinningModeNone;
-}
-
-- (NSSet<NSData *> *)pinnedCertificates
-{
-    return nil;
-}
-
-- (BOOL)allowInvalidCertificates
-{
-    return NO;
 }
 
 - (BOOL)validatesDomainName
