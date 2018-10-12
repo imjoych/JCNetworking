@@ -6,7 +6,7 @@
 //  Copyright © 2016 Joych<https://github.com/imjoych>. All rights reserved.
 //
 
-#import <JSONModel/JSONModel.h>
+#import <Foundation/Foundation.h>
 #import "JCNetworkDefines.h"
 
 /**
