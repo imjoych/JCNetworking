@@ -10,6 +10,8 @@
 #import "JCNetworkManager.h"
 
 @interface JCBaseRequest () {
+    JCRequestProgressBlock _progressBlock;
+    JCRequestCompletionBlock _completionBlock;
     NSMutableArray<NSArray *> *_uploadFilePathList;
     NSMutableArray<NSArray *> *_uploadFileDataList;
 }
@@ -41,6 +43,16 @@
     _uploadFilePathList = nil;
     _uploadFileDataList = nil;
     [[JCNetworkManager sharedManager] stopRequest:self];
+}
+
+- (JCRequestCompletionBlock)completionBlock
+{
+    return _completionBlock;
+}
+
+- (JCRequestProgressBlock)progressBlock
+{
+    return _progressBlock;
 }
 
 - (NSDictionary *)filteredDictionary

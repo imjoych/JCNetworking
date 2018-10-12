@@ -24,6 +24,12 @@
 /// Stop request.
 - (void)stopRequest;
 
+/// Request completion block with response object or NSError.
+- (JCRequestCompletionBlock)completionBlock;
+
+/// Request progress block with NSProgress object.
+- (JCRequestProgressBlock)progressBlock;
+
 /// The values of parameters are filtered which types are kind of NSNull class.
 - (NSDictionary *)filteredDictionary;
 
@@ -33,12 +39,6 @@
  * HTTP base request class. 
  */
 @interface JCBaseRequest : NSObject<JCBaseRequest>
-
-/// Request completion block with response object or NSError.
-@property (nonatomic, copy, readonly) JCRequestCompletionBlock completionBlock;
-
-/// Request progress block with NSProgress object.
-@property (nonatomic, copy, readonly) JCRequestProgressBlock progressBlock;
 
 /// Request method, default GET.
 @property (nonatomic) JCRequestMethod requestMethod;
