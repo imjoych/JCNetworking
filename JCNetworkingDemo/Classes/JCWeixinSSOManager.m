@@ -27,7 +27,7 @@ static NSString *const kWeixinSSOSecret = @"your secret";
                    completion:(void (^)(NSString *, NSError *))completion
 {
     self.accessTokenRequest = [[JCWeixinAccessTokenRequest alloc] init];
-    self.checkTokenRequest.parameters = @{@"appid": kWeixinSSOAppid, @"secret": kWeixinSSOSecret, @"grant_type": @"authorization_code", @"code": (code ?:@"")};
+    self.accessTokenRequest.parameters = @{@"appid": kWeixinSSOAppid, @"secret": kWeixinSSOSecret, @"grant_type": @"authorization_code", @"code": (code ?:[NSNull null])};
     @weakify(self);
     [self.accessTokenRequest startRequestWithCompletion:^(id responseObject, NSError *error) {
         @strongify(self);
