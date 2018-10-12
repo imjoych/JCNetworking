@@ -164,7 +164,7 @@
     switch ([request requestMethod]) {
         case JCRequestMethodGET:
         {
-            task = [manager GET:[self requestUrl:[request requestUrl] parameters:[request filteredDictionary]]
+            task = [manager GET:[self requestUrl:[request requestUrl] parameters:[self filteredParameters:request]]
                      parameters:nil
                        progress:^(NSProgress * _Nonnull downloadProgress) {
                            [self progressWithRequest:request progress:downloadProgress];
@@ -181,7 +181,7 @@
                 task = [self uploadWithManager:manager request:request];
             } else {
                 task = [manager POST:[request requestUrl]
-                          parameters:[request filteredDictionary]
+                          parameters:[self filteredParameters:request]
                             progress:^(NSProgress * _Nonnull uploadProgress) {
                                 [self progressWithRequest:request progress:uploadProgress];
                             } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -246,6 +246,23 @@
     }
 }
 
+/// The values of parameters are filtered which types are kind of NSNull class.
+- (NSDictionary *)filteredParameters:(JCBaseRequest *)request
+{
+    NSDictionary *parameters = [request parameters];
+    if (!parameters || parameters.count < 1) {
+        return parameters;
+    }
+    __block NSMutableDictionary *filteredDict = [NSMutableDictionary dictionary];
+    [parameters enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[NSNull class]]) {
+            return;
+        }
+        filteredDict[key] = obj;
+    }];
+    return filteredDict;
+}
+
 #pragma mark - Response operation
 
 - (void)progressWithRequest:(JCBaseRequest *)request progress:(NSProgress *)progress
@@ -278,7 +295,7 @@
 - (NSURLSessionDataTask *)uploadWithManager:(AFHTTPSessionManager *)manager
                                     request:(JCBaseRequest *)request
 {
-    return [manager POST:[request requestUrl] parameters:[request filteredDictionary] constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    return [manager POST:[request requestUrl] parameters:[self filteredParameters:request] constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         if (formData) {
             [request appendUploadFilePathBlock:^(NSString *filePath, NSString *operationName) {
                 if (![filePath isKindOfClass:[NSString class]]

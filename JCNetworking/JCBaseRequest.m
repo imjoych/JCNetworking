@@ -55,23 +55,6 @@
     return _progressBlock;
 }
 
-- (NSDictionary *)filteredDictionary
-{
-    NSDictionary *params = _parameters;
-    if (!params || params.count < 1) {
-        return params;
-    }
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    for (NSString *key in params.allKeys) {
-        id value = params[key];
-        if (value && [value isKindOfClass:[NSNull class]]) {
-            continue;
-        }
-        [parameters setValue:value forKey:key];
-    }
-    return parameters;
-}
-
 #pragma mark -
 
 - (NSTimeInterval)requestTimeoutInterval

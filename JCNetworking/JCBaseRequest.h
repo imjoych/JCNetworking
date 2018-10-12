@@ -30,9 +30,6 @@
 /// Request progress block with NSProgress object.
 - (JCRequestProgressBlock)progressBlock;
 
-/// The values of parameters are filtered which types are kind of NSNull class.
-- (NSDictionary *)filteredDictionary;
-
 @end
 
 /** 
