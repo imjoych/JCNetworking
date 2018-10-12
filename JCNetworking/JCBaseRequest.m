@@ -43,16 +43,6 @@
     [[JCNetworkManager sharedManager] stopRequest:self];
 }
 
-- (BOOL)retryRequestIfNeeded:(NSError *)error
-{
-    if (_timeoutRetryTimes < 1
-        || error.code != NSURLErrorTimedOut) {
-        return NO;
-    }
-    _timeoutRetryTimes--;
-    return YES;
-}
-
 - (NSDictionary *)filteredDictionary
 {
     NSDictionary *params = _parameters;
@@ -81,6 +71,11 @@
                       error:(NSError *)error
 {
     // parses response object and call back with self.completionBlock
+}
+
+- (BOOL)retryRequestIfNeeded:(NSError *)error
+{
+    return NO;
 }
 
 - (NSString *)requestIdentifier

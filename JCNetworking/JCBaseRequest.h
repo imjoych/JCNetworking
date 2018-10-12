@@ -24,9 +24,6 @@
 /// Stop request.
 - (void)stopRequest;
 
-/// Retry request if needed when error occurs.
-- (BOOL)retryRequestIfNeeded:(NSError *)error;
-
 /// The values of parameters are filtered which types are kind of NSNull class.
 - (NSDictionary *)filteredDictionary;
 
@@ -58,9 +55,6 @@
 /// Request parameters.
 @property (nonatomic, strong) NSDictionary *parameters;
 
-/// Timeout retry times, the suggest retry times is not more than 3, default 0.
-@property (nonatomic) NSUInteger timeoutRetryTimes;
-
 /// HTTP header fields for request.
 @property (nonatomic, strong) NSDictionary *HTTPHeaderFields;
 
@@ -71,6 +65,9 @@
 /// Parse response object.
 - (void)parseResponseObject:(id)responseObject
                       error:(NSError *)error;
+
+/// Retry request if needed when error occurs, you can retry request several times by yourself for specific error.
+- (BOOL)retryRequestIfNeeded:(NSError *)error;
 
 #pragma mark Security policy for HTTPS
 
