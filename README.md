@@ -1,5 +1,5 @@
 # JCNetworking
-A lightweight iOS networking framework based on [AFNetworking](https://github.com/AFNetworking/AFNetworking) and [JSONModel](https://github.com/icanzilb/JSONModel).
+A lightweight iOS networking framework based on [AFNetworking](https://github.com/AFNetworking/AFNetworking).
 
 ## Features
 This framework supports the development of iOS 8.0+ in ARC.
@@ -13,9 +13,7 @@ This framework supports the development of iOS 8.0+ in ARC.
 //JCAccessTokenRequest.h
 @interface JCAccessTokenRequest : JCBaseRequest
 
-@property (nonatomic, strong) NSString *appid;
-@property (nonatomic, strong) NSString *secret;
-@property (nonatomic, strong) NSString *code;
+- (Class)decodeClass;
 
 @end
 
@@ -32,6 +30,11 @@ This framework supports the development of iOS 8.0+ in ARC.
     return @"request url";
 }
 
+- (Class)decodeClass
+{
+    return [JCAccessTokenResp class];
+}
+
 @end
 ```
 
@@ -39,10 +42,8 @@ This framework supports the development of iOS 8.0+ in ARC.
 - (void)startGetRequest
 {
     self.accessTokenRequest = [[JCAccessTokenRequest alloc] init];
-    self.accessTokenRequest.appid = @"your appid";
-    self.accessTokenRequest.secret = @"your secret";
-    self.accessTokenRequest.code = @"your code";
-    [self.accessTokenRequest startRequestWithDecodeClass:[JCAccessTokenResp class] completion:^(id responseObject, NSError *error) {
+    self.accessTokenRequest.parameters = @{@"appid":@"your appid", @"secret":@"your secret", @"code":@"your code"};
+    [self.accessTokenRequest startRequestWithCompletion:^(id responseObject, NSError *error) {
     	//do something
     }];
 }
@@ -87,7 +88,7 @@ This framework supports the development of iOS 8.0+ in ARC.
     self.uploadRequest = [[JCUploadTestRequest alloc] init];
     [self.uploadRequest setUploadFilePath:@"file path"
                                uploadName:@"file"];
-    [self.uploadRequest startRequestWithDecodeClass:[JCUploadTestResp class] progress:^(NSProgress *progress) {
+    [self.uploadRequest startRequestWithProgress:^(NSProgress *progress) {
         //update progress
     } completion:^(id responseObject, NSError *error) {
         //do something
