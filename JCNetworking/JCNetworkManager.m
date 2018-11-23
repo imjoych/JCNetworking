@@ -255,7 +255,8 @@
     }
     __block NSMutableDictionary *filteredDict = [NSMutableDictionary dictionary];
     [parameters enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if ([obj isKindOfClass:[NSNull class]]) {
+        if ([obj isKindOfClass:[NSNull class]]
+            || ([obj isKindOfClass:[NSString class]] && ((NSString *)obj).length < 1)) {
             return;
         }
         filteredDict[key] = obj;
