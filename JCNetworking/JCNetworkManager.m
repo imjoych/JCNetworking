@@ -12,11 +12,10 @@
 
 @interface JCNetworkManager () {
     dispatch_queue_t _dataQueue;
+    NSMutableDictionary *_requestsDict;
+    NSMutableDictionary *_tasksDict;
+    NSMutableArray *_sessionManagers;
 }
-
-@property (nonatomic, strong) NSMutableDictionary *requestsDict;
-@property (nonatomic, strong) NSMutableDictionary *tasksDict;
-@property (nonatomic, strong) NSMutableArray *sessionManagers;
 
 @end
 
@@ -50,7 +49,7 @@
     }
     NSString *key = [self keyForRequest:request];
     // Remove duplicated request if already exists.
-    [self stopRequest:[self requestForKey:key]];
+    [self stopRequestForKey:key];
     // Resume url session task for request
     NSURLSessionTask *task = [self resumeTaskWithRequest:request];
     [self setRequest:request task:task forKey:key];
@@ -62,21 +61,17 @@
         return;
     }
     NSString *key = [self keyForRequest:request];
-    NSURLSessionTask *requestTask = [self taskForKey:key];
-    if ([requestTask respondsToSelector:@selector(cancel)]) {
-        [requestTask cancel];
-    }
-    [self removeDataForKey:key];
+    [self stopRequestForKey:key];
 }
 
 - (void)stopAllRequests
 {
-    NSMutableDictionary *requestsDict = [self.requestsDict mutableCopy];
+    NSDictionary *requestsDict = [_requestsDict copy];
     for (NSString *key in requestsDict.allKeys) {
         JCBaseRequest *request = requestsDict[key];
         [request stopRequest];
     }
-    [requestsDict removeAllObjects];
+    requestsDict = nil;
 }
 
 - (void)startRequest:(JCBaseRequest *)request
@@ -101,8 +96,8 @@
         return;
     }
     dispatch_barrier_async(_dataQueue, ^{
-        self.tasksDict[key] = task;
-        self.requestsDict[key] = request;
+        self->_tasksDict[key] = task;
+        self->_requestsDict[key] = request;
     });
 }
 
@@ -112,21 +107,9 @@
         return;
     }
     dispatch_barrier_async(_dataQueue, ^{
-        [self.tasksDict removeObjectForKey:key];
-        [self.requestsDict removeObjectForKey:key];
+        [self->_tasksDict removeObjectForKey:key];
+        [self->_requestsDict removeObjectForKey:key];
     });
-}
-
-- (JCBaseRequest *)requestForKey:(NSString *)key
-{
-    if (key.length < 1) {
-        return nil;
-    }
-    __block JCBaseRequest *request = nil;
-    dispatch_sync(_dataQueue, ^{
-        request = self.requestsDict[key];
-    });
-    return request;
 }
 
 - (NSURLSessionTask *)taskForKey:(NSString *)key
@@ -136,7 +119,7 @@
     }
     __block NSURLSessionTask *task = nil;
     dispatch_sync(_dataQueue, ^{
-        task = self.tasksDict[key];
+        task = self->_tasksDict[key];
     });
     return task;
 }
@@ -148,6 +131,18 @@
         return identifier;
     }
     return [NSString stringWithFormat:@"%@", @([request hash])];
+}
+
+- (void)stopRequestForKey:(NSString *)key
+{
+    NSURLSessionTask *requestTask = [self taskForKey:key];
+    if (!requestTask) {
+        return;
+    }
+    if ([requestTask respondsToSelector:@selector(cancel)]) {
+        [requestTask cancel];
+    }
+    [self removeDataForKey:key];
 }
 
 #pragma mark - Request operation
@@ -203,7 +198,7 @@
         return nil;
     }
     AFHTTPSessionManager *manager = nil;
-    for (AFHTTPSessionManager *sessionManager in self.sessionManagers) {
+    for (AFHTTPSessionManager *sessionManager in _sessionManagers) {
         if ([sessionManager.baseURL.absoluteString isEqualToString:baseUrl]) {
             manager = sessionManager;
             break;
@@ -221,7 +216,7 @@
             securityPolicy.validatesDomainName = [request validatesDomainName];
             manager.securityPolicy = securityPolicy;
         }
-        [self.sessionManagers addObject:manager];
+        [_sessionManagers addObject:manager];
     }
     return manager;
 }
