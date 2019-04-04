@@ -126,11 +126,11 @@
 
 - (NSString *)keyForRequest:(JCBaseRequest *)request
 {
-    NSString *identifier = [request requestIdentifier];
+    NSString *identifier = request.requestIdentifier;
     if (identifier.length > 0) {
         return identifier;
     }
-    return [NSString stringWithFormat:@"%@", @([request hash])];
+    return [NSString stringWithFormat:@"%@", @(request.hash)];
 }
 
 - (void)stopRequestForKey:(NSString *)key
@@ -156,10 +156,10 @@
     [self setRequestSerializerWithManager:manager
                                   request:request];
     NSURLSessionTask *task = nil;
-    switch ([request requestMethod]) {
+    switch (request.requestMethod) {
         case JCRequestMethodGET:
         {
-            task = [manager GET:[self requestUrl:[request requestUrl] parameters:[self filteredParameters:request]]
+            task = [manager GET:[self requestUrl:request.requestUrl parameters:[self filteredParameters:request]]
                      parameters:nil
                        progress:^(NSProgress * _Nonnull downloadProgress) {
                            [self progressWithRequest:request progress:downloadProgress];
@@ -175,7 +175,7 @@
             if ([request uploadFileNeeded]) {
                 task = [self uploadWithManager:manager request:request];
             } else {
-                task = [manager POST:[request requestUrl]
+                task = [manager POST:request.requestUrl
                           parameters:[self filteredParameters:request]
                             progress:^(NSProgress * _Nonnull uploadProgress) {
                                 [self progressWithRequest:request progress:uploadProgress];
@@ -193,8 +193,8 @@
 
 - (AFHTTPSessionManager *)sessionManagerForRequest:(JCBaseRequest *)request
 {
-    NSString *baseUrl = [request baseUrl];
-    if (!baseUrl || baseUrl.length < 1) {
+    NSString *baseUrl = request.baseUrl;
+    if (![baseUrl isKindOfClass:[NSString class]] || baseUrl.length < 1) {
         return nil;
     }
     AFHTTPSessionManager *manager = nil;
@@ -207,13 +207,13 @@
     if (!manager) {
         manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:baseUrl]];
         manager.responseSerializer = [AFHTTPResponseSerializer serializer]; //重新初始化，不限制Content-Type
-        NSSet<NSData *> *pinnedCertificates = [request pinnedCertificates];
-        AFSSLPinningMode pinningMode = (AFSSLPinningMode)[request SSLPinningMode];
+        NSSet<NSData *> *pinnedCertificates = request.pinnedCertificates;
+        AFSSLPinningMode pinningMode = (AFSSLPinningMode)request.SSLPinningMode;
         if (pinnedCertificates && pinningMode != AFSSLPinningModeNone) {
             AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:pinningMode];
             securityPolicy.pinnedCertificates = pinnedCertificates;
-            securityPolicy.allowInvalidCertificates = [request allowInvalidCertificates];
-            securityPolicy.validatesDomainName = [request validatesDomainName];
+            securityPolicy.allowInvalidCertificates = request.allowInvalidCertificates;
+            securityPolicy.validatesDomainName = request.validatesDomainName;
             manager.securityPolicy = securityPolicy;
         }
         [_sessionManagers addObject:manager];
@@ -234,9 +234,9 @@
 - (void)setRequestSerializerWithManager:(AFHTTPSessionManager *)manager
                                 request:(JCBaseRequest *)request
 {
-    manager.requestSerializer.timeoutInterval = [request requestTimeoutInterval];
-    NSDictionary *headerFields = [request HTTPHeaderFields];
-    for (NSString *field in headerFields) {
+    manager.requestSerializer.timeoutInterval = request.requestTimeoutInterval;
+    NSDictionary *headerFields = request.HTTPHeaderFields;
+    for (NSString *field in headerFields.allKeys) {
         [manager.requestSerializer setValue:headerFields[field] forHTTPHeaderField:field];
     }
 }
@@ -244,9 +244,9 @@
 /// The values of parameters are filtered which types are kind of NSNull class.
 - (NSDictionary *)filteredParameters:(JCBaseRequest *)request
 {
-    NSDictionary *parameters = [request parameters];
-    if (!parameters || parameters.count < 1) {
-        return parameters;
+    NSDictionary *parameters = request.parameters;
+    if (![parameters isKindOfClass:[NSDictionary class]] || parameters.count < 1) {
+        return nil;
     }
     __block NSMutableDictionary *filteredDict = [NSMutableDictionary dictionary];
     [parameters enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
@@ -291,7 +291,7 @@
 - (NSURLSessionDataTask *)uploadWithManager:(AFHTTPSessionManager *)manager
                                     request:(JCBaseRequest *)request
 {
-    return [manager POST:[request requestUrl] parameters:[self filteredParameters:request] constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+    return [manager POST:request.requestUrl parameters:[self filteredParameters:request] constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         if (formData) {
             [request appendUploadFilePathBlock:^(NSString *filePath, NSString *operationName) {
                 if (![filePath isKindOfClass:[NSString class]]
