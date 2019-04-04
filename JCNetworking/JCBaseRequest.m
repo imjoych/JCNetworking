@@ -92,7 +92,8 @@
 - (void)setUploadFilePath:(NSString *)uploadFilePath
                uploadName:(NSString *)uploadName
 {
-    if (!uploadFilePath || !uploadName) {
+    if (![uploadFilePath isKindOfClass:[NSString class]]
+        || ![uploadName isKindOfClass:[NSString class]]) {
         return;
     }
     if (!_uploadFilePathList) {
@@ -105,13 +106,17 @@
                uploadName:(NSString *)uploadName
            uploadFileName:(NSString *)uploadFileName
 {
-    if (!uploadFileData || !uploadName) {
+    if (![uploadFileData isKindOfClass:[NSData class]]
+        || ![uploadName isKindOfClass:[NSString class]]) {
         return;
+    }
+    if (![uploadFileName isKindOfClass:[NSString class]]) {
+        uploadFileName = @"unknown";
     }
     if (!_uploadFileDataList) {
         _uploadFileDataList = [NSMutableArray array];
     }
-    [_uploadFileDataList addObject:@[uploadFileData, uploadName, uploadFileName ?:@"unknown"]];
+    [_uploadFileDataList addObject:@[uploadFileData, uploadName, uploadFileName]];
 }
 
 - (void)appendUploadFilePathBlock:(void (^)(NSString *, NSString *))uploadBlock

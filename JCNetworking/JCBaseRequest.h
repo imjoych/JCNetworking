@@ -94,7 +94,7 @@
 - (void)setUploadFilePath:(NSString *)uploadFilePath
                uploadName:(NSString *)uploadName;
 
-/// Set upload file data, upload operation name, upload file name(nil is allowable).
+/// Set upload file data, upload operation name, upload file name(nil is available).
 /// You can call this method repeatedly for each file data upload.
 - (void)setUploadFileData:(NSData *)uploadFileData
                uploadName:(NSString *)uploadName
