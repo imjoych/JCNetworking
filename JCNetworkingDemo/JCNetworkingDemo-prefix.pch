@@ -1,7 +1,6 @@
 #ifdef __OBJC__
 #import <UIKit/UIKit.h>
 
-#import <AFNetworking/UIKit+AFNetworking.h>
 #import <ReactiveObjC/ReactiveObjC.h>
 
 #endif

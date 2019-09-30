@@ -2,8 +2,10 @@
 # Uncomment this line if you're using Swift
 # use_frameworks!
 
+source 'https://github.com/CocoaPods/Specs.git'
+
 target 'JCNetworkingDemo' do
-pod 'JSONModel', '~> 1.7.0'
-pod 'AFNetworking', '~> 3.2.0'
-pod 'ReactiveObjC'
+    pod 'AFNetworking', '~> 3.2.0', :subspecs => ['NSURLSession']
+    pod 'JSONModel', '~> 1.7.0'
+    pod 'ReactiveObjC'
 end
