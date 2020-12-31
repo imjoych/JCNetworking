@@ -11,29 +11,29 @@
 
 @implementation JCURLRequestEngine
 
-+ (JCBaseRequest *)getWithUrl:(NSString *)url completion:(JCRequestCompletionBlock)completion
++ (JCBaseRequest *)getWithUrl:(NSString *)url completion:(JCNetworkCompletionBlock)completion
 {
     return [self requestWithUrl:url params:nil method:JCRequestMethodGET completion:completion];
 }
 
-+ (JCBaseRequest *)postWithUrl:(NSString *)url params:(NSDictionary *)params completion:(JCRequestCompletionBlock)completion
++ (JCBaseRequest *)postWithUrl:(NSString *)url params:(NSDictionary *)params completion:(JCNetworkCompletionBlock)completion
 {
     return [self requestWithUrl:url params:params method:JCRequestMethodPOST completion:completion];
 }
 
-+ (JCBaseRequest *)uploadWithUrl:(NSString *)url params:(NSDictionary *)params uploadDatasForNames:(NSDictionary *)uploadDatasForNames progress:(JCRequestProgressBlock)progress completion:(JCRequestCompletionBlock)completion
++ (JCBaseRequest *)uploadWithUrl:(NSString *)url params:(NSDictionary *)params uploadDatasForNames:(NSDictionary *)uploadDatasForNames progress:(JCNetworkProgressBlock)progress completion:(JCNetworkCompletionBlock)completion
 {
     return [self requestWithUrl:url params:params method:JCRequestMethodPOST uploadDatasForNames:uploadDatasForNames progress:progress completion:completion];
 }
 
 #pragma mark -
 
-+ (JCBaseRequest *)requestWithUrl:(NSString *)url params:(NSDictionary *)params method:(JCRequestMethod)method completion:(JCRequestCompletionBlock)completion
++ (JCBaseRequest *)requestWithUrl:(NSString *)url params:(NSDictionary *)params method:(JCRequestMethod)method completion:(JCNetworkCompletionBlock)completion
 {
     return [self requestWithUrl:url params:params method:method uploadDatasForNames:nil progress:nil completion:completion];
 }
 
-+ (JCBaseRequest *)requestWithUrl:(NSString *)url params:(NSDictionary *)params method:(JCRequestMethod)method uploadDatasForNames:(NSDictionary *)uploadDatasForNames progress:(JCRequestProgressBlock)progress completion:(JCRequestCompletionBlock)completion
++ (JCBaseRequest *)requestWithUrl:(NSString *)url params:(NSDictionary *)params method:(JCRequestMethod)method uploadDatasForNames:(NSDictionary *)uploadDatasForNames progress:(JCNetworkProgressBlock)progress completion:(JCNetworkCompletionBlock)completion
 {
     if (![url isKindOfClass:[NSString class]] || url.length < 1) {
         if (completion) {

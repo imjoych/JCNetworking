@@ -10,14 +10,6 @@
 #define JCNetworkDefines_h
 
 /**
- * Request method for JCBaseRequest.
- */
-typedef NS_ENUM(NSInteger, JCRequestMethod) {
-    JCRequestMethodGET,
-    JCRequestMethodPOST
-};
-
-/**
  * The criteria by which server trust should be evaluated against the pinned SSL certificates.
  */
 typedef NS_ENUM(NSUInteger, JCSSLPinningMode) {
@@ -27,9 +19,9 @@ typedef NS_ENUM(NSUInteger, JCSSLPinningMode) {
 };
 
 /// Block of request completion.
-typedef void(^JCRequestCompletionBlock)(id responseObject, NSError *error);
+typedef void(^JCNetworkCompletionBlock)(id _Nullable responseObject, NSError *_Nullable error);
 
 /// Block of file upload progress.
-typedef void(^JCRequestProgressBlock)(NSProgress *progress);
+typedef void(^JCNetworkProgressBlock)(NSProgress *_Nonnull progress);
 
 #endif /* JCNetworkDefines_h */

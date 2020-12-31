@@ -16,18 +16,18 @@
 
 /// Start GET request.
 + (JCBaseRequest *)getWithUrl:(NSString *)url
-                   completion:(JCRequestCompletionBlock)completion;
+                   completion:(JCNetworkCompletionBlock)completion;
 
 /// Start POST request.
 + (JCBaseRequest *)postWithUrl:(NSString *)url
                         params:(NSDictionary *)params
-                    completion:(JCRequestCompletionBlock)completion;
+                    completion:(JCNetworkCompletionBlock)completion;
 
 /// Start upload data with POST request.
 + (JCBaseRequest *)uploadWithUrl:(NSString *)url
                           params:(NSDictionary *)params
              uploadDatasForNames:(NSDictionary *)uploadDatasForNames
-                        progress:(JCRequestProgressBlock)progress
-                      completion:(JCRequestCompletionBlock)completion;
+                        progress:(JCNetworkProgressBlock)progress
+                      completion:(JCNetworkCompletionBlock)completion;
 
 @end

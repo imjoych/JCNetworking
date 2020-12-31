@@ -9,32 +9,79 @@
 #import <Foundation/Foundation.h>
 #import "JCNetworkDefines.h"
 
-@class JCBaseRequest;
+NS_ASSUME_NONNULL_BEGIN
+
+@class JCNetworkConfig;
 
 /** 
  * Network manager class. 
  */
 @interface JCNetworkManager : NSObject
 
-/// Singleton of JCNetworkManager class.
-+ (instancetype)sharedManager;
+/// Get request.
+/// @param urlString request url string
+/// @param parameters request parameters
+/// @param progress network progress callback
+/// @param completion network completion callback
++ (nullable NSURLSessionTask *)get:(NSString *)urlString
+                        parameters:(NSDictionary *)parameters
+                          progress:(nullable JCNetworkProgressBlock)progress
+                        completion:(nullable JCNetworkCompletionBlock)completion;
 
-/// Start request.
-- (void)startRequest:(JCBaseRequest *)request;
+/// Get request.
+/// @param urlString request url string
+/// @param parameters request parameters
+/// @param config request config
+/// @param progress network progress callback
+/// @param completion network completion callback
++ (nullable NSURLSessionTask *)get:(NSString *)urlString
+                        parameters:(NSDictionary *)parameters
+                            config:(nullable JCNetworkConfig *)config
+                          progress:(nullable JCNetworkProgressBlock)progress
+                        completion:(nullable JCNetworkCompletionBlock)completion;
 
-/// Stop request.
-- (void)stopRequest:(JCBaseRequest *)request;
+/// Post request.
+/// @param urlString request url string
+/// @param parameters request parameters
+/// @param progress network progress callback
+/// @param completion network completion callback
++ (nullable NSURLSessionTask *)post:(NSString *)urlString
+                         parameters:(nullable NSDictionary *)parameters
+                           progress:(nullable JCNetworkProgressBlock)progress
+                         completion:(nullable JCNetworkCompletionBlock)completion;
 
-/// Stop all requests.
-- (void)stopAllRequests;
+/// Post request.
+/// @param urlString request url string
+/// @param parameters request parameters
+/// @param config request config
+/// @param progress network progress callback
+/// @param completion network completion callback
++ (nullable NSURLSessionTask *)post:(NSString *)urlString
+                         parameters:(nullable NSDictionary *)parameters
+                             config:(nullable JCNetworkConfig *)config
+                           progress:(nullable JCNetworkProgressBlock)progress
+                         completion:(nullable JCNetworkCompletionBlock)completion;
 
-/// Start request with completion block.
-- (void)startRequest:(JCBaseRequest *)request
-          completion:(JCRequestCompletionBlock)completion;
+/// Upload data or file request.
+/// @param urlString request url string
+/// @param parameters request parameters
+/// @param config request config
+/// @param progress network progress callback
+/// @param completion network completion callback
++ (nullable NSURLSessionTask *)upload:(NSString *)urlString
+                           parameters:(nullable NSDictionary *)parameters
+                               config:(JCNetworkConfig *)config
+                             progress:(nullable JCNetworkProgressBlock)progress
+                           completion:(nullable JCNetworkCompletionBlock)completion;
 
-/// Start request with progress block and completion block.
-- (void)startRequest:(JCBaseRequest *)request
-            progress:(JCRequestProgressBlock)progress
-          completion:(JCRequestCompletionBlock)completion;
+/// Cancel task
+/// @param task task should be canceled
++ (void)cancelTask:(nullable NSURLSessionTask *)task;
+
+/// Clean request config for host url.
+/// @param hostUrl host url
++ (void)cleanRequestConfig:(nullable NSString *)hostUrl;
 
 @end
+
+NS_ASSUME_NONNULL_END

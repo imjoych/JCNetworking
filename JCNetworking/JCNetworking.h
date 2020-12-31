@@ -11,7 +11,7 @@
 #ifndef JCNetworking_h
 #define JCNetworking_h
 
-#import "JCBaseRequest.h"
+#import "JCNetworkConfig.h"
 #import "JCNetworkManager.h"
 
 #if !TARGET_OS_WATCH

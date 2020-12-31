@@ -7,221 +7,243 @@
 //
 
 #import "JCNetworkManager.h"
-#import "JCBaseRequest.h"
 #import <AFNetworking/AFHTTPSessionManager.h>
-
-@interface JCNetworkManager () {
-    dispatch_queue_t _dataQueue;
-    NSMutableDictionary *_requestsDict;
-    NSMutableDictionary *_tasksDict;
-    NSMutableArray *_sessionManagers;
-}
-
-@end
+#import "JCNetworkConfig.h"
 
 @implementation JCNetworkManager
 
-- (instancetype)init
++ (NSURLSessionTask *)get:(NSString *)urlString
+               parameters:(NSDictionary *)parameters
+                 progress:(JCNetworkProgressBlock)progress
+               completion:(JCNetworkCompletionBlock)completion
 {
-    if (self = [super init]) {
-        _requestsDict = [NSMutableDictionary dictionary];
-        _tasksDict = [NSMutableDictionary dictionary];
-        _sessionManagers = [NSMutableArray array];
-        _dataQueue = dispatch_queue_create("com.imjoych.jcnetworking.dataqueue", DISPATCH_QUEUE_SERIAL);
-    }
-    return self;
+    return [self get:urlString parameters:parameters config:nil progress:progress completion:completion];
 }
 
-+ (instancetype)sharedManager
++ (NSURLSessionTask *)get:(NSString *)urlString
+               parameters:(NSDictionary *)parameters
+                   config:(JCNetworkConfig *)config
+                 progress:(JCNetworkProgressBlock)progress
+               completion:(JCNetworkCompletionBlock)completion
 {
-    static JCNetworkManager *sharedManager = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedManager = [[JCNetworkManager alloc] init];
-    });
-    return sharedManager;
-}
-
-- (void)startRequest:(JCBaseRequest *)request
-{
-    if (!request) {
-        return;
-    }
-    NSString *key = [self keyForRequest:request];
-    // Remove duplicated request if already exists.
-    [self stopRequestForKey:key];
-    // Resume url session task for request
-    NSURLSessionTask *task = [self resumeTaskWithRequest:request];
-    [self setRequest:request task:task forKey:key];
-}
-
-- (void)stopRequest:(JCBaseRequest *)request
-{
-    if (!request) {
-        return;
-    }
-    NSString *key = [self keyForRequest:request];
-    [self stopRequestForKey:key];
-}
-
-- (void)stopAllRequests
-{
-    NSDictionary *requestsDict = [_requestsDict copy];
-    for (NSString *key in requestsDict.allKeys) {
-        JCBaseRequest *request = requestsDict[key];
-        [request stopRequest];
-    }
-    requestsDict = nil;
-}
-
-- (void)startRequest:(JCBaseRequest *)request
-          completion:(JCRequestCompletionBlock)completion
-{
-    [request startRequestWithCompletion:completion];
-}
-
-- (void)startRequest:(JCBaseRequest *)request
-            progress:(JCRequestProgressBlock)progress
-          completion:(JCRequestCompletionBlock)completion
-{
-    [request startRequestWithProgress:progress
-                           completion:completion];
-}
-
-#pragma mark - Data operation
-
-- (void)setRequest:(JCBaseRequest *)request task:(NSURLSessionTask *)task forKey:(NSString *)key
-{
-    if (key.length < 1 || !request || !task) {
-        return;
-    }
-    dispatch_barrier_async(_dataQueue, ^{
-        self->_tasksDict[key] = task;
-        self->_requestsDict[key] = request;
-    });
-}
-
-- (void)removeDataForKey:(NSString *)key
-{
-    if (key.length < 1) {
-        return;
-    }
-    dispatch_barrier_async(_dataQueue, ^{
-        [self->_tasksDict removeObjectForKey:key];
-        [self->_requestsDict removeObjectForKey:key];
-    });
-}
-
-- (NSURLSessionTask *)taskForKey:(NSString *)key
-{
-    if (key.length < 1) {
-        return nil;
-    }
-    __block NSURLSessionTask *task = nil;
-    dispatch_sync(_dataQueue, ^{
-        task = self->_tasksDict[key];
-    });
-    return task;
-}
-
-- (NSString *)keyForRequest:(JCBaseRequest *)request
-{
-    NSString *identifier = request.requestIdentifier;
-    if (identifier.length > 0) {
-        return identifier;
-    }
-    return [NSString stringWithFormat:@"%@", @(request.hash)];
-}
-
-- (void)stopRequestForKey:(NSString *)key
-{
-    NSURLSessionTask *requestTask = [self taskForKey:key];
-    if (!requestTask) {
-        return;
-    }
-    if ([requestTask respondsToSelector:@selector(cancel)]) {
-        [requestTask cancel];
-    }
-    [self removeDataForKey:key];
-}
-
-#pragma mark - Request operation
-
-- (NSURLSessionTask *)resumeTaskWithRequest:(JCBaseRequest *)request
-{
-    AFHTTPSessionManager *manager = [self sessionManagerForRequest:request];
+    AFHTTPSessionManager *manager = [self sessionManager:urlString config:config];
     if (!manager) {
         return nil;
     }
-    [self setRequestSerializerWithManager:manager
-                                  request:request];
-    NSURLSessionTask *task = nil;
-    switch (request.requestMethod) {
-        case JCRequestMethodGET:
-        {
-            task = [manager GET:[self requestUrl:request.requestUrl parameters:[self filteredParameters:request]]
-                     parameters:nil
-                       progress:^(NSProgress * _Nonnull downloadProgress) {
-                           [self progressWithRequest:request progress:downloadProgress];
-                       } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                           [self successWithRequest:request responseObject:responseObject];
-                       } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                           [self failureWithRequest:request error:error];
-                       }];
+    return [manager GET:[self requestUrl:urlString parameters:parameters] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        if (progress) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                progress(downloadProgress);
+            });
         }
-            break;
-        case JCRequestMethodPOST:
-        {
-            if ([request uploadFileNeeded]) {
-                task = [self uploadWithManager:manager request:request];
-            } else {
-                task = [manager POST:request.requestUrl
-                          parameters:[self filteredParameters:request]
-                            progress:^(NSProgress * _Nonnull uploadProgress) {
-                                [self progressWithRequest:request progress:uploadProgress];
-                            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                [self successWithRequest:request responseObject:responseObject];
-                            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                [self failureWithRequest:request error:error];
-                            }];
-            }
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (completion) {
+            completion(responseObject, nil);
         }
-            break;
-    }
-    return task;
+        [self cancelTask:task];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (completion) {
+            completion(nil, error);
+        }
+        [self cancelTask:task];
+    }];
 }
 
-- (AFHTTPSessionManager *)sessionManagerForRequest:(JCBaseRequest *)request
++ (NSURLSessionTask *)post:(NSString *)urlString
+                parameters:(NSDictionary *)parameters
+                  progress:(JCNetworkProgressBlock)progress
+                completion:(JCNetworkCompletionBlock)completion
 {
-    NSString *baseUrl = request.baseUrl;
-    if (![baseUrl isKindOfClass:[NSString class]] || baseUrl.length < 1) {
+    return [self post:urlString
+    parameters:parameters config:nil progress:progress completion:completion];
+}
+
++ (NSURLSessionTask *)post:(NSString *)urlString
+                parameters:(NSDictionary *)parameters
+                    config:(JCNetworkConfig *)config
+                  progress:(JCNetworkProgressBlock)progress
+                completion:(JCNetworkCompletionBlock)completion
+{
+    AFHTTPSessionManager *manager = [self sessionManager:urlString config:config];
+    if (!manager) {
         return nil;
     }
-    AFHTTPSessionManager *manager = nil;
-    for (AFHTTPSessionManager *sessionManager in _sessionManagers) {
-        if ([sessionManager.baseURL.absoluteString isEqualToString:baseUrl]) {
-            manager = sessionManager;
-            break;
+    return [manager POST:urlString parameters:[self filteredParameters:parameters] progress:^(NSProgress * _Nonnull uploadProgress) {
+        if (progress) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                progress(uploadProgress);
+            });
         }
-    }
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (completion) {
+            completion(responseObject, nil);
+        }
+        [self cancelTask:task];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (completion) {
+            completion(nil, error);
+        }
+        [self cancelTask:task];
+    }];
+}
+
++ (NSURLSessionTask *)upload:(NSString *)urlString
+                  parameters:(NSDictionary *)parameters
+                      config:(JCNetworkConfig *)config
+                    progress:(JCNetworkProgressBlock)progress
+                  completion:(JCNetworkCompletionBlock)completion
+{
+    AFHTTPSessionManager *manager = [self sessionManager:urlString config:config];
     if (!manager) {
-        manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:baseUrl]];
-        manager.responseSerializer = [AFHTTPResponseSerializer serializer]; //重新初始化，不限制Content-Type
-        NSSet<NSData *> *pinnedCertificates = request.pinnedCertificates;
-        AFSSLPinningMode pinningMode = (AFSSLPinningMode)request.SSLPinningMode;
-        if (pinnedCertificates && pinningMode != AFSSLPinningModeNone) {
-            AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:pinningMode];
-            securityPolicy.pinnedCertificates = pinnedCertificates;
-            securityPolicy.allowInvalidCertificates = request.allowInvalidCertificates;
-            securityPolicy.validatesDomainName = request.validatesDomainName;
-            manager.securityPolicy = securityPolicy;
-        }
-        [_sessionManagers addObject:manager];
+        return nil;
     }
+    return [manager POST:urlString parameters:[self filteredParameters:parameters] constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        if (formData) {
+            [config appendUploadFilePathBlock:^(NSString *filePath, NSString *operationName) {
+                if (![filePath isKindOfClass:[NSString class]]
+                    || ![operationName isKindOfClass:[NSString class]]) {
+                    return;
+                }
+                [formData appendPartWithFileURL:[NSURL fileURLWithPath:filePath]
+                                           name:operationName
+                                          error:nil];
+            }];
+            [config appendUploadFileDataBlock:^(NSData *fileData, NSString *operationName, NSString *fileName, NSString *mimeType) {
+                if (![fileData isKindOfClass:[NSData class]]
+                    || ![operationName isKindOfClass:[NSString class]]
+                    || ![fileName isKindOfClass:[NSString class]]
+                    || ![mimeType isKindOfClass:[NSString class]]) {
+                    return;
+                }
+                [formData appendPartWithFileData:fileData
+                                            name:operationName
+                                        fileName:fileName
+                                        mimeType:mimeType];
+            }];
+        }
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        if (progress) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                progress(uploadProgress);
+            });
+        }
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (completion) {
+            completion(responseObject, nil);
+        }
+        [self cancelTask:task];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (completion) {
+            completion(nil, error);
+        }
+        [self cancelTask:task];
+    }];
+}
+
++ (void)cancelTask:(NSURLSessionTask *)task
+{
+    if (![task isKindOfClass:[NSURLSessionTask class]]) {
+        return;
+    }
+    if ([task respondsToSelector:@selector(cancel)]) {
+        [task cancel];
+    }
+}
+
++ (void)cleanRequestConfig:(NSString *)hostUrl
+{
+    NSURL *url = [self validUrl:hostUrl];
+    if (!url) {
+        return;
+    }
+    AFHTTPSessionManager *manager = [self existSessionManager:url];
+    if (!manager) {
+        return;
+    }
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+}
+
++ (AFHTTPSessionManager *)existSessionManager:(NSURL *)url
+{
+    for (AFHTTPSessionManager *sessionManager in self.sessionManagers) {
+        if ([sessionManager.baseURL isEqual:url.baseURL]) {
+            return sessionManager;
+        }
+    }
+    return nil;
+}
+
++ (NSURL *)validUrl:(NSString *)urlString
+{
+    if (![urlString isKindOfClass:[NSString class]] || urlString.length < 1) {
+        return nil;
+    }
+    NSURL *url = [NSURL URLWithString:urlString];
+    if (url.baseURL) {
+        return url;
+    }
+    return nil;
+}
+
++ (AFHTTPSessionManager *)sessionManager:(NSString *)urlString
+                                  config:(JCNetworkConfig *)config
+{
+    NSURL *url = [self validUrl:urlString];
+    if (!url) {
+        return nil;
+    }
+    AFHTTPSessionManager *manager = [self existSessionManager:url];
+    if (!manager) {
+        manager = [[AFHTTPSessionManager alloc] initWithBaseURL:url.baseURL];
+        [self setResponseSerializer:manager config:config];
+        [self.sessionManagers addObject:manager];
+    }
+    [self setRequestSerializer:manager config:config];
     return manager;
 }
 
-- (NSString *)requestUrl:(NSString *)requestUrl parameters:(NSDictionary *)parameters
++ (NSMutableArray *)sessionManagers
+{
+    static NSMutableArray *sessionManagers = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sessionManagers = [NSMutableArray array];
+    });
+    return sessionManagers;
+}
+
++ (void)setRequestSerializer:(AFHTTPSessionManager *)manager
+                      config:(JCNetworkConfig *)config
+{
+    if (!config) {
+        return;
+    }
+    manager.requestSerializer.timeoutInterval = config.requestTimeoutInterval;
+    NSDictionary *headerFields = config.HTTPHeaderFields;
+    for (NSString *field in headerFields.allKeys) {
+        [manager.requestSerializer setValue:headerFields[field] forHTTPHeaderField:field];
+    }
+}
+
++ (void)setResponseSerializer:(AFHTTPSessionManager *)manager
+                       config:(JCNetworkConfig *)config
+{
+    if (!config) {
+        return;
+    }
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer]; // 重新初始化，不限制Content-Type
+    NSSet<NSData *> *pinnedCertificates = config.pinnedCertificates;
+    AFSSLPinningMode pinningMode = (AFSSLPinningMode)config.SSLPinningMode;
+    if (pinnedCertificates && pinningMode != AFSSLPinningModeNone) {
+        AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:pinningMode];
+        securityPolicy.pinnedCertificates = pinnedCertificates;
+        securityPolicy.allowInvalidCertificates = config.allowInvalidCertificates;
+        securityPolicy.validatesDomainName = config.validatesDomainName;
+        manager.securityPolicy = securityPolicy;
+    }
+}
+
++ (NSString *)requestUrl:(NSString *)requestUrl parameters:(NSDictionary *)parameters
 {
     if (parameters.count > 0) {
         NSString *parametersString = AFQueryStringFromParameters(parameters);
@@ -231,96 +253,20 @@
     return requestUrl;
 }
 
-- (void)setRequestSerializerWithManager:(AFHTTPSessionManager *)manager
-                                request:(JCBaseRequest *)request
-{
-    manager.requestSerializer.timeoutInterval = request.requestTimeoutInterval;
-    NSDictionary *headerFields = request.HTTPHeaderFields;
-    for (NSString *field in headerFields.allKeys) {
-        [manager.requestSerializer setValue:headerFields[field] forHTTPHeaderField:field];
-    }
-}
-
 /// The values of parameters are filtered which types are kind of NSNull class.
-- (NSDictionary *)filteredParameters:(JCBaseRequest *)request
++ (NSDictionary *)filteredParameters:(NSDictionary *)parameters
 {
-    NSDictionary *parameters = request.parameters;
     if (![parameters isKindOfClass:[NSDictionary class]] || parameters.count < 1) {
         return nil;
     }
     __block NSMutableDictionary *filteredDict = [NSMutableDictionary dictionary];
     [parameters enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if ([obj isKindOfClass:[NSNull class]]
-            || ([obj isKindOfClass:[NSString class]] && ((NSString *)obj).length < 1)) {
+        if ([obj isKindOfClass:[NSNull class]]) {
             return;
         }
         filteredDict[key] = obj;
     }];
     return filteredDict;
-}
-
-#pragma mark - Response operation
-
-- (void)progressWithRequest:(JCBaseRequest *)request progress:(NSProgress *)progress
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (request.progressBlock) {
-            request.progressBlock(progress);
-        }
-    });
-}
-
-- (void)successWithRequest:(JCBaseRequest *)request responseObject:(id)responseObject
-{
-    [request parseResponseObject:responseObject error:nil];
-    [request stopRequest];
-}
-
-- (void)failureWithRequest:(JCBaseRequest *)request error:(NSError *)error
-{
-    if (![request retryRequestIfNeeded:error]) {
-        [request parseResponseObject:nil error:error];
-        [request stopRequest];
-    } else {
-        [self startRequest:request];
-    }
-}
-
-#pragma mark Upload request
-
-- (NSURLSessionDataTask *)uploadWithManager:(AFHTTPSessionManager *)manager
-                                    request:(JCBaseRequest *)request
-{
-    return [manager POST:request.requestUrl parameters:[self filteredParameters:request] constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        if (formData) {
-            [request appendUploadFilePathBlock:^(NSString *filePath, NSString *operationName) {
-                if (![filePath isKindOfClass:[NSString class]]
-                    || ![operationName isKindOfClass:[NSString class]]) {
-                    return;
-                }
-                [formData appendPartWithFileURL:[NSURL fileURLWithPath:filePath]
-                                           name:operationName
-                                          error:nil];
-            }];
-            [request appendUploadFileDataBlock:^(NSData *fileData, NSString *operationName, NSString *fileName) {
-                if (![fileData isKindOfClass:[NSData class]]
-                    || ![operationName isKindOfClass:[NSString class]]
-                    || ![fileName isKindOfClass:[NSString class]]) {
-                    return;
-                }
-                [formData appendPartWithFileData:fileData
-                                            name:operationName
-                                        fileName:fileName
-                                        mimeType:@"application/octet-stream"];
-            }];
-        }
-    } progress:^(NSProgress * _Nonnull uploadProgress) {
-        [self progressWithRequest:request progress:uploadProgress];
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [self successWithRequest:request responseObject:responseObject];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [self failureWithRequest:request error:error];
-    }];
 }
 
 @end
