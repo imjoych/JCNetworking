@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JCBaseRequest.h"
 #import "JCModel.h"
 
 @class JCWeixinUserInfoResp;
 @interface JCWeixinSSOManager : NSObject
 
+/** 通过code获取access_token */
 - (void)requestOpenIdWithCode:(NSString *)code
                    completion:(void(^)(NSString *openId, NSError *error))completion;
 
@@ -49,31 +49,5 @@
 @property (nonatomic, copy) NSString *headimgurl;
 @property (nonatomic, copy) NSArray *privilege;
 @property (nonatomic, copy) NSString *unionid;
-
-@end
-
-@interface JCWeixinBaseRequest : JCBaseRequest
-
-- (Class)decodeClass;
-
-@end
-
-/** 通过code获取access_token */
-@interface JCWeixinAccessTokenRequest : JCWeixinBaseRequest
-
-@end
-
-/** 使用refresh_token刷新access_token */
-@interface JCWeixinRefreshTokenRequest : JCWeixinBaseRequest
-
-@end
-
-/** 检验授权凭证（access_token）是否有效 */
-@interface JCWeixinCheckTokenRequest : JCWeixinBaseRequest
-
-@end
-
-/** 获取用户个人信息 */
-@interface JCWeixinUserInfoRequest : JCWeixinBaseRequest
 
 @end

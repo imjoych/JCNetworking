@@ -8,12 +8,12 @@
 
 #import "ViewController.h"
 #import "JCWeixinSSOManager.h"
-#import "JCUploadTestRequest.h"
+#import "JCNetworkConfig.h"
+#import "JCNetworkManager.h"
 
 @interface ViewController ()
 
 @property (nonatomic, strong) JCWeixinSSOManager *ssoManager;
-@property (nonatomic, strong) JCUploadTestRequest *uploadRequest;
 
 @end
 
@@ -63,12 +63,11 @@
 
 - (void)startUploadRequest
 {
-    self.uploadRequest = [[JCUploadTestRequest alloc] init];
-    [self.uploadRequest setUploadFilePath:@"file path"
-                               uploadName:@"file"];
-    [self.uploadRequest startRequestWithProgress:^(NSProgress *progress) {
+    JCNetworkConfig *config = [JCNetworkConfig new];
+    [config setUploadFilePath:@"file path" uploadName:@"file"];
+    [JCNetworkManager upload:@"https://test.baseurl.com/path/testapi" parameters:nil config:config progress:^(NSProgress * _Nonnull progress) {
         //update progress
-    } completion:^(id responseObject, NSError *error) {
+    } completion:^(id  _Nullable responseObject, NSError * _Nullable error) {
         //do something
     }];
 }

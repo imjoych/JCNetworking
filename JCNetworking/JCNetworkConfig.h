@@ -11,7 +11,6 @@
 
 @interface JCNetworkConfig : NSObject
 
-
 /// Timeout interval of request, default 15s.
 @property (nonatomic) NSTimeInterval requestTimeoutInterval;
 
