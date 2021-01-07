@@ -150,37 +150,37 @@
     }
 }
 
-+ (void)cleanRequestConfig:(NSString *)hostUrl
++ (void)cleanRequestConfig:(NSString *)baseUrlString
 {
-    NSURL *url = [self validUrl:hostUrl];
-    if (!url) {
+    NSURL *baseURL = [self validBaseURL:baseUrlString];
+    if (!baseURL) {
         return;
     }
-    AFHTTPSessionManager *manager = [self existSessionManager:url];
+    AFHTTPSessionManager *manager = [self existSessionManager:baseURL];
     if (!manager) {
         return;
     }
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
 }
 
-+ (AFHTTPSessionManager *)existSessionManager:(NSURL *)url
++ (AFHTTPSessionManager *)existSessionManager:(NSURL *)baseURL
 {
     for (AFHTTPSessionManager *sessionManager in self.sessionManagers) {
-        if ([sessionManager.baseURL isEqual:url.baseURL]) {
+        if ([sessionManager.baseURL isEqual:baseURL]) {
             return sessionManager;
         }
     }
     return nil;
 }
 
-+ (NSURL *)validUrl:(NSString *)urlString
++ (NSURL *)validBaseURL:(NSString *)urlString
 {
     if (![urlString isKindOfClass:[NSString class]] || urlString.length < 1) {
         return nil;
     }
     NSURL *url = [NSURL URLWithString:urlString];
-    if (url.baseURL) {
-        return url;
+    if (url.scheme && url.host) {
+        return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/", url.scheme, url.host]];
     }
     return nil;
 }
@@ -188,13 +188,13 @@
 + (AFHTTPSessionManager *)sessionManager:(NSString *)urlString
                                   config:(JCNetworkConfig *)config
 {
-    NSURL *url = [self validUrl:urlString];
-    if (!url) {
+    NSURL *baseURL = [self validBaseURL:urlString];
+    if (!baseURL) {
         return nil;
     }
-    AFHTTPSessionManager *manager = [self existSessionManager:url];
+    AFHTTPSessionManager *manager = [self existSessionManager:baseURL];
     if (!manager) {
-        manager = [[AFHTTPSessionManager alloc] initWithBaseURL:url.baseURL];
+        manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
         [self setResponseSerializer:manager config:config];
         [self.sessionManagers addObject:manager];
     }
@@ -228,10 +228,10 @@
 + (void)setResponseSerializer:(AFHTTPSessionManager *)manager
                        config:(JCNetworkConfig *)config
 {
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer]; // Reinitialize without restricting the Content-Type
     if (!config) {
         return;
     }
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer]; // 重新初始化，不限制Content-Type
     NSSet<NSData *> *pinnedCertificates = config.pinnedCertificates;
     AFSSLPinningMode pinningMode = (AFSSLPinningMode)config.SSLPinningMode;
     if (pinnedCertificates && pinningMode != AFSSLPinningModeNone) {

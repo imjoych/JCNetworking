@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param progress network progress callback
 /// @param completion network completion callback
 + (nullable NSURLSessionTask *)get:(NSString *)urlString
-                        parameters:(NSDictionary *)parameters
+                        parameters:(nullable NSDictionary *)parameters
                           progress:(nullable JCNetworkProgressBlock)progress
                         completion:(nullable JCNetworkCompletionBlock)completion;
 
@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param progress network progress callback
 /// @param completion network completion callback
 + (nullable NSURLSessionTask *)get:(NSString *)urlString
-                        parameters:(NSDictionary *)parameters
+                        parameters:(nullable NSDictionary *)parameters
                             config:(nullable JCNetworkConfig *)config
                           progress:(nullable JCNetworkProgressBlock)progress
                         completion:(nullable JCNetworkCompletionBlock)completion;
@@ -79,8 +79,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)cancelTask:(nullable NSURLSessionTask *)task;
 
 /// Clean request config for host url.
-/// @param hostUrl host url
-+ (void)cleanRequestConfig:(nullable NSString *)hostUrl;
+/// @param baseUrlString base url string
++ (void)cleanRequestConfig:(nullable NSString *)baseUrlString;
 
 @end
 
