@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "JCNetworkDefines.h"
 
+FOUNDATION_EXPORT NSTimeInterval const JCNetworkDefaultTimeoutInterval;
+
 @interface JCNetworkConfig : NSObject
 
 /// Timeout interval of request, default 15s.

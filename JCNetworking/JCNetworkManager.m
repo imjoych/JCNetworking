@@ -28,6 +28,9 @@
 {
     AFHTTPSessionManager *manager = [self sessionManager:urlString config:config];
     if (!manager) {
+        if (completion) {
+            completion(nil, [self badURLError]);
+        }
         return nil;
     }
     return [manager GET:[self requestUrl:urlString parameters:parameters] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
@@ -66,6 +69,9 @@
 {
     AFHTTPSessionManager *manager = [self sessionManager:urlString config:config];
     if (!manager) {
+        if (completion) {
+            completion(nil, [self badURLError]);
+        }
         return nil;
     }
     return [manager POST:urlString parameters:[self filteredParameters:parameters] progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -95,6 +101,9 @@
 {
     AFHTTPSessionManager *manager = [self sessionManager:urlString config:config];
     if (!manager) {
+        if (completion) {
+            completion(nil, [self badURLError]);
+        }
         return nil;
     }
     return [manager POST:urlString parameters:[self filteredParameters:parameters] constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -163,6 +172,11 @@
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];
 }
 
++ (NSError *)badURLError
+{
+    return [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorBadURL userInfo:@{NSLocalizedDescriptionKey: @"Bad URL"}];
+}
+
 + (AFHTTPSessionManager *)existSessionManager:(NSURL *)baseURL
 {
     for (AFHTTPSessionManager *sessionManager in self.sessionManagers) {
@@ -216,6 +230,7 @@
                       config:(JCNetworkConfig *)config
 {
     if (!config) {
+        manager.requestSerializer.timeoutInterval = JCNetworkDefaultTimeoutInterval;
         return;
     }
     manager.requestSerializer.timeoutInterval = config.requestTimeoutInterval;

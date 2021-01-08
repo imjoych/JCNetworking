@@ -8,6 +8,8 @@
 
 #import "JCNetworkConfig.h"
 
+NSTimeInterval const JCNetworkDefaultTimeoutInterval = 15;
+
 @interface JCNetworkConfig () {
     NSMutableArray<NSArray *> *_uploadFilePathList;
     NSMutableArray<NSArray *> *_uploadFileDataList;
@@ -19,7 +21,7 @@
 
 - (NSTimeInterval)requestTimeoutInterval
 {
-    return 15;
+    return JCNetworkDefaultTimeoutInterval;
 }
 
 - (BOOL)validatesDomainName
