@@ -19,14 +19,13 @@ NSTimeInterval const JCNetworkDefaultTimeoutInterval = 15;
 
 @implementation JCNetworkConfig
 
-- (NSTimeInterval)requestTimeoutInterval
+- (instancetype)init
 {
-    return JCNetworkDefaultTimeoutInterval;
-}
-
-- (BOOL)validatesDomainName
-{
-    return YES;
+    if (self = [super init]) {
+        _requestTimeoutInterval = JCNetworkDefaultTimeoutInterval;
+        _validatesDomainName = YES;
+    }
+    return self;
 }
 
 #pragma mark - File upload methods
