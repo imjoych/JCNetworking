@@ -175,7 +175,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = JC;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "Joych<https://github.com/imjoych>";
 				TargetAttributes = {
 					230C431A1C8C0315002D6D52 = {

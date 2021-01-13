@@ -4,6 +4,7 @@
 
 source 'https://github.com/CocoaPods/Specs.git'
 
+platform :ios, '8.0'
 target 'JCNetworkingDemo' do
     pod 'AFNetworking', '~> 3.2.0', :subspecs => ['NSURLSession']
     pod 'JSONModel', '~> 1.7.0'
