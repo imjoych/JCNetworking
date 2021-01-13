@@ -33,7 +33,7 @@
         }
         return nil;
     }
-    return [manager GET:[self requestUrl:urlString parameters:parameters] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+    return [manager GET:[self requestUrl:urlString parameters:[self filteredParameters:parameters]] parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         if (progress) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 progress(downloadProgress);
