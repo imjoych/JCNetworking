@@ -35,6 +35,13 @@ static NSString *const kWeixinSSOSecret = @"your secret";
     }];
 }
 
+- (void)requestUserInfoCompletion:(void (^)(JCWeixinUserInfoResp *, NSError *))completion
+{
+    [self checkAccessTokenRequest:completion];
+}
+
+#pragma mark -
+
 - (NSString *)urlWithPath:(NSString *)path
 {
     return [NSString stringWithFormat:@"https://api.weixin.qq.com/%@", path];
@@ -85,13 +92,6 @@ static NSString *const kWeixinSSOSecret = @"your secret";
         completionBlock(resp, nil);
     }
 }
-
-- (void)requestUserInfoCompletion:(void (^)(JCWeixinUserInfoResp *, NSError *))completion
-{
-    [self checkAccessTokenRequest:completion];
-}
-
-#pragma mark -
 
 - (void)requestWithPath:(NSString *)path
              parameters:(NSDictionary *)parameters
