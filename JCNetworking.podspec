@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'JCNetworking'
-  s.version      = '2.0.1'
+  s.version      = '2.1.0'
   s.summary      = 'A lightweight iOS networking framework based on AFNetworking.'
   s.homepage     = 'https://github.com/imjoych/JCNetworking'
   s.author       = { 'ChenJianjun' => 'imjoych@gmail.com' }
