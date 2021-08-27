@@ -179,7 +179,11 @@
 
 + (AFHTTPSessionManager *)existSessionManager:(NSURL *)baseURL
 {
-    for (AFHTTPSessionManager *sessionManager in self.sessionManagers) {
+    __block NSArray *managerList = nil;
+    dispatch_sync([self managersDispatchQueue], ^{
+        managerList = [[self sessionManagers] copy];
+    });
+    for (AFHTTPSessionManager *sessionManager in managerList) {
         if ([sessionManager.baseURL isEqual:baseURL]) {
             return sessionManager;
         }
@@ -210,10 +214,22 @@
     if (!manager) {
         manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
         [self setResponseSerializer:manager config:config];
-        [self.sessionManagers addObject:manager];
+        dispatch_barrier_async([self managersDispatchQueue], ^{
+            [[self sessionManagers] addObject:manager];
+        });
     }
     [self setRequestSerializer:manager config:config];
     return manager;
+}
+
++ (dispatch_queue_t)managersDispatchQueue
+{
+    static dispatch_once_t onceToken;
+    static dispatch_queue_t queue = nil;
+    dispatch_once(&onceToken, ^{
+        queue = dispatch_queue_create("jc.network.manager.dispatch.queue", DISPATCH_QUEUE_CONCURRENT);
+    });
+    return queue;
 }
 
 + (NSMutableArray *)sessionManagers
@@ -229,11 +245,13 @@
 + (void)setRequestSerializer:(AFHTTPSessionManager *)manager
                       config:(JCNetworkConfig *)config
 {
+    NSTimeInterval timeoutInterval = config ? config.requestTimeoutInterval : JCNetworkDefaultTimeoutInterval;
+    if (timeoutInterval != manager.requestSerializer.timeoutInterval) {
+        manager.requestSerializer.timeoutInterval = timeoutInterval;
+    }
     if (!config) {
-        manager.requestSerializer.timeoutInterval = JCNetworkDefaultTimeoutInterval;
         return;
     }
-    manager.requestSerializer.timeoutInterval = config.requestTimeoutInterval;
     NSDictionary *headerFields = config.HTTPHeaderFields;
     for (NSString *field in headerFields.allKeys) {
         [manager.requestSerializer setValue:headerFields[field] forHTTPHeaderField:field];
